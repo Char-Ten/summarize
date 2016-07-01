@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+    <head>
+	    <meta charset='utf-8'/>
+		<title>box布局test</title>
+		<style>
+		    .div0{
+			    display:-webkit-box;
+				display:-moz-box;
+				display:box;
+				widht:100%;
+				height:100%;
+				box-pack:justify;
+				-webkit-box-pack:justify;
+				-moz-box-pack:justify;
+				box-align:center;
+				-webkit-box-align:center;
+				-moz-box-align:center;
+				border:2px solid;
+			}
+			.div0 div{
+			    color:#fff;
+				font-size:12px;
+				padding:10px;
+				line-height:20px;
+			}
+			.div0 div ul{
+			    margin:0;
+				padding-left:20px;
+			}
+			.div1{
+			    background:#0af;
+			}
+			.div2{
+				background:#af0;
+			}
+			.div3{
+			    background:#0fa;
+			}
+		</style>
+	</head>
+	<body>
+	    <div class='div0'>
+			<div class='div1'>
+			    <h2>box-pack属性</h2>
+				<p>box-pack:start | end | center | jsutify</p>
+				<ul>
+				    <li>start:默认值，表示所有子元素都显示在盒元素的左侧，额外的空间显示在盒元素右侧（类似left）</li>
+					<li>end:表示所有子元素显示在盒元素的右侧，额外的空间显示在盒元素的左侧（类似right）</li>
+					<li>center:表示所有子元素显示在盒元素的中央，额外的空间显示在盒元素的两侧（类似center）</li>
+					<li>jsutify:表示所有子元素散开显示，额外的空间在子元素自己平均分配，在第一个子元素之前和最后一个子元素之后不分配空间</li>
+				</ul>
+			</div>
+			<div class='div1'>
+			    <h2>box-align属性</h2>
+				<p>box-align:start | end | center | baseline | stretch</p>
+				<ul>
+				    <li>start:表示所有子元素都显示在盒元素的顶部，额外的空间显示在盒元素底部（类似top）</li>
+					<li>end:表示所有子元素显示在盒元素的底部，额外的空间显示在盒元素的顶部（类似bottom）</li>
+					<li>center:表示所有子元素显示在盒元素的中央，额外的空间显示在盒元素的上下两侧（类似center）</li>
+					<li>baseline:表示所有子元素沿基线显示</li>
+					<li>stretch:表示每个子元素的高度都被拉伸到合适的盒元素高度</li>
+				</ul>
+			</div>
+			
+		</div>
+	</body>
+</html>

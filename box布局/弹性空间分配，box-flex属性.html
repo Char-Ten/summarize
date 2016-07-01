@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+    <head>
+	    <meta charset='utf-8'/>
+		<title>box布局test</title>
+		<style>
+		    .div0{
+			    display:-webkit-box;
+				display:-moz-box;
+				display:box;
+				widht:100%;
+				height:1000px;
+				box-orient:vertical;
+				-webkit-box-orient:vertical;
+				-moz-box-orient:vertical;
+			}
+			.div0 div{
+			    color:#fff;
+				font-size:12px;
+				padding:10px;
+				line-height:20px;
+			}
+			.div0 div ul{
+			    margin:0;
+				padding-left:20px;
+			}
+			.div1{
+			    background:#0af;
+				box-flex:1;
+				-webkit-box-flex:1;
+				-moz-box-flex:1;
+			}
+			.div2{
+				background:#af0;
+			}
+			.div3{
+			    background:#0fa;
+
+			}
+		</style>
+	</head>
+	<body>
+	    <div class='div0'>
+		    <div class='div1'>
+			    <h2>菜单</h2>
+				<ul>
+				    <li>HTML5</li>
+					<li>CSS 3</li>
+					<li>活动沙龙</li>
+					<li>研发小组</li>
+				</ul>
+			</div>
+			<div class='div2'>
+			    <h2>内容</h2>
+				<p>盒布局是CSS3发展的新型布局方式，它比传统的浮动布局方式更加完善，更加灵活，而且使用方法却及为简单</p>
+				<p>开启盒布局方法，就是设置display属性值为box（或inline-box）</p>
+			</div>
+			<div class='div3'>
+			    <h2>工具</h2>
+				<ul>
+				    <li>天气预报</li>
+					<li>货币汇率</li>
+				</ul>
+			</div>
+			<div class='div1'>
+			    <h2>box-flex属性</h2>
+				<p>box-flex:value</p>
+				<ul>
+				    <li>value:该属性值是个整数或者小数，不可为负值，默认值为0.0.使用空间弹性属性设置，是的盒元素的内部元素的总宽度和总高度，始终等于盒元素的宽度与高度，不过只有当盒元素有确定的高度或宽度是，才能表现其空间弹性</li>
+
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
