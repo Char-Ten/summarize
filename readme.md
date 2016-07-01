@@ -179,7 +179,7 @@
         }
       ```
 * ###页面优化
-    * ####动画：setTimeout setInterval requestAnimationFrame  
+    * ####动画——setTimeout setInterval requestAnimationFrame    
       1. 不考虑兼容情况下使用新的动画框架
       2. 页面动画逻辑集中处理，减少页面定时器计时器的数量
     * ####dom **页面优化重点在dom这里**
@@ -195,16 +195,16 @@
             dom.style.left=dom.offsetLeft+10+'px';
           ```
 
-    * ####cdn
+    * ####cdn  
       1. 压缩代码，创建cdn链接
       2. 将页面图标做成雪碧图，创建cdn链接
       3. 建议使用字体图标iconfont，这里推荐[马云爸爸的字体图标库](http://www.iconfont.cn/)
-    * ####异步
+    * ####异步  
       1. 学会异步编程，ajax用异步操作
-    * ####请求
+    * ####请求  
       1. 图片懒加载化
       2. 脚本放在页面底部
       3. 减少http请求。。。这个需要后台配合
-* ###组件化？模块化？
+* ###组件化？模块化？  
     * ####组件化：ng,vue,react
     * ####模块化：requirejs
