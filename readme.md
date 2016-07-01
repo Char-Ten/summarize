@@ -131,19 +131,80 @@
             'name':'charTen',
             'sex':'man'
           },
+          async:true;
           success:function(data){
             console.log(data);
           }
         })
       ```
     * ####处理
-    * ####回调
+      ```javascript
+
+        function ajax(json){
+          var xhr=new XMLHttpRequest();//这里不做对ie的兼容
+          if(typeof json.type=='string'){
+              switch(json.type.toLowerCase()){
+                case 'get':
+                  json.url+='?'+setSearch();
+                  xhr.open('get',json.url,json.async);
+                  xhr.send(null);
+                  break;
+                case 'post':
+                  xhr.open('post',json.url,json.async);
+                  xhr.send(data);
+                  break;
+                default :
+                  return;
+              }
+              xhr.onreadystatechange=function(){
+                if(xhr.readystate==4&&xhr.status=200){
+                  json.success&&json.success(xhr.responseText);
+                }
+              }
+              return
+          }
+          function setSearch(){
+            if(typeof json.data=='string'){
+              return json.data;
+            }
+            if(typeof json.data=='object'){
+              var search=[];
+              json.data.forEach(function(i,e){
+                search.push(i+'='+json.data[i]);
+              });
+              search=search.join('&');
+              return search;
+            }
+          }
+        }
+      ```
 * ###页面优化
-    * ####动画：setTimeout setInterval requestAnimationFrame
-    * ####dom
+    * ####动画：setTimeout setInterval requestAnimationFrame  
+      1. 不考虑兼容情况下使用新的动画框架
+      2. 页面动画逻辑集中处理，减少页面定时器计时器的数量
+    * ####dom **页面优化重点在dom这里**
+      1. 有jq的情况下，dom操作尽量交给jq完成
+      2. 在原生的情况下，需要大量插入dom的情况下，最好先插入于fragment里面，然后再append到页面里面
+      3. 布局方面能不用table就不用table，减少页面重绘
+      4. 样式改变通过修改元素类名，利用css一次性修改
+      5. 隐藏节点不会触发浏览器重绘
+      6. 缓存节点  
+          ```javascript
+
+            var dom=document.getElementById('id');
+            dom.style.left=dom.offsetLeft+10+'px';
+          ```
+
     * ####cdn
+      1. 压缩代码，创建cdn链接
+      2. 将页面图标做成雪碧图，创建cdn链接
+      3. 建议使用字体图标iconfont，这里推荐[马云爸爸的字体图标库](http://www.iconfont.cn/)
     * ####异步
-    * ####雪碧图
+      1. 学会异步编程，ajax用异步操作
+    * ####请求
+      1. 图片懒加载化
+      2. 脚本放在页面底部
+      3. 减少http请求。。。这个需要后台配合
 * ###组件化？模块化？
     * ####组件化：ng,vue,react
     * ####模块化：requirejs
