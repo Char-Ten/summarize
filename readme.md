@@ -150,6 +150,7 @@
                   xhr.send(null);
                   break;
                 case 'post':
+                  var data=setSearch()
                   xhr.open('post',json.url,json.async);
                   xhr.send(data);
                   break;
@@ -170,7 +171,7 @@
             if(typeof json.data=='object'){
               var search=[];
               json.data.forEach(function(i,e){
-                search.push(i+'='+json.data[i]);
+                search.push(i+'='+e);
               });
               search=search.join('&');
               return search;
