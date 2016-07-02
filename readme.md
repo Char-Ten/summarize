@@ -158,7 +158,7 @@
                   return;
               }
               xhr.onreadystatechange=function(){
-                if(xhr.readystate==4&&xhr.status=200){
+                if(xhr.readystate==4&&xhr.status==200){
                   json.success&&json.success(xhr.responseText);
                 }
               }
