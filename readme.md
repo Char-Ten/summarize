@@ -2,8 +2,8 @@
 
 --------------
 
-* ###css布局方法
-    1. ####position
+* ### css布局方法
+    1. #### position
 
         ```css
 
@@ -16,7 +16,7 @@
         }
         ```
         常用于：一边定宽，另一边自适应，如给出头部空出一个20px的高，下面自适应。
-    2. ####float
+    2. #### float
         **html:**
         ```html
 
@@ -55,8 +55,8 @@
     3. #### display:box;  
         又称弹性布局，[具体demo](https://github.com/Char-Ten/summarize/tree/master/box%E5%B8%83%E5%B1%80);
 
-* ###css3动画
-    1. ####transform
+* ### css3动画
+    1. #### transform
         ```css
 
         .class{
@@ -68,7 +68,7 @@
         }
         ```
         transform的正确用法
-    2. ####@keyFrames
+    2. #### @keyFrames
         ```css
 
         .class{
@@ -84,8 +84,8 @@
         }
         ```
         css3的动画，没什么可说的
-* ###面向对象
-    * ####封装  
+* ### 面向对象
+    * #### 封装  
         ```javascript
 
         function setName(name){
@@ -98,7 +98,7 @@
         //调用
         new setName('CharTen').sayName();
         ```
-    * ####继承
+    * #### 继承
         ```javascript
 
         function setSex(name,sex){
@@ -119,8 +119,8 @@
 
         继承方面不大熟悉。。。有错误的请指出
 
-* ###ajax的封装
-    * ####参数  
+* ### ajax的封装
+    * #### 参数  
       ```javascript
 
         //按照jq的封装样子，我们希望这样调用：
@@ -137,7 +137,7 @@
           }
         })
       ```
-    * ####处理
+    * #### 处理
       ```javascript
 
         function ajax(json){
@@ -179,11 +179,12 @@
           }
         }
       ```
-* ###页面优化
-    * ####动画——setTimeout setInterval requestAnimationFrame    
+* ### 页面优化
+    * #### 动画——setTimeout setInterval requestAnimationFrame transition+transform   
       1. 不考虑兼容情况下使用新的动画框架
       2. 页面动画逻辑集中处理，减少页面定时器计时器的数量
-    * ####dom **页面优化重点在dom这里**
+      3. 优先使用css3里面 transform+transition变换和过渡
+    * #### dom **页面优化重点在dom这里**
       1. 有jq的情况下，dom操作尽量交给jq完成
       2. 在原生的情况下，需要大量插入dom的情况下，最好先插入于fragment里面，然后再append到页面里面
       3. 布局方面能不用table就不用table，减少页面重绘
@@ -196,16 +197,16 @@
             dom.style.left=dom.offsetLeft+10+'px';
           ```
 
-    * ####cdn  
+    * #### cdn  
       1. 压缩代码，创建cdn链接
       2. 将页面图标做成雪碧图，创建cdn链接
       3. 建议使用字体图标iconfont，这里推荐[马云爸爸的字体图标库](http://www.iconfont.cn/)
-    * ####异步  
+    * #### 异步  
       1. 学会异步编程，ajax用异步操作
-    * ####请求  
+    * #### 请求  
       1. 图片懒加载化
       2. 脚本放在页面底部
       3. 减少http请求。。。这个需要后台配合
-* ###组件化？模块化？  
-    * ####组件化：ng,vue,react
-    * ####模块化：requirejs
+* ### 组件化？模块化？  
+    * #### 组件化：ng,vue,react
+    * #### 模块化：requirejs
