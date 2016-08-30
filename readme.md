@@ -61,13 +61,13 @@
 
         .class{
           background:red;
-          transform:all 0.5s;
+          transition:all 0.5s;
         }
         .class:hover{
           background:blue;
         }
         ```
-        transform的正确用法
+        transition的正确用法
     2. #### @keyFrames
         ```css
 
