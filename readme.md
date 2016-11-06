@@ -80,6 +80,7 @@ transform的正确用法
   }
   ```
 css3的动画，没什么可说的
+
 ### 面向对象
   * **封装**
     ```javascript
@@ -173,6 +174,33 @@ css3的动画，没什么可说的
       }
     }
   ```
+### 数组的复制
+* 浅复制
+  ```javascript
+     var arr=[1,2,3,4,5,6];
+     var copyArray=arr.concat();
+  ```
+* 深复制
+  ```javascript
+     Array.prototype.deepcopy=function(){
+         var copy=[];
+         a(this,copy);
+         return copy;
+         function a(source,target){
+            source.forEach(function(item,index){
+               if(typeof item==Object){
+                   a(item,target[index]);
+               }else{
+                   target[index]=item
+               }
+            })
+         }
+     }
+     
+     var arr=[1,2,3,4,5,6]
+     var copyArray=arr.deepcopy();
+  ```
+
 
 ### 页面优化
 + **动画**——setTimeout setInterval requestAnimationFrame
