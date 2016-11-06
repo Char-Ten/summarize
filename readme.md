@@ -174,14 +174,16 @@ css3的动画，没什么可说的
       }
     }
   ```
+
 ### 数组的复制
 * 浅复制
-  ```javascript
+ ```javascript
      var arr=[1,2,3,4,5,6];
      var copyArray=arr.concat();
-  ```
+ ```
+
 * 深复制
-  ```javascript
+ ```javascript
      Array.prototype.deepcopy=function(){
          var copy=[];
          a(this,copy);
@@ -199,7 +201,7 @@ css3的动画，没什么可说的
      
      var arr=[1,2,3,4,5,6]
      var copyArray=arr.deepcopy();
-  ```
+ ```
 
 
 ### 页面优化
