@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+    <head>
+	    <title></title>
+		<meta charset='utf-8'/>
+		<style>
+		    
+		</style>
+		
+		<script>
+		    window.onload=function(){
+                navigator.getUserMedia || (navigator.getUserMedia = navigator.mozGetUserMedia || navigator.webkitGetUserMedia || navigator.msGetUserMedia);
+
+                if (!navigator.getUserMedia) {
+                return;
+                }
+
+                var btn = document.getElementById('btn');
+                btn.onclick = startWebcam;
+
+                function startWebcam(e) {
+                navigator.getUserMedia({
+                    video: true,
+                    audio: true
+                }, onSuccess, onError);
+
+            function onSuccess(stream) {
+
+            var video = document.getElementById('vdo');
+
+            if (window.URL) {
+                video.src = window.URL.createObjectURL(stream);
+            } else {
+                video.src = stream;
+            }
+
+            video.autoplay = true;
+        //or video.play();
+    }
+
+    function onError() {}
+}
+}
+		</script>
+		
+		<!--<script>
+		    window.onload=function(){
+			    var btn=document.getElementById('btn');
+				var vdo=document.getElementById('vdo');
+				
+				btn.onclick=webRtc;
+				function webRtc(e){
+				    navigator.getUserMedia||(navigator.getUserMedia = navigator.mozGetUserMedia ||  navigator.webkitGetUserMedia || navigator.msGetUserMedia);
+				    if(!navigator.getUserMedia){alert(1);return};
+				    navigator.getUserMedia({
+					    video:true,
+						audio:true
+					},onSuccess,onError);
+					function onSuccess(stream){
+					    if(window.URL){
+						    vdo.src=window.URL.createObjectURL(stream);
+						}else{
+						    vdo.src=stream;
+						}
+						vdo.autoplay=true;
+						
+					}
+					function onError(e){
+					    console.log(e)
+					}
+				}
+			}
+		</script>-->
+	</head>
+	<body>
+	    <input type='button' value='点我' id='btn' />
+		<br/>
+		<video id='vdo'>这个浏览器渣，换个浏览器打开</video>
+	</body>
+</html>

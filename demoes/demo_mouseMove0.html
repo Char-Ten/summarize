@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+    <head>
+	    <title></title>
+		<meta charset='utf-8'/>
+	    <style>
+		    *{margin:0;padding:0}
+			canvas{cursor:none}
+		</style>
+		<script>
+		    window.onload=function(){
+			    var canv=document.getElementById('canv');
+				var cxt=canv.getContext('2d');
+				
+				function draw(x,y,r,a){
+				    cxt.save();
+					cxt.translate(x,y);
+					//cxt.fillStyle='rgba('+parseInt(Math.random()*255)+','+parseInt(Math.random()*255)+','+parseInt(Math.random()*255)+','+a+')'
+					cxt.fillStyle='rgba(0,0,0,'+a+')';
+					cxt.beginPath();
+					cxt.arc(0,0,r,0*Math.PI/180,360*Math.PI/180,false);
+					cxt.fill();
+					cxt.closePath();
+					cxt.restore();
+				}
+				var aMx=[];
+			    var aMy=[];
+				var aSx=[];
+			    var aSy=[];
+				var iMdx=0;
+				var iMdy=0;
+				var timer=null;
+				timer=setInterval(function(){
+					cxt.clearRect(0,0,500,500);
+				    window.onmousemove=function(e){
+				        //clearInterval(timer);
+					    aSx=[];
+						aSy=[];
+					    var e=e||event;
+					    var iMx=e.clientX;
+					    var iMy=e.clientY;
+					   
+					    if(aMx.length>30){
+					        aMx.pop();
+						    aMy.pop();
+					    }else{
+					        aMx.unshift(iMx);
+					        aMy.unshift(iMy);
+					    }
+					    iMdx=Math.abs(aMx[29]-aMx[28]);
+					    iMdy=Math.abs(aMy[29]-aMy[28]);
+					    for(var i=0;i<30;i++){
+					        draw(aMx[i],aMy[i],30-i,(30-i)*0.01);
+					    }
+				    }
+					aSx=aMx;
+					aSy=aMy;
+					if(aSx.length>30){
+			            aSx.pop();
+					    aSy.pop();
+					}else{
+					    aSx.unshift(aMx[0]);
+					    aSy.unshift(aMy[0]);
+					}
+					for(var i=0;i<30;i++){
+				        draw(aSx[i],aSy[i],30-i,(30-i)*0.05);
+			        }
+				},30);
+			}
+		</script>
+	</head>
+	<body>
+	    <canvas id='canv' height=500 width=500>渣渣浏览器不支持html5的canvas技术</canvas>
+	</body>
+</html>

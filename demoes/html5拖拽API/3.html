@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <head>
+	    <meta charset='utf-8'/>
+		<title>H5拖拽API</title>
+		<style>
+		    div{width:100px;height:100px;margin:5px;text-align:center;padding:10px;overflow:auto}
+			.drag{background:#f00;color:#ff0;}
+			#target{
+			    height:200px;
+				width:200px;
+				outline:1px solid #0af;
+			}
+		</style>
+		<script>
+		    window.onload=function(){
+				var oDrag=document.getElementsByTagName('div')[0];
+				var tar=document.getElementById('target');
+				oDrag.ondragstart=function(e){
+				    var e=e||event;
+					e.dataTransfer.setData('text/plain','hello world')
+					e.dataTransfer.effectAllowed='copyMove';
+				}
+				tar.ondragover=function(e){
+				    var e=e||event;
+					e.preventDefault();
+				}
+				tar.ondrop=function(e){
+				    var e=e||event;
+					this.innerHTML=e.dataTransfer.getData('text/plain');
+					e.dataTransfer.dropEffect='copy';
+				}
+			}
+		</script>
+	</head>
+	<body>
+	    <div class='drag' draggable='true'>添加draggable属性开启拖拽</div>
+		<div id='target'></div>
+	</body>
+</html>

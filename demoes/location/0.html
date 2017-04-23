@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>location测试0</title>
+		<meta charset='utf-8' />
+		<script>
+		    window.onload=function(){
+			    
+				var inp=document.getElementsByTagName('input');
+                inp[1].onclick=function(){
+				    if(inp[0].value){
+					   	window.location.assign(send('1.html',inp[0].value));
+					}
+				}
+                function send(url,str){
+				    return url+'?key='+str
+				}				
+			}
+		</script>
+	</head>
+	<body>
+	    <input type='text' />
+		<input type='button' value='GO'/>
+	</body>
+</html>

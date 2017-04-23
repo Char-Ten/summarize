@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>折线图</title>
+		<meta charset='utf-8'/>
+		<style>
+		    body,html{background:#000}
+		</style>
+		<script>
+		    window.onload=function(){
+			    var zxt=new Zxt('cav').set({
+				    '10-12':0,
+					'10-14':85,
+					'10-15':64,
+					'10-18':22,
+					'10-21':77,
+					'10-24':100,
+					'10-29':44,
+				},[20,40,60,80,100])
+			}
+			function Zxt(id){
+			    this.cav=document.getElementById(id);
+				this.cxt=this.cav.getContext('2d');
+				this.default_bg={//默认背景json
+				    bigX:500,//最大x
+					bigY:400,//最大y
+					bgColor:'#fff',//背景颜色
+					line:[{x:0,y:380},{x:500,y:380}],//背景横线
+					lineWidth:0.5,//背景横线宽度
+					lineColor:'#eee'//背景横线颜色
+				}
+				this.default_xoy={//默认坐标轴json
+				    xO:20,//原点x位置
+					yO:350,//原点y位置
+					xMax:450,//x轴长度
+					yMax:320,//y轴长度
+					lineColor:'#6cf',//坐标轴颜色
+					xData:['10-12','10-14','10-15','10-18','10-21','10-24','10-25','10-29'],//x轴坐标数据
+					yData:['20','40','60','80','100']//y轴坐标数据
+				}
+				this.data=[];
+			}
+			Zxt.prototype={
+			    /*设置参数*/
+				set:function(data,arr){
+				    /*
+					    data={
+						    '10-12':58,
+							'10-14':66,
+							.....
+						}
+						arr=['20','30','40'....]//从小到大排列
+					*/
+					var a=[];
+					var n=0;
+					for(var attr in data){					    
+						a.push(attr);
+						this.data[n]=[];
+						this.data[n][1]=data[attr];//获取数据纵值
+						n++;
+					}
+					this.default_xoy.xData=a;
+					this.bg().xoy().zY().zLine();
+					
+				},
+				/*背景*/
+				bg:function(j){
+				    var json=j?j:this.default_bg;
+					
+					//背景色填充
+					this.cxt.beginPath();
+					this.cxt.fillStyle=json.bgColor;
+					this.cxt.fillRect(0,0,json.bigX,json.bigY);
+					this.cxt.closePath();
+						
+					//背景横线
+				    this.cxt.beginPath();
+					this.cxt.lineWidth=json.lineWidth;
+					this.cxt.strokeStyle=json.lineColor;
+					this.cxt.moveTo(json.line[0].x,json.line[0].y);
+					this.cxt.lineTo(json.line[1].x,json.line[1].y);
+					this.cxt.stroke();
+					this.cxt.closePath();
+					
+					return this;
+				},
+				/*坐标轴*/
+				xoy:function(json){
+				    json=json?json:this.default_xoy;
+					//原点位置
+					this.cxt.translate(json.xO,json.yO);
+				    //x,y轴
+				    this.cxt.beginPath();
+					this.cxt.strokeStyle=json.lineColor;
+					this.cxt.lineWidth=2;
+					this.cxt.moveTo(0,-json.yMax);
+					this.cxt.lineTo(0,0);
+					this.cxt.lineTo(json.xMax,0);
+					this.cxt.stroke();
+					this.cxt.closePath();
+						
+					//x轴的样式，包括文字
+					var d=0.5*json.xMax/json.xData.length;
+					var l=(json.xMax-d)/json.xData.length;//计算出每个数据间的间隔
+					var ax=[];
+					for(var i=0;i<json.xData.length;i++){
+						//竖线     
+						this.cxt.beginPath();
+						this.cxt.strokeStyle=json.lineColor;
+						this.cxt.moveTo(d+i*l,0);
+						this.cxt.lineTo(d+i*l,10);
+						this.cxt.stroke();
+						this.cxt.closePath();
+						//文字	
+						this.cxt.beginPath();
+						this.cxt.textAlign='center'
+						this.cxt.strokeStyle='#000'
+						this.cxt.strokeText(json.xData[i],d+i*l+l/2,15)
+						this.cxt.closePath();
+						//虚线
+						this.tl_dline(d+i*l+l/2,0,d+i*l+l/2,-json.yMax,'#aaa');
+						//获取横坐标
+						this.data[i][0]=d+i*l+l/2;
+					}
+					
+					//y轴的样式，包括文字
+					var ly=(json.yMax-20)/json.yData.length;
+					this.k=(json.yMax-20)/json.yData[json.yData.length-1];//比例系数
+					for(var i=0;i<json.yData.length;i++){
+						//文字
+						this.cxt.beginPath();
+						this.cxt.textAlign='end'
+						this.cxt.strokeStyle='#000';
+						this.cxt.strokeText(json.yData[i],-1,-ly*(i+1));
+						this.cxt.closePath();
+						
+						//虚线
+						this.tl_dline(0,-ly*(i+1),json.xMax,-ly*(i+1),'#aaa');
+					}
+					return this;
+				},
+				/*折线*/
+				zLine:function(){
+					/*折线背景*/
+					this.cxt.beginPath();
+					this.cxt.fillStyle='rgba(255,0,0,0.3)';
+					this.cxt.strokeStyle='#fff';
+					this.cxt.lineWidth='5';
+				    this.zl(this.data);
+					this.cxt.fill();
+					this.cxt.closePath();
+					/*折线*/
+					this.cxt.beginPath();
+					this.cxt.lineWidth='5';
+					this.cxt.strokeStyle='#fff';
+					this.zl(this.data,true);
+					this.cxt.stroke();
+					this.cxt.lineWidth='3';
+					this.cxt.strokeStyle='#f00';
+					this.cxt.stroke();
+					this.cxt.closePath();
+					/*数据点*/
+					for(var i in this.data){
+					    this.cr(this.data[i][0],this.data[i][1],'#fff','#f00');
+					}
+				},
+				/*辅助:画虚线*/
+				tl_dline:function(x0,y0,x1,y1,color){
+				    var xpos = x1 - x0, //得到横向的宽度;
+                        ypos = y1 - y0, //得到纵向的高度;
+						n= Math.floor(Math.sqrt(xpos * xpos + ypos * ypos)/5);//线长/5（间距），得到要分为多少段;
+					this.cxt.beginPath();
+					this.cxt.strokeStyle=color;
+					for(var i=0;i<n;i++){
+						if(i%2==0){
+						    this.cxt.moveTo(x0 + (xpos/n) * i, y0 + (ypos/n) * i)
+						}else{
+						    this.cxt.lineTo(x0 + (xpos/n) * i, y0 + (ypos/n) * i)
+						}
+					}
+					this.cxt.stroke();
+					this.cxt.closePath();
+					return this;
+				},
+				/*辅助：画点*/
+				cr:function(cx,cy,inC,outC){
+				    this.cxt.beginPath();
+					this.cxt.fillStyle=inC;
+					this.cxt.strokeStyle=outC;
+					this.cxt.lineWidth='4'
+					this.cxt.arc(cx,cy,8,0*Math.PI/180,360*Math.PI/180,false);
+					this.cxt.fill();
+					this.cxt.stroke();
+					this.cxt.closePath();
+					return this;
+				},
+				/*辅助：绘制折线区域*/
+				zl:function(arr,type){
+				    /*
+					    arr=[[0,80],[1,50],[2,35]]   
+					*/
+					if(!type)this.cxt.moveTo(arr[0][0],0);
+					for(var i=0;i<arr.length;i++){
+					    this.cxt.lineTo(arr[i][0],arr[i][1]);
+					}
+					if(!type)this.cxt.lineTo(arr[i-1][0],0);
+					return this;
+				},
+				/*辅助：设置纵坐标*/
+				zY:function(){
+				    for(var i in this.data){
+					    this.data[i][1]*=-this.k;
+					}
+					return this;
+				}
+			}
+		</script>
+	</head>
+	<body>
+	    <canvas id='cav' height='400' width='500'></canvas>
+	</body>
+</html>

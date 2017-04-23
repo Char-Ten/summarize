@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>none</title>
+		<meta charset='utf-8'/>
+		<script>
+		    window.onload=function(){
+			    var session=this.sessionStorage;
+				var oDiv=document.getElementById('showDiv');
+				
+				addEventListener("storage",EventHandle,true);
+				
+				function EventHandle(e){
+				    oDiv.innerHTML='';
+					var l=session.length;
+					oDiv.innerHTML=JOSN.stringify(e.storageArea);
+				}
+			}
+		</script>
+	</head>
+	<body>
+	    <div id='showDiv'>
+		</div>
+	</body>
+</html>

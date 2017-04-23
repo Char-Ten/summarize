@@ -1,0 +1,60 @@
+<!doctype>
+<html>
+    <head>
+	    <meta charset="utf-8"/>
+		<title>弹性运动</title>
+		<style>
+		    *{padding:0;margin:0;}
+			#ul1{list-style:none;width:400px;height:30px;border:1px solid #000;position:relative;z-index:1}
+			#ul1 li{width:98px;height:28px;border:1px #666 solid;position:relative;z-index:2;float:left;cursor:pointer}
+			.bg{background:rgba(0,200,255,0.3);position:absolute;top:-30px;left:0px;z-index:0}
+		</style>
+		<script>
+		    window.onload=function(){
+			    var oDiv=document.getElementById('ul1');
+				var aLi=oDiv.getElementsByTagName('li');
+				var oBg=aLi[aLi.length-1]
+				
+				for(var i=0;i<aLi.length-1;i++){
+				    aLi[i].onmouseover=function(){
+					    txFn(oBg,this.offsetLeft);
+                        oDiv.onmouseout=function(){
+						    txFn(oBg,0);
+						}						
+					}
+					
+				}
+				
+				
+			}
+			var iSpeed=0;
+			var iLeft=0;
+			function txFn(obj,iTag){
+			    
+			    clearInterval(obj.time)
+			    obj.time=setInterval(function(){
+				    iSpeed+=(iTag-obj.offsetLeft)/5;
+					iSpeed*=0.7;
+					if(Math.abs(iSpeed)<1&&Math.abs(iTag-obj.offsetLeft)<1){
+					    clearInterval(obj.time)
+						obj.style.left=iTag+'px';
+					}
+					else{
+					iLeft+=iSpeed;
+					obj.style.left=iLeft+'px';
+					//alert(obj.iLeft)
+					}
+				},30)			
+			}
+		</script>
+	</head>
+	<body>
+	    <ul id="ul1">
+		    <li>首页</li>
+			<li>次页</li>
+			<li>三页</li>
+			<li>四页</li>
+			<li class="bg"></li>
+		</ul>
+	</body>
+</html>

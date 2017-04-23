@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>右键自定义菜单</title>
+<style>
+#mune{width:100px;height:0px;background:#F00;position:absolute;}
+</style>
+<script>
+ window.onload=function(){
+	 var oDiv=document.getElementById('mune');
+	 var cTyj=null
+	 document.oncontextmenu=function(ev){
+		 var ev=ev||event;
+		 var num=0;
+		 
+		 oDiv.style.left=ev.clientX+'px';
+		 oDiv.style.top=ev.clientY+'px';
+		 
+		 clearInterval(cTyj);
+		 oDiv.style.height=0+'px';
+		 cTyj=setInterval(function(){
+			 num+=50;
+			 if(num>300){num=300;clearInterval(cTyj)}
+			 oDiv.style.height=num+'px';
+			 },60)
+		 return false;
+		 }
+	 document.onclick=function(){
+		 oDiv.style.height=0+'px';
+		 }
+	 }
+</script>
+</head>
+
+<body>
+ <div id="mune"></div>
+</body>
+</html>

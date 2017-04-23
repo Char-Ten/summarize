@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>test1</title>
+	</head>
+	<body>
+		<canvas id="cav"></canvas>
+		<script src="easeljs-0.8.2.min.js"></script>
+		<script>
+			var stage=new createjs.Stage('cav');
+			var c=new createjs.Shape();
+			c.graphics.beginFill('#f00').drawCircle(0,0,40);
+			c.x=c.y=50;
+			stage.addChild(c);
+			stage.update();
+			var speed=0;
+			createjs.Ticker.addEventListener("tick",function(){
+				if(c.x>100){
+					speed--;
+				}else{
+					speed++;
+				}
+				c.x+=speed;
+				stage.update();
+			})
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script>
+window.onload=function(){
+	var oUl=document.getElementById('ul1');
+	var aLi=getElementsByClassName(oUl,'li','active');
+	alert(aLi.length)
+	console.log(aLi)
+	function getElementsByClassName(parent,tagName,className){
+		var aA=parent.getElementsByTagName(tagName);
+		var arr=[];
+		for(var i=0;i<aA.length;i++){var aClassName=aA[i].className.split(' ');
+			for(var j=0;j<aA.length;j++){if(aClassName[j]==className){arr.push(aA[i]);break;}}}
+			return arr;	}		
+				
+	}	
+
+</script>
+</head>
+
+<body>
+<ul id="ul1">
+ <li class="active">1</li>
+ <li>2</li>
+ <li>3</li>
+ <li>4</li>
+ <li class="active a1">5</li>
+</ul>
+</body>
+</html>

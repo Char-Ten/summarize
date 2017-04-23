@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>canvas折线图</title>
+		<script>
+		window.onload=function(){
+		    var a=[];
+			var timer=null;
+			var c=0;
+			var b=new Drawtu('canvas',a);
+			
+			timer=setInterval(function(){
+			    b.cxt.clearRect(0,0,320,120)
+			    c=parseInt(Math.random()*100);
+				if(a.length>12)a.pop();
+				else a.unshift(c);
+				b.data=a;
+				b.drawData();
+			    b.fillData();
+			    b.addArc();
+				b.drawBox();
+				//document.getElementById('div1').innerHTML=a;
+			},500)
+			
+			
+		}
+		function Drawtu(sCanvasId,aData){
+		    this.canv=document.getElementById(sCanvasId);
+			this.cxt=this.canv.getContext('2d');
+			this.data=aData;
+		}
+		Drawtu.prototype={
+		    drawBox:function(x1,y1,x2,y2){
+			    this.cxt.save();
+				this.cxt.translate(10,100);
+				this.cxt.beginPath();
+				this.cxt.moveTo(0,0)
+				this.cxt.lineTo(312,0);
+				this.cxt.stroke();
+				this.cxt.closePath();
+				this.cxt.restore();
+				
+				this.cxt.save();
+				this.cxt.translate(10,100);
+				this.cxt.beginPath();
+				for(var i=0;i<12;i++){
+				    this.cxt.strokeText(i+1,i*25+10,10);
+				}
+				this.cxt.closePath();
+				this.cxt.restore();
+				
+			},
+			drawData:function(){
+			    this.cxt.save();
+				this.cxt.translate(10,100);
+				this.cxt.beginPath();
+				this.cxt.lineWidth=2;
+				this.cxt.strokeStyle='#08f'
+				this.cxt.moveTo(0,-this.data[0]);
+				for(var i=1;i<13;i++){
+				    this.cxt.lineTo(i*25,-this.data[i]);
+				}
+				this.cxt.stroke();
+				this.cxt.closePath();
+				this.cxt.restore();
+			},
+			fillData:function(){
+			    this.cxt.save();
+				this.cxt.translate(10,100);
+				for(var i=0;i<13;i++){
+				    this.cxt.beginPath();
+				    if(i%2==0)this.cxt.fillStyle='#0af';
+					else this.cxt.fillStyle='#6cf';
+					if((i+1)!=13){
+					    this.cxt.moveTo(i*25,0)
+					    this.cxt.lineTo(i*25,-this.data[i]);
+					    this.cxt.lineTo((i+1)*25,-this.data[i+1]);
+					    this.cxt.lineTo((i+1)*25,0);
+					    this.cxt.lineTo(i*25,0);
+					    this.cxt.fill();
+					    this.cxt.closePath();
+					}
+					
+				}
+				this.cxt.restore();
+			},
+			addArc:function(){
+			    this.cxt.save();
+				this.cxt.translate(10,100);
+				for(var i=0;i<13;i++){
+				    this.cxt.beginPath();
+				    this.cxt.lineWidth=2;
+				    this.cxt.strokeStyle='#0af';
+				    this.cxt.fillStyle='#fff';
+				    this.cxt.arc(i*25,-this.data[i],5,0*Math.PI/180,360*Math.PI/180,false);
+					this.cxt.stroke();
+				    this.cxt.fill();
+				    this.cxt.closePath();
+				}
+				this.cxt.restore();
+			}
+		}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas" height=120px width=320px></canvas>
+	</body>
+</html>

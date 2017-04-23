@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+div{position:absolute;width:100px;height:100px}
+#div1{background:red;top:0;left:0;z-index:1}
+#div2{background:green;top:200px;left:500px;}
+</style>
+<script>
+window.onload=function(){
+	var aDiv=document.getElementsByTagName('div');
+	CheckBump(aDiv[0],aDiv[1],function(){
+		aDiv[1].style.background='blue';
+		document.onmousemove=null;
+		},function(){
+		aDiv[1].style.background='green';	
+			});
+	}
+function CheckBump(obj,beobj,CFn,UCFn){
+	    obj.onmousedown=function(ev){
+		var ev= ev||event;
+		var disX=ev.clientX-this.offsetLeft;
+		var disY=ev.clientY-this.offsetTop;//鼠标位置-对象离窗口距离=鼠标到对象边框距离
+		if(obj.setCapture){obj.setCapture();}//setCapture:鼠标捕获，不管鼠标事件在哪里发生，仅作用于当前对象；
+		document.onmousemove=function(ev){
+			var ev=ev||event;
+			var L=ev.clientX-disX;
+			var T=ev.clientY-disY;//鼠标位置-鼠标到对象边框距离=对象位置
+			var R=L+obj.offsetWidth;
+			var B=T+obj.offsetHeight;
+			if(L<0){L=0;}else if(L>document.documentElement.clientWidth-obj.offsetWidth){L=document.documentElement.clientWidth-obj.offsetWidth}//拖拽限制（宽度）
+			if(T<0){T=0;}else if(T>document.documentElement.clientHeight-obj.offsetHeight){T=document.documentElement.clientHeight-obj.offsetHeight}//拖拽限制（高度）
+			
+			var DL=beobj.offsetLeft;
+			var DT=beobj.offsetTop;
+			var DR=DL+beobj.offsetWidth;
+			var DB=DT+beobj.offsetHeight;
+			
+			if(R>=DL&&B>=DT&&T<=DB&&L<=DR) CFn&&CFn(); 		  
+			else UCFn&&UCFn();
+			
+			obj.style.left=L+'px';
+			obj.style.top=T+'px';		
+			}
+		document.onmouseup=function(){
+			obj.onmouseup=document.onmousemove=null;
+			if(obj.releaseCapture)obj.releaseCapture();}//releaseCapture:释放鼠标捕获事件。
+		return false;
+	}
+}//鼠标拖拽事件
+				
+</script>
+</head>
+
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+</body>
+</html>

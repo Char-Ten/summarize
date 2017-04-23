@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>canvas滑稽哥</title>
+  <style>
+    #hjg{position:absolute;top:100px;left:400px;}
+  </style>
+  <script>
+      window.onload=function(){
+	     var canvas=document.getElementById('hjg');
+		 var hjg=canvas.getContext('2d');
+
+	   function draw(elx,ely,erx,ery,mlx,mly,mrx,mry){
+
+		      hjg.clearRect(0,0,400,400);
+			  //画滑稽哥的脸蛋
+			  hjg.beginPath();
+			 //滑稽哥的轮廓（r=200）
+			 hjg.arc(200,200,200,0,360,false);
+			 //滑稽哥的高光
+			 var fHjg=hjg.createRadialGradient(200,200,0,150,150,200);
+			 fHjg.addColorStop(1,'#fa0');
+			 fHjg.addColorStop(0,'#ff0');
+			 hjg.fillStyle=fHjg;
+			 hjg.fill();
+			 hjg.closePath();
+
+			//画滑稽哥的左眉毛
+			hjg.save();
+			hjg.translate(30+mlx,50+mly);//30,50
+			hjg.rotate(25*Math.PI/180);
+			hjg.beginPath();
+			hjg.moveTo(0,0)
+			hjg.quadraticCurveTo(40,-80,120,0);
+			hjg.quadraticCurveTo(40,-50,0,0);
+			hjg.fillStyle='#000';
+			hjg.fill();
+			hjg.closePath();
+			hjg.restore();
+
+		    //画滑稽哥的右眉毛
+			hjg.save();
+			hjg.translate(275+mrx,105+mry);//275,105
+			hjg.rotate(-25*Math.PI/180);
+			hjg.beginPath();
+			hjg.moveTo(0,0);
+			hjg.quadraticCurveTo(60,-80,120,0);
+			hjg.quadraticCurveTo(60,-50,0,0);
+			hjg.fillStyle='#000';
+			hjg.fill();
+			hjg.closePath();
+			hjg.restore();
+
+			//画滑稽哥的左眼眶
+			hjg.save();
+			hjg.translate(5,110);
+			hjg.rotate(0*Math.PI/180);
+			hjg.beginPath();
+			hjg.strokeStyle='#f51';
+			hjg.lineWidth=5
+			hjg.moveTo(0,0)
+			hjg.quadraticCurveTo(70,-30,140,0);
+			hjg.quadraticCurveTo(160,5,160,30);
+			hjg.quadraticCurveTo(70,0,25,25);
+			hjg.quadraticCurveTo(-10,15,0,0);
+			hjg.fillStyle='#fff';
+			hjg.fill();
+			hjg.stroke();
+			hjg.closePath();
+			hjg.restore();
+
+			//画滑稽哥的右眼眶
+			hjg.save();
+			hjg.translate(235,110);
+			hjg.rotate(0*Math.PI/180);
+			hjg.beginPath();
+			hjg.strokeStyle='#f51';
+			hjg.lineWidth=5
+			hjg.moveTo(20,0)
+			hjg.quadraticCurveTo(80,-30,160,0);
+			hjg.quadraticCurveTo(160,29,140,30);
+			hjg.quadraticCurveTo(80,0,0,30);
+			hjg.quadraticCurveTo(0,10,20,0);
+			hjg.fillStyle='#fff';
+			hjg.fill();
+			hjg.stroke();
+			hjg.closePath();
+			hjg.restore();
+
+			//画滑稽哥脸颊萌萌哒的腮红
+			for(var i=0;i<3;i++){
+		   hjg.save();
+		   hjg.translate(50+18*i,180)
+		   hjg.beginPath();
+		   hjg.arc(0,0,50,0,360,false);
+		   fHjg=hjg.createRadialGradient(0,0,0,0,0,50);
+		   fHjg.addColorStop(1,'rgba(255, 204, 102, 0)');
+		   fHjg.addColorStop(0,'rgba(255, 100, 0,0.5)');
+		   hjg.fillStyle=fHjg;
+		   hjg.fill();
+		   hjg.closePath();
+		   hjg.restore();
+			}
+		   for(var i=0;i<3;i++){
+				hjg.save();
+				hjg.translate(320+18*i,180)
+				hjg.beginPath();
+				hjg.arc(0,0,50,0,360,false);
+				fHjg=hjg.createRadialGradient(0,0,0,0,0,50);
+				fHjg.addColorStop(1,'rgba(255, 204, 102, 0)');
+				fHjg.addColorStop(0,'rgba(255, 100, 0,0.5)');
+				hjg.fillStyle=fHjg;
+				hjg.fill();
+				hjg.closePath();
+				hjg.restore();
+			  }
+
+		    //画出滑稽哥萌萌哒的小嘴
+		   hjg.save();
+		   hjg.translate(40,250);
+		   hjg.beginPath();
+		   hjg.moveTo(0,0);
+		   hjg.quadraticCurveTo(160,200,320,0);
+		   hjg.quadraticCurveTo(160,230,0,0);
+		   hjg.fillStyle='#960'
+		   hjg.fill();
+		   hjg.closePath();
+		   hjg.restore();
+
+		   //画出滑稽哥的眼睛
+		   hjg.save();
+		   hjg.translate(30+elx,120+ely);//30,120
+		   hjg.beginPath();
+		   hjg.arc(0,0,16,0,360,false);
+		   hjg.fillStyle='#000';
+		   hjg.fill();
+		   hjg.closePath();
+		   hjg.restore();
+
+		   hjg.save();
+		   hjg.translate(255+erx,120+ery);//255,120
+		   hjg.beginPath();
+		   hjg.arc(0,0,16,0,360,false);
+		   hjg.fillStyle='#000';
+		   hjg.fill();
+		   hjg.closePath();
+		   hjg.restore();
+	   }
+      draw(0,0,0,0,0,0,0,0);
+	  function run(){
+		       var elx=0;
+			  var ely=0;
+			  var erx=0;
+			  var ery=0;
+	        document.onmousemove=function(ev){
+			  var ev=ev||event;
+			  var onff=ev.clientX-canvas.offsetLeft-200;
+		      if(onff>=0){
+			      elx+=5;
+				  elx>120?elx=120:elx=elx;
+			  }
+			  else{
+			       elx-=5;
+				   elx<0?elx=0:elx=elx;
+			  }
+              draw(elx,ely,elx,ery,0,0,0,0)
+			}
+			document.onclick=function(){
+			
+			}
+	  }
+	 run();
+ }
+  </script>
+ </head>
+ <body>
+  <canvas id="hjg" width=400px height=400px>您的破浏览器看不了滑稽哥，还不滚去升级！</canvas>
+ </body>
+</html>

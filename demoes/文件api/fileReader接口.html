@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>文件api</title>
+		<meta charset='utf-8'/>
+		<script>
+		    window.onload=function(){
+			    document.getElementById('file').onchange=function(){
+				    readBlob();
+				}
+			}
+			function readBlob(){
+			    var fs=document.getElementById('file').files[0];
+				if(fs){
+				    var reader=new FileReader();
+					/*reader.readAsBinaryString(fs);
+					reader.onload=function(e){
+						var obj=document.createElement('li');
+						obj.innerHTML=this.result;
+						document.getElementById('list').appendChild(obj);
+					}*/
+					
+					/*reader.readAsArrayBuffer(fs);
+					reader.onload=function(e){
+						var obj=document.createElement('li');
+						obj.innerHTML=this.result;
+						document.getElementById('list').appendChild(obj);
+					}*/
+					
+				    /*reader.readAsText(fs);
+					reader.onload=function(e){
+						var obj=document.createElement('li');
+						obj.innerHTML=this.result;
+						document.getElementById('list').appendChild(obj);
+					}*/
+					reader.readAsDataURL(fs);
+					
+					/*event*/
+					function li(str){
+					    var obj=document.createElement('li');
+						obj.innerHTML=str;
+						document.getElementById('list').appendChild(obj);
+					}
+					
+					reader.onloadstart=function(){
+					    li('开始读取')
+					}
+					reader.onprogress=function(){
+					    li('正在读取.....')
+					}
+					reader.onload=function(e){
+					    var img=document.createElement('img');
+						img.src=this.result;
+						document.body.appendChild(img);
+					}
+					reader.onabort=function(){
+					    li('读取中断！！')     
+					}
+					reader.onerror=function(){
+					    li('读取出现错误！！')
+					}
+					reader.onloadend=function(){
+					    li('FileReader读取步骤执行完毕')
+					}
+					/*event*/
+					
+					
+					/*
+					 * FileReader接口：
+					        属性：{
+							    readState:{
+								    EMPTY：0，只读，表示新的FileReader接口以及建立，且没有调用任何读取方法。
+								    LOADING:1，只读，表示有读取文件的方法正在读取File对象或者Blob对象，且没有错误发生。
+					                DONE:2，表示读取文件结束，可能读取的文件以及存入内存中，或者读取过程出现错误使用了abort()方法强行中断。
+								},
+								result：已经读取到的文件数据，若为图片，则返回base64格式的图片数据，只读。
+								error:{只读
+								    NotFoundError:找不到读取的资源文件，会抛出NotFoundError错误异常。
+									SecurityError：发生安全错误，会抛出SecurityError错误异常。
+									NotReadableError:无法读取的错误，会抛出NotReadableError错误异常。
+									EncodingError：编码限制错误，通常是数据的URL表示的网址长度受到限制。
+								}
+							},
+						    方法：{
+							    readAsArrayBuffer(<blob>):将文件读取为数据缓冲区;
+								readAsBinaryString(<blob>):将文件读取为二进制字符串；
+								readAsText(<blob>，<encoding>)：将文件读取文本，<encoding>：编码方式，默认为utf-8；
+								readAsDataURL(<blob>)：将文件读取为DataURL字符串；
+								abort():中断读取操作；
+							}，
+							事件：{
+							    loadstart:开始读取数据时触发的事件；
+								progress:正在读取数据时触发的事件；
+								load:成功完成数据读取时触发的事件；
+								abort:中断读取数据时触发的事件；
+								error：读取数据发生错误时触发的事件;
+								loadend:结束读取数据时触发的事件；
+							}
+					*/
+				}
+			}
+		</script>
+	</head>
+	<body>
+	    <input id='file' type='file'  accept="image/*" />
+		<ul id='list'>
+		</ul>
+	</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+    <head>
+	    <meta charset='utf-8'/>
+		<title>H5拖拽API</title>
+		<style>
+		    div{width:100px;height:100px;margin:5px;text-align:center;padding:10px;overflow:auto}
+			.drag{background:#f00;color:#ff0;}
+			.div{height:100px;background:#0f0;color:#00f;float:left}
+		</style>
+		<script>
+		    window.onload=function(){
+			    var aDiv=document.getElementsByClassName('div');
+				var oDrag=document.getElementsByTagName('div')[0];
+				for(var i in aDiv){
+				    aDiv[i].index=0;
+				}
+				oDrag.ondragstart=function(){
+				    aDiv[0].index++;
+			   	    aDiv[0].style.background='#00f';
+				    aDiv[0].style.color='#000';
+				    aDiv[0].innerHTML=aDiv[0].index;
+				}
+				oDrag.ondrag=function(){
+				    aDiv[1].index++;
+				    aDiv[1].style.background='#ff0';
+			        aDiv[1].style.color='#000';
+				    aDiv[1].innerHTML=aDiv[1].index;;
+				}
+				aDiv[2].ondragenter=function(){
+				    this.index++;
+				    this.style.background='#f0f';
+				    this.style.color='#000';
+				    this.innerHTML=this.index;
+				}
+				aDiv[3].ondragover=function(){
+				    this.index++;
+					this.style.background='#0ff';
+				    this.style.color='#000';
+				    this.innerHTML=this.index;
+				}
+				aDiv[4].ondragleave=function(){
+				    this.index++;
+					this.style.background='#f80';
+				    this.style.color='#000';
+				    this.innerHTML=this.index;
+				}
+				aDiv[5].ondrop=function(){
+				    this.index++;
+					this.style.background='#08f';
+				    this.style.color='#000';
+				    this.innerHTML=this.index;
+				}
+				oDrag.ondragend=function(){
+				    aDiv[6].index++;
+					aDiv[6].style.background='#808';
+				    aDiv[6].style.color='#000';
+				    aDiv[6].innerHTML=aDiv[6].index;
+				}
+			}
+		</script>
+	</head>
+	<body>
+	    <div class='drag' draggable='true'>添加draggable属性开启拖拽</div>
+		<div class='div'>我是dragstar事件发生的结果</div>
+		<div class='div'>我是drag事件发生的结果</div>
+		<div class='div'>我是dragenter事件发生的结果</div>
+		<div class='div'>我是dragover事件发生的结果</div>
+		<div class='div'>我是dragleave事件发生的结果</div>
+		<div class='div'>我是drop事件发生的结果</div>
+		<div class='div'>我是dragend事件发生的结果</div>
+	</body>
+</html>

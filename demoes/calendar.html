@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+	<head>
+		<title>日历</title>
+		<meta charset='utf-8'/>
+		<style>
+			.calendar-box{
+				width:500px;
+				height:500px;
+			}
+			.calendar-tbl{
+				width: 100%;
+				background:#fff;
+				border:1px solid #aaa;
+				border-radius: 1rem;
+				overflow: hidden
+			}
+			.calendar-tbl td,
+			.calendar-tbl th{
+				text-align: center;
+				height:2rem;
+				width:2rem;
+				border:1px solid #bbb;
+				background:#efefef;
+				overflow: hidden;
+				color:#666;
+			}
+			.calendar-tbl input{
+				width:90%;
+				height:100%;
+			}
+			.calendar-body td:hover{
+				border-color:#0af;
+				background:#aef;
+			}
+			.calendar-tbl .today{
+				border-color:#0af;
+				background:#aef;
+				color:#000;
+			}
+		</style>
+		<script>
+			window.onload=function(){
+				new Calendar();
+			}
+			function Calendar(){
+				var cal=this;
+				this.oBody=document.querySelector('.calendar-body');
+				this.newDate=new Date();
+				this.now={
+					y:cal.newDate.getFullYear(),
+					m:cal.newDate.getMonth()+1,
+					d:cal.newDate.getDate()
+				}
+				this.nLine=this._calculate().nLine(this.now.y,this.now.m);
+				this.nAll=this._calculate().nDays(this.now.y,this.now.m);
+				this.init();
+			}
+			Calendar.prototype={
+				init:function(){
+					this._draw();
+
+				},
+				_insert:function(){
+					var box=document.createDocumentFragment();
+					var oTable,oThead,oTh,oTd,oTbody;
+					var cal=this;
+					oTable=this._obj('table',{
+						'class':'calendar-tbl',
+						'cellspacing':'1'
+					});
+					oThead=this._obj('thead');
+					oTr=this._obj('tr',{
+						'class':'calendar-ctrler'
+					});
+					
+					oThead.appendChild(oTr);
+					oTable.appendChild(oThead);
+					
+					oTbody=this._obj('tbody');
+					oTable.appendChild(oTbody);
+					box.appendChild(oTable);
+
+					function setTh(parent,inner,fEvent){
+						oTh=cal._obj('th');
+						oTh.innerHTML=inner;
+						fEvent||fEvent(oTh);
+						parent.appendChild(oTh);
+					}
+				},
+				_draw:function(){
+					var box=document.createDocumentFragment();
+					var oTr,oTd;
+					for(var i=0;i<this.nLine;i++){
+						oTr=this._obj('tr',{
+							y:i
+						});
+						for(var j=0;j<7;j++){
+							oTd=this._obj('td',{
+								y:i,
+								x:j,
+							})
+							oTd.innerHTML=this._calculate().nInnerDay(j,i);
+							if(oTd.innerHTML==this.now.d){
+								oTd.className='today'
+							}
+							oTr.appendChild(oTd);
+						}
+						box.appendChild(oTr);
+					}
+					this.oBody.innerHTML='';
+					this.oBody.appendChild(box);
+
+				},
+				_calculate:function(){
+					var cal=this;
+					return {
+						'nDays':function(y,m){
+							return new Date(y,m,0).getDate();
+						},
+						'nPeriod':function(y,m,d){
+							var nFirstDay=new Date(y,m-1,1).getDay(),
+								nTagDate=new Date(y,m-1,d).getDate();
+							return Math.ceil((nFirstDay+nTagDate)/7);
+						},
+						'nLine':function(y,m){
+							return this.nPeriod(y,m,this.nDays(y,m));
+						},
+						'nWeekPos':function(y,m,d){
+							return new Date(y,m-1,d).getDay();
+						},
+						'nInnerDay':function(x,y){
+							var year=cal.now.y,
+								mounth=cal.now.m,
+								date=cal.now.d,
+								firstDayPos=this.nWeekPos(year,mounth,1),
+								finalDayPos=this.nWeekPos(year,mounth,cal.nAll),
+								finalLine=this.nLine(year,mounth),
+								length;
+							if(x<firstDayPos&&y==0){
+								return ''
+							}else if(x>finalDayPos&&y==finalLine){
+								return ''
+							}else{
+								for(var i=1;i<=cal.nAll;i++){
+									if(x==this.nWeekPos(year,mounth,i)&&y==this.nPeriod(year,mounth,i)-1){
+										return i;
+									}
+								}
+							}
+						}
+					}
+				},
+				_obj:function(sTag,jAttr){
+					var tag=document.createElement(sTag);
+					for(var i in jAttr){
+						tag.setAttribute(i,jAttr[i]);
+					}
+					return tag;
+				}
+			}
+		</script>
+	</head>	
+	<body>
+		<div class='calendar-box'>
+			<table class='calendar-tbl' cellspacing='1'>
+				<thead>
+					<tr class='calendar-ctrler'>
+						<th>←</th>
+						<th>↑</th>
+						<th colspan='3'><input type='text'></th>
+						<th>↓</th>
+						<th>→</th>
+					</tr>
+					<tr class='calendar-week'>
+						<td>日</td>
+						<td>一</td>
+						<td>二</td>
+						<td>三</td>
+						<td>四</td>
+						<td>五</td>
+						<td>六</td>
+					</tr>
+				</thead>
+				<tbody class='calendar-body'>
+					<tr>
+						<td>1</td>
+						<td>2</td>
+						<td>3</td>
+						<td>4</td>
+						<td>5</td>
+						<td>6</td>
+						<td>7</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>	
+</html>

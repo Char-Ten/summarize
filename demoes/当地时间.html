@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script>
+window.onload=function(){
+	var str=''
+	setInterval(function(){
+	var data=new Date();	
+	var iYear=data.getFullYear();
+	var iMonth=data.getMonth()+1;
+	var iDay=data.getDate();
+	var iWeek=data.getDay();
+	var iHour=data.getHours();
+	var iMin=data.getMinutes();
+	var iSec=data.getSeconds();
+	
+	if(iWeek==0)iWeek='星期日';
+	if(iWeek==1)iWeek='星期一';
+	if(iWeek==2)iWeek='星期二';
+	if(iWeek==3)iWeek='星期三';
+	if(iWeek==4)iWeek='星期四';
+	if(iWeek==5)iWeek='星期五';
+	if(iWeek==6)iWeek='星期六';
+
+	str=iYear+'年'+iMonth+'月'+iDay+'日 '+iWeek+'  '+addZreo(iHour)+':'+addZreo(iMin)+':'+addZreo(iSec);	
+	document.body.innerHTML=str;
+},1000) ;
+   document.body.innerHTML=str;
+	}
+function addZreo(n){return n<10?'0'+n:''+n;}
+	
+	
+</script>
+</head>
+
+<body>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctyoe html>
+<html>
+    <head>
+	    <title>下雪</title>
+		<meta charset='utf-8'/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+		<style>
+		    *{margin:0;padding:0;height:100%;width:100%;background:#000}
+		</style>
+		<script>
+		    window.onload=function(){
+			    var c=new Cvs().run();
+			}
+			function reg(num){
+			    return num*Math.PI/180;
+			}
+			function Cvs(){
+			    this.cav=document.getElementById('cav');
+				this.cav.height=document.body.offsetHeight;
+				this.cav.width=document.body.offsetWidth;
+				this.cxt=this.cav.getContext('2d');
+				this.speed=[];
+				this.cx=[];
+				this.cy=[];
+				this.size=[];
+				this.af=[];
+				this.length=0;
+			}
+			Cvs.prototype={
+			    draw:function(cx,cy,r,a,l,s,h){
+				    this.cxt.beginPath();
+					var grad  = this.cxt.createRadialGradient(cx,cy,0.05*r,cx,cy,r);
+                    /* 设定各个位置的颜色 */
+                    grad.addColorStop(0,'hsla('+h+','+s+','+l+','+a+')');
+					grad.addColorStop(0.3,'hsla('+h+','+s+','+l+','+a/2+')');
+                    grad.addColorStop(1,'hsla('+h+','+s+','+l+','+0+')');
+					this.cxt.fillStyle=grad;
+					this.cxt.arc(cx,cy,r,reg(0),reg(360),false);
+					this.cxt.fill();
+					this.cxt.closePath();
+				},
+				run:function(){
+				    var _this=this;
+					/*初始赋值：速度speed，下落距离cy，下落位置cx，雪花大小size，雪花数量length*/
+					this.length=200;
+					for(var i=0;i<this.length;i++){
+					    this.cx[i]=Math.random()*this.cav.width;
+						this.cy[i]=Math.random()*this.cav.height;
+						this.size[i]=parseInt(Math.random()*20);
+						this.af[i]=Math.random()+0.1;
+						this.speed[i]=this.size[i]*this.af[i]+this.size[i];
+						
+					}
+					setInterval(function(){
+						_this.cxt.clearRect(0,0,_this.cav.width,_this.cav.height);
+						for(var i=0;i<_this.length;i++){
+							if(_this.cy[i]>_this.cav.height){
+							    _this.cx[i]=Math.random()*this.cav.width;
+								_this.cy[i]=0;
+								_this.size[i]=parseInt(Math.random()*20);
+								_this.af[i]=Math.random()+0.1;
+								_this.speed[i]=_this.size[i]*_this.af[i]+_this.size[i];
+							}
+							_this.wind(0.001);
+							_this.cy[i]+=_this.speed[i]*i*0.001+_this.af[i];
+							_this.draw(_this.cx[i],_this.cy[i],_this.size[i],_this.af[i],'90%','50%',205);
+						}
+					},30);
+				},
+				wind:function(num){
+					for(var i=0;i<this.length;i++){
+					    this.cx[i]+=num/(this.af[i]*this.size[i]/2);
+						if(this.cx[i]>this.cav.width||this.cx[i]<0){
+						    this.cx[i]=Math.random()*this.cav.width-this.cav.width/2;
+							this.cy[i]=0;
+							this.size[i]=parseInt(Math.random()*20);
+							this.af[i]=Math.random()+0.1;
+							this.speed[i]=this.size[i]*this.af[i]+this.size[i];
+						}
+					}
+				},
+				
+			}
+		</script>
+	</head>
+	<body>
+	    <canvas id='cav'></canvas>
+	</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>太阳系</title>
+  <script>
+    window.onload=function(){
+	   var cvs=document.getElementById('canvas');
+	   var cxt=cvs.getContext('2d');
+	   var sum=0;
+      
+       function run(){
+       
+       sum++;
+	   sum>360?sum=0:sum=sum;
+       cxt.clearRect(0,0,600,600);
+	   cxt.beginPath();
+	   cxt.arc(300,300,50,0,360,false);
+	   var fs=cxt.createRadialGradient(300,300,0,300,300,50);
+	   fs.addColorStop(0,'red');
+	   fs.addColorStop(1,'yellow');
+       cxt.fillStyle=fs;
+	   cxt.fill();
+	   cxt.closePath();
+	   
+
+	   cxt.lineWidth=1;
+	   cxt.strokeStyle='#666';
+	   cxt.beginPath();
+	   cxt.arc(300,300,100,0,360,false);
+	   cxt.stroke();
+	   cxt.closePath();
+
+	   cxt.save();
+	   cxt.translate(300,300);
+	   cxt.rotate(sum*Math.PI/180);
+       cxt.beginPath();
+	   cxt.arc(0,-100,8,0,360,false);
+	   var fs=cxt.createRadialGradient(0,-100,0,0,-100,10);
+	   fs.addColorStop(0,'#fff');
+	   fs.addColorStop(1,'blue');
+	   cxt.fillStyle=fs;
+	   cxt.fill();
+	   cxt.closePath();
+	   cxt.restore();
+       }
+	   run();
+	   setInterval(run,30);
+
+	}
+  </script>
+ </head>
+ <body>
+       <div>
+	         <canvas id='canvas' width=600px height=600px  style="background:#000">
+			     您的破浏览器不支持HTML5
+			 </canvas>
+	   </div>
+ </body>
+</html>

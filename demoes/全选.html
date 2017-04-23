@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>全选</title>
+<script>
+window.onload=function(){
+	var oAll=document.getElementById('all');
+	var aBox=oAll.getElementsByTagName('input');
+	var oCtrl=document.getElementById('ctrl');
+	
+	/*for(var i=0;i<4;i++){
+	aBox[i].onclick=function(){
+	aBox[0].checked&&aBox[1].checked&&aBox[2].checked&&aBox[3].checked?oCtrl.checked=this.checked:oCtrl.checked=false 
+	   }
+	}
+     oCtrl.onclick=function(){
+	  for(var i=0;i<4;i++){aBox[i].checked=!aBox[i].checked;}
+	}	*/ 
+	/*全选触发*/
+	oCtrl.onchange=function(){
+		for(var i=0;i<aBox.length;i++){
+			aBox[i].checked=this.checked;
+		}
+	}
+
+	/*单选触发*/
+	for(var i=0;i<aBox.length;i++){
+		aBox[i].onchange=function(){
+			var bool=true;
+			for(var j=0;j<aBox.length;j++){
+				if(!aBox[j].checked){
+					bool=false;
+				}
+			}
+			oCtrl.checked=bool;
+		}
+	}
+
+}
+</script>
+</head>
+
+<body>
+<div id="box">
+ <ul id="list">
+   <li id="all">
+    <ul>
+    	<li><input type="checkbox"  /></li>
+    	<li><input type="checkbox"  /></li>
+    	<li><input type="checkbox"  /></li>
+    	<li><input type="checkbox"  /></li>
+    </ul>
+   </li>
+   <li >全选<input type="checkbox"   id="ctrl"/></li>
+ </ul>
+</div>
+</body>
+</html>

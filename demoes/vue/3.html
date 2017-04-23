@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>3</title>
+    <style>
+        .page>div {
+            padding: 5px;
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div id="app1">
+            <my-component></my-component>
+        </div>
+        <hr/>
+        <div id="app2">
+            <ccav></ccav>
+        </div>
+        <hr/>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+        var MyComponent=Vue.extend({
+            template:'<div>A custom component</div>'
+        });
+        Vue.component('my-component',MyComponent);
+        new Vue({
+            el:'#app1'
+        });
+
+        Vue.component('ccav',{
+            template:'<p>ccav</p>'
+        });
+        new Vue({
+            el:'#app2'
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+		<script src='js/jquery-2.1.0.js'></script>
+		<script src='js/jquery.qrcode.min.js'></script>
+		<script>
+			$(function(){
+				$('#qrcode').qrcode({
+					render:'table',
+					text:'http://sandbox.runjs.cn/show/cjhu5sjk',
+					width:'50',
+					height:'50'
+				})
+			})
+		</script>
+		<style>
+			#qrcode{
+				width:500px;
+				height:500px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='qrcode'></div>
+	</body>
+</html>

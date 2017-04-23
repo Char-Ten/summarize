@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>location测试1</title>
+		<meta charset='utf-8' />
+		<script>
+		    window.onload=function(){
+			    function p(str){
+				    var p=document.createElement('p');
+					p.innerHTML=str;
+					document.body.appendChild(p);
+				}
+				p(location);
+				p(location.hash);
+				p(location.host);
+				p(location.hostname);
+				p(location.href);
+				p(location.pathname);
+				p(location.port);
+				p(location.protocol);
+				p(location.search);
+			}
+		</script>
+	</head>
+	<body>
+	
+	</body>
+</html>

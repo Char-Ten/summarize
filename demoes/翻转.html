@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>翻转</title>
+<style>
+div{height:500px;width:500px;position:absolute;top:0;left:0;}
+#div1{background:red;overflow:hidden}
+#div2{background:blue; overflow:hidden}
+</style>
+<script>
+window.onload=function(){
+	var oDiv1=document.getElementById('div1');
+	var oDiv2=document.getElementById('div2');
+	var oPl=document.getElementById('pl');
+	var oWz=document.getElementById('wz');
+	
+	oWz.onclick=function(){
+      clearInterval(overTurn);
+	  overTurn(oDiv2,oDiv1);
+		}
+     oPl.onclick=function(){
+		   clearInterval(overTurn);
+	  overTurn(oDiv1,oDiv2);
+		 }
+function overTurn(obj1,obj2){
+	        obj1.style.display='block';
+			obj2.style.display='none';
+			obj2.L=250
+	        var timer;
+	        var num=500;
+		     
+            timer=setInterval(function(){
+			  num=num-20;
+			  if(num<0){
+				  num=0;
+				  obj1.style.display='none';
+			      obj2.style.display='block';
+			  }
+			  obj1.style.width=num+'px';
+			  obj1.style.left=obj1.offsetLeft+10+'px';
+			  if(num==0){
+				 
+				  var W=obj2.offsetWidth+20;
+				  obj2.L-=10
+				  if(W>=500){W=500;L=0;clearInterval(timer)}
+				  obj2.style.width=W+'px';
+				  obj2.style.left=obj2.L+'px';
+				}
+			},50)
+			
+	}
+
+	}
+</script>
+</head>
+
+<body>
+ <div id="div1">
+  <a id="pl">评论</a>
+ </div>
+ <div id="div2"><a id="wz">文章</a>44444444444444444444444444444</div>
+</body>
+</html>

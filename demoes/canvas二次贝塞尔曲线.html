@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>二次贝塞尔曲线</title>
+  <script>
+     window.onload=function(){
+	        var canvas=document.getElementById('bsr');
+			var bsr=canvas.getContext('2d');
+            
+			bsr.strokeStyle='#00f';
+			bsr.lineWidth=2
+			bsr.beginPath();
+			bsr.moveTo(200,400);
+			bsr.lineTo(400,400);
+			bsr.stroke();
+			bsr.closePath();
+
+			bsr.beginPath();
+			bsr.moveTo(200,400);
+			bsr.lineTo(400,200);
+			bsr.stroke();
+			bsr.closePath();
+
+			bsr.beginPath();
+			bsr.moveTo(400,200);
+			bsr.lineTo(400,400);
+			bsr.stroke();
+			bsr.closePath();
+
+            bsr.strokeStyle='#f00';
+			bsr.lineWidth=5
+			bsr.beginPath();
+			bsr.moveTo(200,400);
+			bsr.quadraticCurveTo(400,200,400,400);
+			bsr.stroke();
+			bsr.closePath();
+
+			bsr.strokeStyle='#0f0';
+			bsr.lineWidth=5
+			bsr.beginPath();
+			bsr.moveTo(300,300);
+			bsr.lineTo(400,300);
+			bsr.stroke();
+			bsr.closePath();
+           
+		    bsr.beginPath();
+			bsr.font="20px 微软雅黑";
+		    bsr.fillStyle="red";
+			bsr.fillText("(200,400)",160,425);
+			bsr.closePath();
+
+			bsr.beginPath();
+			bsr.font="20px 微软雅黑";
+		    bsr.fillStyle="blue";
+			bsr.fillText("(400,200)",360,185);
+			bsr.closePath();
+
+			bsr.beginPath();
+			bsr.font="20px 微软雅黑";
+		    bsr.fillStyle="red";
+			bsr.fillText("(400,400)",360,425);
+			bsr.closePath();
+
+
+           bsr.beginPath();
+		   bsr.moveTo(20,20);
+		   bsr.lineTo(60,60);
+		   bsr.lineTo(80,40);
+		  bsr.stroke();
+		   bsr.closePath();
+		   
+
+
+	 }
+  </script>
+ </head>
+ <body>
+      <canvas id="bsr" width=500px height=500px;></canvas>
+ </body>
+</html>

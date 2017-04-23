@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>canvas正六边形绘制方法</title>
+		<meta charset='utf-8'>
+		<script>
+		    window.onload=function(){
+			    var a=new CanvDrawHexagon('canvas',250,250,50,true);
+				//a.hxgR=100;
+				//a.canvHexagonStroke();
+				a.hxgR=0
+				document.onclick=function(){
+				   var timer=null
+				   var b=0
+				   clearInterval(timer);
+				   timer=setInterval(function(){
+				    //b++
+					a.hxgR++;
+					if(a.hxgR>200){
+					    a.hxgR=200;
+						clearInterval(timer)
+					}
+					a.strokeColor='rgb('+a.hxgR+',0,0)';
+					a.canvHexagonStroke();
+				   },30)
+				}
+				
+			}
+			function CanvDrawHexagon(sCanvId,iPosX,iPosY,iHxgL,bTF){
+			    this.obj=document.getElementById(sCanvId);
+				this.cxt=this.obj.getContext('2d');
+				
+				this.posX=iPosX;
+				this.posY=iPosY;
+				this.hxgR=iHxgL;
+				this.btf=bTF
+				this.strokeColor='black';
+				
+			}
+			CanvDrawHexagon.prototype={
+			    canvHexagonStroke:function(){
+				    this.moveX=this.hxgR*Math.cos(0*Math.PI/180);
+				    this.moveY=this.hxgR*Math.sin(0*Math.PI/180);
+				    this.cxt.save();
+					this.cxt.translate(this.posX,this.posY);
+					this.cxt.strokeStyle=this.strokeColor;
+					if(this.btf)this.cxt.rotate(90*Math.PI/180);
+					this.cxt.beginPath();
+					this.cxt.moveTo(this.moveX,this.moveY);
+					for(var i=1;i<7;i++){
+					    this.lineX=this.hxgR*Math.cos((60*i)*Math.PI/180);
+						this.lineY=this.hxgR*Math.sin((60*i)*Math.PI/180)
+					    this.cxt.lineTo(this.lineX,this.lineY);
+					}
+					this.cxt.stroke();
+					this.cxt.closePath();
+					this.cxt.restore();
+				}
+			}
+		</script>
+		<style>
+		    #canvas{
+			    border:1px solid #000;
+			}
+		</style>
+	</head>
+	<body>
+	    <canvas id='canvas' height=500px width=500px></canvas>
+	</body>
+</html>

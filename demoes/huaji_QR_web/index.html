@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>qr</title>
+        <style>
+            #qr td{
+                background-size:cover;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="qr"></div>
+        <script src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+        <script src="//cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+        <script>
+            document.addEventListener("DOMSubtreeModified", function(e) {
+                if($('#qr table')[0]){
+                    $('#qr td').each(function(){
+                        if(this.style.backgroundColor=='rgb(0, 0, 0)'){
+                            this.style.backgroundImage='url(image/x30.gif)';
+                        }
+                    })
+                }
+            }, false);
+            $('#qr').qrcode({
+                render:'canvas',
+                height:'41',
+                width:'41',
+                text:'http://charten.ml'
+            });
+        </script>
+    </body>
+</html>

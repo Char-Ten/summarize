@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    <head>
+	    <meta charset='utf-8'/>
+		<meta name="viewport" content="height=device-height,width=device-width,user-scalable=no"/>
+		<title>canvas touch</title>
+		<style>
+		    body{
+			    height:2000px;
+			}
+		    #div1{
+			    height:100px;
+				width:100px;
+				background:#f00;
+				position:absolute;
+				left:0px;
+				top:0px;
+			}
+		</style>
+		<script>
+		    window.onload=function(){
+			     
+			    var oDiv=document.getElementById('div1');
+				oDiv.ontouchstart=function(){
+				    this.style.background='#0af';
+					var _this=this;
+					this.ontouchmove=function(e){
+					    var e=e||event;
+						e.preventDefault();
+						var x=e.touches[0].pageX//-_this.offsetLeft;
+						var y=e.touches[0].pageY//-_this.offsetTop;
+						_this.style.left=x+'px';
+						_this.style.top=y+'px';
+					}
+					this.ontouchend=function(){
+					    _this.style.background='#f00';
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+	    <div id='div1'></div>
+	</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+    <head>
+	    <meta charset="utf-8"/>
+		<title>JS_碰撞运动</title>
+		<style>
+		    #div{height:100px;width:100px;position:absolute;background:red;border-radius:50px;z-index:1}
+			div{height:10px;width:1px;background:#000;position:absolute}
+		</style>
+		<script>
+		    window.onload=function(){
+			    var oDiv=document.getElementById('div');
+				var lastX=0;
+				var lastY=0
+				oDiv.onmousedown=function(ev){
+				    var ev=ev||event;
+					var disX=ev.clientX-oDiv.offsetLeft;
+					var disY=ev.clientY-oDiv.offsetTop;
+					document.onmousemove=function(ev){
+					    var ev=ev||event;
+						var l=ev.clientX-disX
+						var t=ev.clientY-disY
+						oDiv.style.left=l+'px';
+					    oDiv.style.top=t+'px';
+						iSpeedX=l-lastX;
+						iSpeedY=t-lastY;
+						
+						lastX=l;
+						lastY=t;
+					}
+					document.onmouseup=function(){
+					    oDiv.onmouseup=document.onmousemove=null;
+						Pmovefn(oDiv);
+					}
+				}
+				
+				
+			}
+			var iSpeedX=0;
+		    var iSpeedY=0;
+			var iTanli=0.8
+			function Pmovefn(obj){
+			    
+				clearInterval(obj.timer);
+				obj.timer=setInterval(function(){
+				    iSpeedY++;
+				    obj.il=obj.offsetLeft+iSpeedX;
+					obj.it=obj.offsetTop+iSpeedY
+					if(obj.it>=document.documentElement.clientHeight-obj.offsetHeight){
+					    iSpeedY*=-iTanli;
+						obj.it=document.documentElement.clientHeight-obj.offsetHeight;
+					}
+					else if(obj.it<0){
+					    iSpeedY*=-iTanli;
+                        obj.it=0						
+					}
+					if(obj.il>=document.documentElement.clientWidth-obj.offsetWidth){
+					    iSpeedX*=-iTanli;
+						obj.il=document.documentElement.clientWidth-obj.offsetWidth;
+					}
+					else if(obj.il<0){
+					    iSpeedX*=-iTanli;
+						obj.il=0;
+					}
+					if(Math.abs(iSpeedY)<0.5&&obj.it==document.documentElement.clientHeight-obj.offsetHeight&&Math.abs(iSpeedX)<5){
+					    clearInterval(obj.timer)
+					}
+				    obj.style.left=obj.il+'px';
+					obj.style.top=obj.it+'px';
+					var oBox=document.createElement('div');
+					
+			        /*oBox.style.left=oDiv.il+50+'px';
+					oBox.style.top=oDiv.it+50+'px';
+					document.body.appendChild(oBox)*/
+				},30)
+			}
+		</script>
+	</head>
+	<body>
+	    <div id="div"></div> 
+	</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>canvas动态折线图</title>
+		<script>
+		window.onload=function(){
+		    var a=[0];
+			var b=new DrawtuRun('canvas',a);
+			var timer=null;
+			var c=0;
+			timer=setInterval(function(){
+			    b.cxt.clearRect(0,0,320,500);
+			    c=parseInt(Math.random()*100+5);
+				if(a.length<300)a.unshift(c);
+				else a.pop();
+				b.data=a;
+				b.dataL=a.length;
+				b.drawData();
+				b.drawBox();
+				//document.getElementById('div1').innerHTML=a;
+				
+			},30)
+			
+		}
+		function DrawtuRun(sCanvasId){
+		    this.canv=document.getElementById(sCanvasId);
+			this.cxt=this.canv.getContext('2d');
+			this.data=null
+			this.dataL=0;
+			this.fillColor=null;
+			
+		}
+		DrawtuRun.prototype={
+		    drawBox:function(){
+			    this.cxt.save();
+				this.cxt.translate(10,480);
+				this.cxt.strokeStyle='#fff'
+				this.cxt.beginPath();
+				this.cxt.moveTo(0,0);
+				this.cxt.lineTo(0,-400);
+				this.cxt.stroke();
+				this.cxt.closePath();
+				this.cxt.beginPath();
+				this.cxt.moveTo(0,0);
+				this.cxt.lineTo(300,0);
+				//this.cxt.fillRect(50,0,2,-100)
+				this.cxt.stroke();
+				this.cxt.closePath();
+				this.cxt.restore();
+			},
+			drawData:function(){
+			    this.cxt.save();
+				this.cxt.translate(10,480);
+				for(var i=0;i<this.dataL;i++){
+				    this.cxt.beginPath();
+					this.fillColor=this.cxt.createLinearGradient(0,0,0,-400);
+					this.fillColor.addColorStop(0,'#0af');
+					this.fillColor.addColorStop(0.8,'#f00');
+					this.fillColor.addColorStop(1,'#fff');
+					this.cxt.fillStyle=this.fillColor;
+					this.cxt.fillRect(i,0,1,-this.data[i]*4);
+					this.cxt.closePath();
+				}
+				this.cxt.restore(); 
+			}
+		}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas" height=500px width=320px style="background:#000"></canvas>
+		<div id="div1"></div>
+	</body>
+</html>

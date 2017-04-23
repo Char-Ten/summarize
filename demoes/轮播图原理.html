@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>轮播图demo</title>
+		<style>
+			div{
+				position:relative;
+				width:400px;
+				height:300px;
+				margin:5px 400px;
+				border:1px solid #aaa;
+				/*删掉overflow 直接看实际效果*/
+				overflow: hidden;
+				background:#f5f5f5;
+			}
+			div img{
+				position:absolute;
+				top:0;
+				left:0;
+				width:100%;
+				height:100%;
+			}
+			.up{
+				left:-100%;
+			}
+			.down{
+				left:100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='box'>
+			<img id="A" class="up" title="这是上一张"/>
+			<img id="B" class="now" title="这是当前"/>
+			<img id="C"class="down" title="这是下一张"/>
+		</div>
+		<input id="prev" type="button" value="上一张"/>
+		<input id="next" type="button" value="下一张"/>
+		<script type="text/javascript">
+			window.onload=function(){
+				/*放图片的数组,用颜色代替*/
+				var aImage=['#f55','#55f','#5f5','#f5f','#ff5','#5ff'];
+
+				/*获取*/
+				var oA=document.getElementById('A');
+				var oB=document.getElementById('B');
+				var oC=document.getElementById('C');
+				var oP=document.getElementById('prev');
+				var oN=document.getElementById('next');
+
+				/*暂存变量*/
+				var tamp=1;
+				var timer;
+				var bool=true;
+				/*初始化*/
+				/**如果是图片的话，则是oA.setAttribute('src',aImage[tamp-1])*/
+				beginSet()
+				function beginSet(){
+					oA.style.background=aImage[tamp-1<0?tamp=aImage.legnth-1:tamp-1];
+					oB.style.background=aImage[tamp];
+					oC.style.background=aImage[tamp+1<aImage.legnth-1?tamp=0:tamp+1];
+				}
+				
+				/*设置运动*/
+				function move(type){
+					clearInterval(timer);
+					/*运动处理：isFin:判断条件，speed运动速度*/
+					function deal(isFin,speed){
+						oA.style.left=oA.offsetLeft+speed+'px';
+						oB.style.left=oB.offsetLeft+speed+'px';
+						oC.style.left=oC.offsetLeft+speed+'px';
+						if(isFin){
+							beginSet();
+							oB.style.left=0+'px';
+							oA.style.left='-100%';
+							oC.style.left='100%';
+							bool=true;
+							clearInterval(timer);
+						}
+					}
+					if(type=='-'){
+						tamp-=1;
+						if(tamp<0)tamp=aImage.length-1;//防止越界
+						timer=setInterval(function(){
+							deal(oA.offsetLeft>0,2);
+						},30)
+						return 
+					}
+					if(type=='+'){
+						tamp+=1;
+						if(tamp>aImage.length-1)tamp=0;//防止越界
+						timer=setInterval(function(){
+							deal(oC.offsetLeft<0,-2);
+						},30);
+					}
+
+				}
+
+				/*事件发生*/
+				/**上一张*/
+				oP.onclick=function(){
+					if(bool){
+						bool=false;
+						move('-')	
+					}
+				}
+
+				/**下一张*/
+				oN.onclick=function(){
+					if(bool){
+						bool=false;
+						move('+')
+					}
+				}
+
+			}
+		</script>
+	</body>
+</html>

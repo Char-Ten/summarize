@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name='viewport' content="height=device-height,initial-scale=1.0" />
+		<style>
+			*{margin:0;padding:0}
+			body{font-size: 16px;}/*可用媒体查询改变字体*/
+			div{
+				text-align: center;
+				line-height: 0.1rem;
+				width:50%;
+			}
+			.height-1{
+				height:0.1rem;
+				background:#f55;
+			}
+			.height-2{
+				height:0.2rem;
+				background:#55f;
+			}
+			.height-3{
+				height:0.3rem;
+				background:#5f5;
+			}
+			.height-4{
+				height:0.4rem;
+				background:#ff5;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			document.getElementsByTagName('html')[0].setAttribute('style','font-size:'+document.body.scrollHeight+'px');
+		</script>
+		<div class="height-1">1</div>
+		<div class="height-2">2</div>
+		<div class="height-3">3</div>
+		<div class="height-4">4</div>
+	</body>
+</html>

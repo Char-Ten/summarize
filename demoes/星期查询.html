@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			input{width:40px;text-align: right;}
+		</style>
+		<script>
+			window.onload=function(){
+			 	/*var myTime=new Date();
+			 	var iYear=myTime.getFullYear();
+			 	var iMonth=myTime.getMonth();
+			 	var iDate=myTime.getDate();
+			 	*/
+			 	
+			 	//数据准备
+			 	var oYear=document.getElementById('oYear');
+			 	var oMonth=document.getElementById('oMonth');
+			 	var oDate=document.getElementById('oDate');
+			 	var oWeek= document.getElementById('oWeek');
+			 	var oIs=document.getElementById('is')
+			 	var aWeek=['周日','周一','周二','周三','周四','周五','周六','周日'];
+			 	
+			 	//设置月天数
+			 	function getMonthDay(year,month){
+			 	     var days=[31,28,31,30,31,30,31,31,30,31,30,31];
+			 	     if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0))days[1]=29;
+			 	     return days[month-1];
+			 	}
+			 	//点击“是”时 计算并发生事件
+			 	oIs.onclick=function(){
+			 	var iYear=oYear.value;
+			 	var iMonth=oMonth.value;
+			 	var iDate=oDate.value;
+			 	
+			 	
+			 	var iDays=getMonthDay(iYear,iMonth)
+			 	if(iYear=='')alert("喂，年份呢？╰(￣▽￣)╭");
+			 	else if(iDate=='')alert("日期！日期！日期没填呐(ﾉ*･ω･)ﾉ");
+			 	else if(iDate>iDays||iDate<1)alert(iYear+"年"+iMonth+"月有"+iDate+"天？你TM在逗我？");
+			 	else if(iYear<1583)alert("1583年之前的我们算不出来啦~~");
+			 	else{
+			 		 var y=parseInt(iYear);
+			         var m=parseInt(iMonth);
+			         var d=parseInt(iDate);
+			         if(m==1){
+			         	y=y-1;
+			         	m=13;
+			         }
+			         else if(m==2){
+			         	y=y-1;
+			         	m=14;
+			         }
+			         var t=parseInt(y%100);
+			         var c=(y-t)/100;
+			         y=t;
+			         var w=y+parseInt(y/4)+parseInt(c/4)-2*c+parseInt(26*(m+1)/10)+d-1;
+			         if(w<0)w=-w;
+			         var sum=parseInt(w%7);
+			         oWeek.innerHTML+=c+' '+y+' '+m+' '+d+", "+w+' '+sum+' '+'<br/>'+aWeek[sum]+'<br/>';
+			       
+			      }
+			    }
+			 
+			 }
+		</script>
+	</head>
+
+	<body>
+		<div>
+			<input type="text" id="oYear" value='1231'/>年
+			<select id="oMonth">
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+				<option>6</option>
+				<option>7</option>
+				<option>8</option>
+				<option>9</option>
+				<option>10</option>
+				<option>11</option>
+				<option>12</option>
+			</select>月
+			<input type="text" id="oDate" />日
+			<br /> <input type="button" name="is" id="is" value="是" />
+			<p id="oWeek"></p>
+		</div>
+	</body>
+
+</html>

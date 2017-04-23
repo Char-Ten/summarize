@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>SVG with js</title>
+		<meta charset='utf-8'/>
+		<style>
+		    #box{
+			    height:500px;
+				width:500px;
+				background:#eee;
+			}
+		</style>
+		<script>
+		    window.onload=function(){
+				var father=document.getElementById('box');
+				var svg=SVG_Draw(father,'svg',{
+				    "height":'100%',
+					"width":'100%',
+					'version':'1.1',
+				});
+				var rect=SVG_Draw(svg,'rect',{
+				    "height":'100px',
+					"width":'100px',
+					"style":{
+					    "fill":'#0af',
+						"stroke-width":'5',
+						"stroke":'#af0',
+						"x":'200px',
+						"y":'100px',
+						
+					},
+				})
+				SVG_Draw(svg,'polygon',{
+				    "points":''
+					"style":{
+					    "fill":'#0af',
+						"stroke-width":'5',
+						"stroke":'#af0',
+						"x":'400px',
+						"y":'300px',
+						
+					},
+				})
+			}
+			function SVG_setStyle(obj,json){
+			    for(var attr in json){
+				    if(attr=='style'){
+					    var str='';
+						for(var i in json[attr]){
+						    str+=';'+i+':'+json.style[i];
+						}
+						obj.setAttribute('style',str);
+					}
+				    else obj.setAttribute(attr,json[attr]);
+				}       
+			}
+			function SVG_Draw(father,tag,json){
+			    var ns='http://www.w3.org/2000/svg';
+				var obj=document.createElementNS(ns,tag);
+				father.appendChild(obj);
+				obj.setAttribute('xmlns',ns);
+				SVG_setStyle(obj,json);
+				return obj;
+			}
+		</script>
+	</head>
+	<body>
+	    <div id='box'>
+		    
+		</div>
+	</body>
+</html>

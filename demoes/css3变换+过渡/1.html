@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>标题</title>
+    <link rel="stylesheet" href="1.css" />
+</head>
+
+<body>
+    <div class="m-pg">
+
+        <section class="m-mn f-anmt">
+            <div class="g-md z-tr-0 f-anmt">1</div>
+            <div class="g-md z-tr-1 f-anmt">2</div>
+            <div class="g-md z-tr-2 f-anmt">3</div>
+            <div class="g-md z-tr-3 f-anmt">4</div>
+        </section>
+        <button>button</button>
+    </div>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        var btn = $('button');
+        var a = [0, 1, 2, 3];
+        btn.click(function() {
+            a.forEach(function(e) {
+                $('.m-mn .z-tr-' + e).removeClass('z-tr-' + e);
+            });
+            re();
+            $('.m-mn .g-md').each(function(i) {
+                $(this).addClass('z-tr-' + a[i]);
+            })
+        });
+
+        function re() {
+            a.unshift(a[a.length - 1]);
+            a.splice(a.length - 1, 1);
+        }
+
+        function set() {
+            i
+            index
+            i + length - 1 - i
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>location测试2</title>
+		<meta charset='utf-8' />
+		<script>
+		    window.onload=function(){
+			    var json={
+				    name:'ct',
+					age:'20',
+					phone:'18819462726',
+					QQ:'645070346',
+					email:'645070346@qq.com',
+					id:'1',
+					word:'{afdagda}'
+				}
+				function send(url,json){
+				    var str='';
+					for(var atr in json){
+					    str+=atr+'='+json[atr]+'&';
+					}
+					return url+='?'+str;
+				}
+				document.getElementsByTagName('input')[0].onclick=function(){
+				    window.open(send('1.html',json));
+				}
+				alert(JSON.stringify(json))
+			}
+		</script>
+	</head>
+	<body>
+		<input type='button' value='GO'/><br/>
+		json={<br/>
+				    name:'ct',<br/>
+					age:'20',<br/>
+					phone:'18819462726',<br/>
+					QQ:'645070346',<br/>
+					email:'645070346@qq.com',<br/>
+					id:'1',<br/>
+					word:'{afdagda}'<br/>
+				}<br/>
+	</body>
+</html>

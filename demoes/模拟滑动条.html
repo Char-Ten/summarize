@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>模拟滑动条</title>
+<style>
+#div1{width:2px;height:500px;background:#0af;position:relative}
+#div2{width:20px;height:50px;background:#0af;position:absolute;left:-10px;}
+#div3{width:1000px;height:400px;background:#090;position:absolute;top:0px;left:50px;}
+</style>
+<script src="yixiehs.js"></script>
+<script>
+window.onload=function(){
+	var oDiv1=document.getElementById('div1');
+	var oDiv2=document.getElementById('div2');
+	
+	Slider(oDiv2,oDiv1,700)
+	
+	}
+function Slider(obj,Faobj,h){
+	    obj.onmousedown=function(ev){
+		var ev= ev||event;
+		
+		var disX=ev.clientX-this.offsetLeft;
+		var disY=ev.clientY-this.offsetTop;//鼠标位置-对象离窗口距离=鼠标到对象边框距离
+		if(obj.setCapture){obj.setCapture();}//setCapture:鼠标捕获，不管鼠标事件在哪里发生，仅作用于当前对象；
+		document.onmousemove=function(ev){
+			var ev=ev||event;
+			var L=ev.clientX-disX;
+			var T=ev.clientY-disY;//鼠标位置-鼠标到对象边框距离=对象位置
+		
+			if(T<Faobj.offsetTop){T=Faobj.offsetTop;}else if(T>Faobj.offsetTop+Faobj.offsetHeight-obj.offsetHeight){T=Faobj.offsetTop+Faobj.offsetHeight-obj.offsetHeight}//拖拽限制（高度）
+			obj.style.top=T+'px';
+			
+			var H=((obj.offsetTop-Faobj.offsetTop)/Faobj.offsetHeight)*h;
+			
+		    var oDiv3=document.getElementById('div3');
+		    oDiv3.style.top=H+'px';
+			
+		    
+			
+			}
+		document.onmouseup=function(){
+			obj.onmouseup=document.onmousemove=null;
+			if(obj.releaseCapture)obj.releaseCapture();}//releaseCapture:释放鼠标捕获事件。
+		return false;
+	}
+}//鼠标拖拽事件	
+
+</script>
+</head>
+
+<body>
+<div id="div1">
+  <div id="div2"></div>
+</div>     
+<div id="div3"></div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>文件api</title>
+		<meta charset='utf-8'/>
+		<script>
+		    window.onload=function(){
+			    document.getElementById('btn').onclick=function(){
+				    ShowFiles();
+				}
+			}
+			function ShowFiles(){
+				var afs=document.getElementById('file').files;
+				var oul=document.getElementById('list');
+				/*for(var i in afs){
+				    var obj=document.createElement('li');
+					obj.innerHTML=afs[i].name;
+					oul.appendChild(obj);
+					console.log(afs[i]);
+				}
+				    *结果为 length,item;
+					*说明afs获取到的不是一个包含所有文件的数组
+                    而是一个形如{length:0;item:function(){};0:undefined;}的对象（undefined是当没有选取文件的时候0的赋值）；
+                    所以获取fileList的时候要用 for(var i=0;i<afs.length;i++){}去获取单个对象					
+				   */
+				for(var i=0;i<afs.length;i++){
+				    var obj=document.createElement('li');
+					obj.innerHTML=afs[i].name;
+					oul.appendChild(obj);
+					console.log(afs[i]);
+				}
+			}
+		</script>
+	</head>
+	<body>
+	    <input id='file' type='file' multiple accept="image/gif" />
+		<input id='btn' type='button' value='look'/>
+		<ul id='list'>
+		</ul>
+	</body>
+</html>

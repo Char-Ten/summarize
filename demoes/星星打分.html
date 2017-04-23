@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>评分</title>
+<style>
+#pingfeng{}
+#OK{width:100px;height:30px; text-align:center; line-height:30px;background:#0F0;color:#FFF;display: none;}
+li{height:10px;width:10px;border:2px #000 solid;position: absolute;}
+ul{list-style:none; background:#fff;width:90px;height:50px;position: relative; }
+</style>
+<script>
+window.onload=function(){
+	var oUl=document.getElementById('star');
+	var aLi=oUl.getElementsByTagName('li');
+	var oOk=document.getElementById('OK');
+	//寻找元素
+	
+	var arr=['#999','yellow','red'];//定义颜色
+	var Lali=aLi.length;
+	var Larr=arr.length;//确定数组长度
+	
+	Lali=5;
+	for(var i=0;i<5;i++){
+	oUl.innerHTML+='<li></li>'	
+	aLi[i].style.left=30+i*20+'px';
+		}//初始化
+	var kg;
+    for(var i=0;i<5;i++){
+		aLi[i].no=i;
+		aLi[i].onmouseover=function(){
+			for(var j=0;j<5;j++){
+				if(j<=this.no){
+					aLi[j].style.background=arr[parseInt(this.no/2)]
+					}
+				else{aLi[j].style.background='';}
+				oOk.style.display='none';
+				kg=true;
+				}
+			}
+		aLi[i].onclick=function(){
+			oOk.style.display='block';
+		    kg=false;
+			}
+	}//鼠标移入事件
+	
+	oUl.onmouseout=function(){
+		for(var i=0;i<5;i++){
+			if(kg){
+			aLi[i].style.background=''	
+			}	
+		}
+	}
+	oOk.onclick=function(){
+		for(var i=0;i<5;i++){
+			aLi[i].style.background=''	
+		}
+		alert('评分已提交')
+	}
+}
+</script>
+</head>
+
+<body>
+<div id="pingfeng">
+   <ul id="star">
+   滑动评价：
+   </ul>
+    <input type="button" value="提交评分" id="OK" />  
+</div>
+</body>
+</html>

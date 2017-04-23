@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    <head>
+	    <title></title>
+		<meta charset='utf-8'/>
+		<script>
+		    window.onload=function(){
+			    var a=document.getElementById('canv');
+				var cxt=a.getContext('2d');
+				function draw(x,y){
+				    var r=parseInt(Math.random()*255);
+					var g=parseInt(Math.random()*255)
+					var b=parseInt(Math.random()*255)
+					cxt.save();
+				    cxt.translate(x,y);
+					cxt.strokeStyle='rgb('+b+','+g+','+r+')';
+					cxt.fillStyle='rgb('+r+','+g+','+b+')';
+					cxt.lineWidth=5;
+				    cxt.beginPath();
+				    cxt.moveTo(Math.cos(0*Math.PI/180)*50,Math.sin(0*Math.PI/180)*50);
+				    for(var i=1;i<7;i++){
+				        cxt.lineTo(Math.cos(i*60*Math.PI/180)*50,Math.sin(i*60*Math.PI/180)*50);
+				    }
+					cxt.fill();
+					cxt.stroke();
+				    cxt.closePath();
+				    cxt.restore();
+				}
+				/*draw(250,250)
+				draw(250-Math.cos(30*Math.PI/180)*120*Math.cos(30*Math.PI/180),250-Math.sin(30*Math.PI/180)*120*Math.cos(30*Math.PI/180));
+				draw(250-Math.cos(90*Math.PI/180)*120*Math.cos(30*Math.PI/180),250-Math.sin(90*Math.PI/180)*120*Math.cos(30*Math.PI/180));*/
+				for(var i=0;i<25;i++){
+				   var x=(i%5)*2*50*Math.sin(60*Math.PI/180);
+				   var y=parseInt(i/5)*2*50*Math.sin(60*Math.PI/180)-x/2;
+				   x=(i%5)*75
+				   draw(x,y)
+				}
+				
+			}
+		</script>
+	</head>
+	<body>
+	    <canvas id='canv' width=1000 height=500px></canvas>
+	</body>
+</html>

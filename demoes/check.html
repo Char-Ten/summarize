@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			input {}
+			
+			.lbl-bg {
+				display: block;
+				width: 40px;
+				height: 20px;
+				border: 1px solid #aaa;
+				border-radius: 10px;
+			}
+			
+			.lbl-btn {
+				background: #fff;
+				width: 20px;
+				height: 20px;
+				border: 1px solid #aaa;
+				border-radius: 10px;
+				float: left;
+			}
+			.lbl-btn-open {
+				float: right;
+			}
+			
+			.active {
+				background: #aef
+			}
+		</style>
+		<script>
+			window.onload = function() {
+				var oLbl = {}
+				oLbl.oBg = document.querySelectorAll('label.lbl-bg')[0];
+				oLbl.oBtn = document.querySelectorAll('div.lbl-btn')[0];
+				var oCheckBox = document.getElementById("a");
+				oLbl.oBg.onclick = function() {
+					if (oCheckBox.checked) {
+						this.classList.remove('active');
+						oLbl.oBtn.classList.remove('lbl-btn-open');
+					} else {
+						this.classList.add('active');
+						oLbl.oBtn.classList.add('lbl-btn-open');
+					}
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<label for="a" class="lbl-bg">
+			<div class="lbl-btn lbl-btn-close"></div>
+		</label>
+		<input type="checkbox" id='a' />
+	</body>
+
+</html>

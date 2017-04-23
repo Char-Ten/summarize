@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>鼠标滚轮demo</title>
+		<style>
+			#div{
+				height:100px;
+				width:100px;
+				background:red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='div'></div>
+		<script>
+			var div=document.getElementById('div');
+			mousewheel(div,function(e,bool){
+				if(bool){
+					this.style.height=div.offsetHeight+10+'px';
+				}else{
+					this.style.height=div.offsetHeight-10+'px';
+				}
+			})
+			
+			function mousewheel(obj,callback){
+				var bool;
+				obj.onmousewheel=function(e){
+					var e=e||event;
+					
+					e.wheelDelta>0?bool=false:bool=true;
+					callback.apply(obj,[e,bool]);
+					return false;
+				}
+					
+				if(obj.addEventListener){
+					obj.addEventListener('DOMMouseScroll',function(e){
+						var e=e||event;
+						e.preventDefault();
+						
+						e.detail>0?bool=true:bool=false;
+						callback.apply(obj,[e,bool]);
+					},false)
+				}
+			}
+		</script>
+	</body>
+</html>

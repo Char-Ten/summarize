@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>倒计时</title>
+<script>
+window.onload=function(){
+	SDjshi(document.body,360)
+	}
+function SDjshi(obj,s){
+	var time=null;
+	time=setInterval(function(){
+	var str='';
+    s-=1 
+	if(s>=0){wriHtml();}else clearInterval(time);	
+	},1000);wriHtml();
+	function wriHtml(){
+	str=Math.floor(s/864000)+'天'+Math.floor(s%86400/3600)+'时'+Math.floor(s%86400%3600/60)+'分'+s%60+'秒';
+	obj.innerHTML=str;}
+	}
+</script>
+</head>
+
+<body>
+</body>
+</html>

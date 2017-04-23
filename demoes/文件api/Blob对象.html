@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>文件api</title>
+		<meta charset='utf-8'/>
+		<script>
+		    window.onload=function(){
+			    document.getElementById('btn').onclick=function(){
+				    ShowFileData();
+				}
+			}
+			function ShowFilesAndType(){
+				var afs=document.getElementById('file').files;
+				var oul=document.getElementById('list');
+				for(var i=0;i<afs.length;i++){
+				    var obj=document.createElement('li');
+					obj.innerHTML='文件名：'+afs[i].name+';</br>字节长度：'+afs[i].size/1024+'kb;</br>文件类型：'+afs[i].type;;
+					oul.appendChild(obj);
+					console.log(afs[i]);
+				}
+			}
+			function ShowFileData(){
+			    var afs=document.getElementById('file').files;
+				var obj=document.createElement('p');
+				obj.innerHTML=afs[0].slice();
+				document.body.appendChild(obj);
+			}
+			/*
+			Blob接口清单：
+			    属性：{
+				    size:Blob对象的字节长度，若字节数为0，返回0
+                  	type：Blob对象的MIME类型，若类型未知，返回空字符串''			   
+				}，
+				方法：{
+				    slice():实现文件的切割，并返回一个新的Blob对象；
+				}
+			
+			*/
+		</script>
+	</head>
+	<body>
+	    <input id='file' type='file' multiple accept="image/*" />
+		<input id='btn' type='button' value='look'/>
+		<ul id='list'>
+		</ul>
+	</body>
+</html>
