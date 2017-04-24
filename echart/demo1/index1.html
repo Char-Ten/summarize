@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>echart</title>
+    <style>
+        #test {
+            width: 600px;
+            height: 400px;
+            background: #f5f5f5
+        }
+    </style>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script src="http://cdn.bootcss.com/echarts/3.5.3/echarts.min.js"></script>
+    <script>
+        (function() {
+            var test = document.getElementById('test');
+            var myChart = echarts.init(test);
+            var options = {
+                title: {
+                    text: '测试'
+                },
+                tooltip: {},
+                legend: {
+                    data: ['测试1', '测试2']
+                },
+                xAxis: {
+                    data: ['a', 'b', 'c', 'd']
+                },
+                yAxis: {},
+                series: [{
+                    name: '测试1',
+                    type: 'bar',
+                    data: [6, 5, 22, 54]
+                }, {
+                    name: '测试2',
+                    type: 'bar',
+                    data: [233, 666, 888, 777]
+                }]
+            }
+            myChart.setOption(options)
+        })();
+    </script>
+</body>
+
+</html>
