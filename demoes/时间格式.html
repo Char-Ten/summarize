@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+
+<body>
+    <input type="date" id="datePicker" />
+    <p id="result"></p>
+    <script>
+        var picker = document.getElementById('datePicker');
+        var result = document.getElementById('result');
+        var timeUnit = ['秒', '分', '时', '天', '月', '年'];
+        var unitLength = [
+            1000,
+            60 * 1000,
+            60 * 60 * 1000,
+            24 * 60 * 60 * 1000,
+            30 * 24 * 60 * 60 * 1000,
+            12 * 30 * 24 * 60 * 60 * 1000
+        ]
+
+        picker.addEventListener('change', eventPickerChange);
+
+        function eventPickerChange() {
+            var selectedTimeStamp = new Date(`${this.value} 00:00`).getTime();
+            var nowTimeStamp = new Date().getTime();
+            var timeStampLength = nowTimeStamp - selectedTimeStamp;
+            var unitObj = _BackUnit(timeStampLength);
+            var i = unitObj.index
+            result.innerHTML = (Math.round(timeStampLength / unitLength[i])).toString() + unitObj.unit + '前';
+            // result.innerHTML = _BackParseTime(selectedTimeStamp)
+        }
+
+        function _BackUnit(len) {
+            var index = 0;
+            for (let i = 0; i < unitLength.length; i++) {
+                if (len < unitLength[i]) {
+                    index = i - 1;
+                    if (index < 0) {
+                        index = 0;
+                    }
+                    break;
+                }
+            }
+            return {
+                unit: timeUnit[index],
+                index: index
+            }
+        }
+
+        function _BackParseTime(timeStamp) {
+            var date = new Date(timeStamp);
+            var a = [
+                `${date.getFullYear()}年`,
+                `${date.getMonth()+1}月`,
+                `${date.getDate()}日`,
+                `${date.getHours()}时`,
+                `${date.getMinutes()}分`,
+                `${date.getSeconds()}秒`
+            ];
+            return a.join('');
+        }
+    </script>
+</body>
+
+</html>
