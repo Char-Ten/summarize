@@ -54,7 +54,7 @@
 
 ### css3动画
 1. **transform**
-   ```css
+```css
   .class{
     background:red;
     transform:all 0.5s;
@@ -62,12 +62,11 @@
   .class:hover{
     background:blue;
   }
-  ```
+```
 transform的正确用法
 
 2. **@keyFrames**
-   ```css
-  
+```css
   .class{
     animation:animat 5s;
   }
@@ -79,12 +78,12 @@ transform的正确用法
       background:blue;
     }
   }
-  ```
+```
 css3的动画，没什么可说的
 
 ### 面向对象
   * **封装**
-    ```javascript
+```javascript
 
     function setName(name){
       this.name=name;
@@ -95,9 +94,9 @@ css3的动画，没什么可说的
 
     //调用
     new setName('CharTen').sayName();
-    ```
+```
   * **继承**
-    ```javascript
+```javascript
 
     function setSex(name,sex){
       //setName.apply(this,[name]);
@@ -113,12 +112,12 @@ css3的动画，没什么可说的
     var a=new setSex('CharTen','♂');
     a.sayName();
     a.saySex();
-    ```
+```
   继承方面不大熟悉。。。有错误的请指出
 
 ### ajax的封装
   * **参数**  
-  ```javascript
+```javascript
 
     //按照jq的封装样子，我们希望这样调用：
     ajax({
@@ -133,9 +132,9 @@ css3的动画，没什么可说的
         console.log(data);
       }
     })
-  ```
+```
   * **处理**
-  ```javascript
+```javascript
 
     function ajax(json){
       var xhr=new XMLHttpRequest();//这里不做对ie的兼容
@@ -174,17 +173,17 @@ css3的动画，没什么可说的
         }
       }
     }
-  ```
+```
 
 ### 数组的复制
 * 浅复制
- ```javascript
+```javascript
      var arr=[1,2,3,4,5,6];
      var copyArray=arr.concat();
- ```
+```
 
 * 深复制
- ```javascript
+```javascript
      Array.prototype.deepcopy=function(){
          var copy=[];
          a(this,copy);
@@ -202,7 +201,7 @@ css3的动画，没什么可说的
      
      var arr=[1,2,3,4,5,6]
      var copyArray=arr.deepcopy();
- ```
+```
 
 
 ### 页面优化
@@ -216,11 +215,11 @@ css3的动画，没什么可说的
   4. 样式改变通过修改元素class类名，利用css一次性修改
   5. 隐藏节点不会触发浏览器重绘
   6. 缓存节点  
-      ```javascript
+```javascript
 
         var dom=document.getElementById('id');
         dom.style.left=dom.offsetLeft+10+'px';
-      ```
+```
 + **cdn**
   1. 压缩代码，创建cdn链接
   2. 将页面图标做成雪碧图
@@ -229,7 +228,7 @@ css3的动画，没什么可说的
   1. 学会异步编程，ajax用异步操作
   2. 避免回调地狱（回调多了就变同步了
   3. 如果存在多个异步函数，要拿到所有异步处理完后的数据再进行处理的：
-  ```javascript
+```javascript
   /*回调标志*/
   var flag=new Array(3);
   var index=0;
@@ -266,7 +265,7 @@ css3的动画，没什么可说的
   })
 
   /*上面两个*/
-  ```
+```
 + **请求**  
   1. 图片懒加载化
   2. 脚本放在页面底部
