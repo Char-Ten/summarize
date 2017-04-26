@@ -13,20 +13,21 @@
       left:0;
       right:0;
     }
+    
   ```
- 常用于：一边定宽，另一边自适应，如给出头部空出一个20px的高，下面自适应。  
-2. **float**
+常用于：一边定宽，另一边自适应，如给出头部空出一个20px的高，下面自适应.
+ 2. **float**
   + **html:**
-   ```html
-  <div class="box">
+ ```html
+    <div class="box">
       <div class="lt">
           <div></div>
       </div>
       <div class="rt">
           <div></div>
       </div>
-  </div>
-  ```
+     </div>
+ ```
 
   + **css**
    ```css 
