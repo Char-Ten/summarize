@@ -4,7 +4,6 @@
 
 ### css布局方法
 1. **position**  
-   
    ```css
     .class{
       postion:absolute;/*绝对定位*/
@@ -13,10 +12,10 @@
       left:0;
       right:0;
     }
-    
-  ```
-常用于：一边定宽，另一边自适应，如给出头部空出一个20px的高，下面自适应.
- 2. **float**
+     
+   ```
+  常用于：一边定宽，另一边自适应，如给出头部空出一个20px的高，下面自适应.
+2. **float**
   + **html:**
  ```html
     <div class="box">
@@ -49,6 +48,7 @@
   }
   ```
  标签嵌套，防止左右栏挤出
+
 3. **display:box;**  
 又称弹性布局，[具体demo](https://github.com/Char-Ten/summarize/tree/master/box%E5%B8%83%E5%B1%80);
 
