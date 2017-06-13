@@ -52,28 +52,28 @@
         </div>
         
 
-        <script id="tooltipTpl"  type="text/x-template">
+        <template id="tooltipTpl" >
             <div class="tooltip">
                 <p class="tooltip__0">{0}</p>
                 <p class="tooltip__1">{1}</p>
             </div>
-        </script>
+        </template>
 
         <!--e-charts-->
-        <script id="chartTpl" type="text/x-template">
+        <template id="chartTpl" >
             <div id="chart"></div>
-        </script>
+        </template>
 
         <!--page-price-->
-        <script id="priceChartPageTpl" type="text/x-template">
+        <template id="priceChartPageTpl" >
             <div class="ct__lt">
                 <e-charts></e-charts>
                 <price-list></price-list>
             </div>
-        </script>
+        </template>
 
         <!--price-list-->
-        <script id="priceListTpl" type="text/x-template">
+        <template id="priceListTpl" >
             <div class="price-list">
                 <div class="price-mean">
                     <header 
@@ -106,10 +106,10 @@
                     <span class="price-item__value">{{handleFixed2(item)}}</span>
                 </div>
             </div>
-        </script>
+        </template>
 
         <!--page-market-->
-        <script id="marketPageTpl" type="text/x-template">
+        <template id="marketPageTpl">
             <table>
                 <thead>
                     <tr>
@@ -149,15 +149,15 @@
                     </tr>
                 </tbody>
             </table>
-        </script>
+        </template>
 
         <!--price-range-->
-        <script id="priceRangeTpl" type="text/x-template">
+        <template id="priceRangeTpl">
             <span class="hd__price-range cell">
                 <img class="hd__price-range__img" :src="backImage"/>
                 <span  class="hd__price-range" :style="{color:backColor}">{{backRange}}</span>
             </span>
-        </script>
+        </template>
 
         <script src="//cdn.bootcss.com/vue/2.3.3/vue.min.js"></script>
         <script src="./js/echarts.common.min.js"></script>
