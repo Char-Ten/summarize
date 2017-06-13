@@ -176,7 +176,7 @@ var opt={
         computed:{
             backSortList:function(){
                 return this.items.sort(function(a,b){
-                    return a<b
+                    return b-a
                 })
             },
             backMean:function(){
