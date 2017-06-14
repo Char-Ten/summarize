@@ -242,6 +242,7 @@
 
 ;
 (function() {
+    alert(2)
     var app = new Vue({
         el: '#app',
         data: {
