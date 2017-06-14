@@ -126,141 +126,145 @@
 //     }]
 
 // }
-;
-(function() {
-    // Vue.component('e-charts',{
-    //     template:'#chartTpl',
-    //     data:function(){
-    //         return {
-    //             opt:opt
-    //         }
-    //     },
-    //     mounted:function(){
-    //         var chart=echarts.init(document.getElementById('chart'))
-    //         chart.setOption(opt);
-    //     }
-    // });
-    alert(1);
-    Vue.component('page-price', {
-        template: '#priceChartPageTpl',
-        data: function() {
-            return {}
-        }
-    });
+try {
 
-    Vue.component('page-market', {
-        template: '#marketPageTpl',
-        data: function() {
-            return {
-                th: ['市场', '价格', '幅度']
-            }
-        }
-    });
 
-    Vue.component('price-list', {
-        template: '#priceListTpl',
-        data: function() {
-            var items = [];
-            for (var i = 0; i < 10; i++) {
-                items.push(Math.random() * 2);
-                //items.push(1)
+    ;
+    (function() {
+        // Vue.component('e-charts',{
+        //     template:'#chartTpl',
+        //     data:function(){
+        //         return {
+        //             opt:opt
+        //         }
+        //     },
+        //     mounted:function(){
+        //         var chart=echarts.init(document.getElementById('chart'))
+        //         chart.setOption(opt);
+        //     }
+        // });
+        Vue.component('page-price', {
+            template: '#priceChartPageTpl',
+            data: function() {
+                return {}
             }
-            return {
-                items: items
-            }
-        },
-        props: ['data'],
-        computed: {
-            backSortList: function() {
-                return this.items.sort(function(a, b) {
-                    return b - a
-                })
-            },
-            backMean: function() {
-                var all = 0;
-                var len = this.backSortList.length;
-                for (var i = 0; i < len; i++) {
-                    all += this.backSortList[i]
-                }
-                return (all / len)
-            },
-            backLineLeft: function() {
-                return { left: this.backMean * 100 / this.backSortList[0] + '%' }
-            },
-            backPanleLeft: function() {
-                var left = this.backMean * 100 / this.backSortList[0]
+        });
+
+        Vue.component('page-market', {
+            template: '#marketPageTpl',
+            data: function() {
                 return {
-                    left: left + '%',
-                    transform: 'translateX(-' + (left - 6) + '%)'
+                    th: ['市场', '价格', '幅度']
                 }
             }
-        },
-        methods: {
-            backBarWidth: function(item) {
-                var max = this.backSortList[0];
-                return { width: item * 100 / max + '%' }
-            },
-            backOutMeanWidth: function(item) {
-                var out = item - this.backMean;
-                if (out < 0) {
-                    return { width: 0 }
+        });
+
+        Vue.component('price-list', {
+            template: '#priceListTpl',
+            data: function() {
+                var items = [];
+                for (var i = 0; i < 10; i++) {
+                    items.push(Math.random() * 2);
+                    //items.push(1)
                 }
-                var max = this.backSortList[0];
-                return { width: out * 100 / item + '%' }
+                return {
+                    items: items
+                }
             },
-            handleFixed2: function(item) {
-                return item.toFixed(2)
+            props: ['data'],
+            computed: {
+                backSortList: function() {
+                    return this.items.sort(function(a, b) {
+                        return b - a
+                    })
+                },
+                backMean: function() {
+                    var all = 0;
+                    var len = this.backSortList.length;
+                    for (var i = 0; i < len; i++) {
+                        all += this.backSortList[i]
+                    }
+                    return (all / len)
+                },
+                backLineLeft: function() {
+                    return { left: this.backMean * 100 / this.backSortList[0] + '%' }
+                },
+                backPanleLeft: function() {
+                    var left = this.backMean * 100 / this.backSortList[0]
+                    return {
+                        left: left + '%',
+                        transform: 'translateX(-' + (left - 6) + '%)'
+                    }
+                }
+            },
+            methods: {
+                backBarWidth: function(item) {
+                    var max = this.backSortList[0];
+                    return { width: item * 100 / max + '%' }
+                },
+                backOutMeanWidth: function(item) {
+                    var out = item - this.backMean;
+                    if (out < 0) {
+                        return { width: 0 }
+                    }
+                    var max = this.backSortList[0];
+                    return { width: out * 100 / item + '%' }
+                },
+                handleFixed2: function(item) {
+                    return item.toFixed(2)
+                }
             }
-        }
-    });
+        });
 
-    Vue.component('price-range', {
-        template: '#priceRangeTpl',
-        props: ['value', 'prevValue'],
-        computed: {
-            backRange: function() {
-                return this.value - this.prevValue;
-            },
-            backColor: function() {
-                if (this.backRange > 0) {
-                    return '#ff4470'
+        Vue.component('price-range', {
+            template: '#priceRangeTpl',
+            props: ['value', 'prevValue'],
+            computed: {
+                backRange: function() {
+                    return this.value - this.prevValue;
+                },
+                backColor: function() {
+                    if (this.backRange > 0) {
+                        return '#ff4470'
+                    }
+                    return '#36d2a0'
+                },
+                backImage: function() {
+                    if (this.backRange > 0) {
+                        return './img/range_up.png'
+                    }
+                    return './img/range_down.png'
                 }
-                return '#36d2a0'
-            },
-            backImage: function() {
-                if (this.backRange > 0) {
-                    return './img/range_up.png'
-                }
-                return './img/range_down.png'
             }
-        }
-    })
-})();
+        })
+    })();
 
 
 
 
-;
-(function() {
-    alert(2)
-    var app = new Vue({
-        el: '#app',
-        data: {
-            tabIndex: 0,
-            tabPage: ['page-price', 'page-market']
-        },
-        methods: {
-            backClass4TabItem(i) {
-                if (i === this.tabIndex) {
-                    return 'bd__tab-item--active'
+    ;
+    (function() {
+        alert(2)
+        var app = new Vue({
+            el: '#app',
+            data: {
+                tabIndex: 0,
+                tabPage: ['page-price', 'page-market']
+            },
+            methods: {
+                backClass4TabItem: function(i) {
+                    if (i === this.tabIndex) {
+                        return 'bd__tab-item--active'
+                    }
+                },
+                eventClickTabItem: function(i) {
+                    this.tabIndex = i;
                 }
             },
-            eventClickTabItem(i) {
-                this.tabIndex = i;
-            }
-        },
-        mounted: function() {
+            mounted: function() {}
+        })
+    })();
 
-        }
-    })
-})();
+} catch (err) {
+    alert(err)
+}
