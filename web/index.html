@@ -1,78 +1,69 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="renderer" content="webkit"/>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-        <title>价格趋势</title>
-        <script>
-            function px(num){
-                console.log(num*window.screen.width/750)
-            }
-        </script>
-        <link rel="stylesheet" href="./css/index.css"/>
-    </head>
-    <body>
-        <div id="app">
-            <header class="hd">
-                <h1 class="hd__title">小白菜</h1>
-                <div class="hd__loc cell">
-                    <div class="hd__loc-market">广州市江南西蔬菜批发市场</div>
-                    <span class="hd__loc-pos aside__font-sm">广州市海珠区</span>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>价格趋势</title>
+    <link rel="stylesheet" href="./css/index.css" />
+</head>
+
+<body>
+    <div id="app">
+        <header class="hd">
+            <h1 class="hd__title">小白菜</h1>
+            <div class="hd__loc cell">
+                <div class="hd__loc-market">广州市江南西蔬菜批发市场</div>
+                <span class="hd__loc-pos aside__font-sm">广州市海珠区</span>
+            </div>
+            <div class="cell hd__price">
+                <span class="hd__price-value">3.26元／斤</span>
+                <price-range value="5" prev-value="4"></price-range>
+                <div class="hd__price-time aside__font-sm">5月25日</div>
+            </div>
+        </header>
+        <section class="bd">
+            <header class="cell bd__tab">
+                <div :class="backClass4TabItem(0)" @click="eventClickTabItem(0)" class="bd__tab-item">
+                    价格趋势
                 </div>
-                <div class="cell hd__price">
-                    <span class="hd__price-value">3.26元／斤</span>
-                    <price-range value="5" prev-value="4"></price-range>
-                    <div class="hd__price-time aside__font-sm">5月25日</div>
+                <div :class="backClass4TabItem(1)" @click="eventClickTabItem(1)" class="bd__tab-item">
+                    附近市场
                 </div>
             </header>
-            <section class="bd">
-                <header class="cell bd__tab">
-                    <div 
-                        :class="backClass4TabItem(0)"
-                        @click="eventClickTabItem(0)"
-                        class="bd__tab-item">
-                        价格趋势
-                    </div>
-                    <div 
-                        :class="backClass4TabItem(1)"
-                        @click="eventClickTabItem(1)"
-                        class="bd__tab-item">
-                        附近市场
-                    </div>
-                </header>
-                <div class="ct">
-                    <component :is="tabPage[tabIndex]"></component>
-                </div>
-            </section>
-            <footer>
-            </footer>
-        </div>
-        
+            <div class="ct">
+                <component :is="tabPage[tabIndex]"></component>
+            </div>
+        </section>
+        <footer>
+        </footer>
+    </div>
 
-        <template id="tooltipTpl" >
+
+    <template id="tooltipTpl">
             <div class="tooltip">
                 <p class="tooltip__0">{0}</p>
                 <p class="tooltip__1">{1}</p>
             </div>
         </template>
 
-        <!--e-charts-->
-        <template id="chartTpl" >
+    <!--e-charts-->
+    <template id="chartTpl">
             <div id="chart"></div>
         </template>
 
-        <!--page-price-->
-        <template id="priceChartPageTpl" >
+    <!--page-price-->
+    <template id="priceChartPageTpl">
             <div class="ct__lt">
                 <e-charts></e-charts>
                 <price-list></price-list>
             </div>
         </template>
 
-        <!--price-list-->
-        <template id="priceListTpl" >
+    <!--price-list-->
+    <template id="priceListTpl">
             <div class="price-list">
                 <div class="price-mean">
                     <header 
@@ -107,8 +98,8 @@
             </div>
         </template>
 
-        <!--page-market-->
-        <template id="marketPageTpl">
+    <!--page-market-->
+    <template id="marketPageTpl">
             <table>
                 <thead>
                     <tr>
@@ -150,17 +141,17 @@
             </table>
         </template>
 
-        <!--price-range-->
-        <template id="priceRangeTpl">
+    <!--price-range-->
+    <template id="priceRangeTpl">
             <span class="hd__price-range cell">
                 <img class="hd__price-range__img" :src="backImage"/>
                 <span  class="hd__price-range" :style="{color:backColor}">{{backRange}}</span>
             </span>
         </template>
 
-        <script src="//cdn.bootcss.com/vue/2.0.0/vue.min.js"></script>
-        <!--<script src="./js/echarts.common.min.js"></script>-->
-        <script src="//cdn.bootcss.com/echarts/3.6.1/echarts.min.js"></script>
-        <script src="./js/index.js"></script>
-    </body>
+    <script src="//cdn.bootcss.com/vue/2.0.0/vue.min.js"></script>
+    <!--<script src="//cdn.bootcss.com/echarts/3.6.1/echarts.min.js"></script>-->
+    <script src="./js/index.js"></script>
+</body>
+
 </html>
