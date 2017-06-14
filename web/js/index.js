@@ -1,5 +1,3 @@
-/**echarts 图表 */
-
 var Eet = new Vue();
 var tooltipTpl = document.getElementById('tooltipTpl').innerHTML;
 var opt = {
@@ -127,7 +125,6 @@ var opt = {
         smooth: true,
         data: [10, 25, 15, 45, 55, 22, 33]
     }]
-
 }
 
 ;
@@ -161,6 +158,7 @@ var opt = {
         }
     });
 
+
     Vue.component('price-list', {
         template: '#priceListTpl',
         data: function() {
@@ -177,7 +175,7 @@ var opt = {
         computed: {
             backSortList: function() {
                 return this.items.sort(function(a, b) {
-                    return a < b
+                    return b - a
                 })
             },
             backMean: function() {
@@ -217,6 +215,7 @@ var opt = {
             }
         }
     });
+
 
     Vue.component('price-range', {
         template: '#priceRangeTpl',

@@ -8,11 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title>价格趋势</title>
-    <script>
-        function px(num) {
-            console.log(num * window.screen.width / 750)
-        }
-    </script>
     <link rel="stylesheet" href="./css/index.css" />
 </head>
 
@@ -139,8 +134,8 @@
     <!--price-range-->
     <script id="priceRangeTpl" type="text/x-template">
         <span class="hd__price-range cell">
-                <img class="hd__price-range__img" :src="backImage"/>
-                <span  class="hd__price-range" :style="{color:backColor}">{{backRange}}</span>
+            <img class="hd__price-range__img" :src="backImage"/>
+            <span  class="hd__price-range" :style="{color:backColor}">{{backRange}}</span>
         </span>
     </script>
 
