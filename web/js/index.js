@@ -81,6 +81,8 @@ var opt = {
         }
     },
     dataZoom: {
+        type: 'inside',
+        realtime: true,
         start: 0,
         end: 50
     },
