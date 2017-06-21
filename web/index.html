@@ -14,15 +14,15 @@
 <body>
     <div id="app">
         <header class="hd">
-            <h1 class="hd__title">小白菜</h1>
+            <h1 class="hd__title" v-text="pageData.crop">--</h1>
             <div class="hd__loc cell">
-                <div class="hd__loc-market">广州市江南西蔬菜批发市场</div>
-                <span class="hd__loc-pos aside__font-sm">广州市海珠区</span>
+                <div class="hd__loc-market" v-text="pageData.market_name">--</div>
+                <span class="hd__loc-pos aside__font-sm" v-text="pageData.city_name+pageData.county_name">--</span>
             </div>
             <div class="cell hd__price">
-                <span class="hd__price-value">3.26元／斤</span>
-                <price-range value="5" prev-value="4"></price-range>
-                <div class="hd__price-time aside__font-sm">5月25日</div>
+                <span class="hd__price-value" v-text="(pageData.price||0)+'元／斤'">--</span>
+                <price-range :value="pageData.price" :prev-value="pageData.previous_price"></price-range>
+                <div class="hd__price-time aside__font-sm" v-text="createTime">--月--日</div>
             </div>
         </header>
         <section class="bd">
@@ -35,7 +35,8 @@
                 </div>
             </header>
             <div class="ct">
-                <component :is="tabPage[tabIndex]"></component>
+                <component :page-data="pageData" :local-prices="localPrices" :nation-prices="nationPrices" :mean-prices="meanPricesList" :near-market="nearMarkeList" :is="tabPage[tabIndex]">
+                </component>
             </div>
         </section>
         <footer>
@@ -59,7 +60,7 @@
     <script id="priceChartPageTpl" type="text/x-template">
         <div class="ct__lt">
             <e-charts></e-charts>
-            <price-list></price-list>
+            <price-list :list="_meanPricesList"></price-list>
         </div>
     </script>
 
@@ -77,13 +78,13 @@
                 </div>
             </div>
             <div class="price-list__item cell " :class="index===0&&'price-active'" v-for="item,index in backSortList">
-                <span class="price-item__name">广州</span>
+                <span class="price-item__name">{{item.province_name}}</span>
                 <div class="price-list__bar">
-                    <div class="price-bar__value cell" :style="backBarWidth(item)">
-                        <div class="price-bar__out-value" :style="backOutMeanWidth(item)"></div>
+                    <div class="price-bar__value cell" :style="backBarWidth(item.price)">
+                        <div class="price-bar__out-value" :style="backOutMeanWidth(item.price)"></div>
                     </div>
                 </div>
-                <span class="price-item__value">{{handleFixed2(item)}}</span>
+                <span class="price-item__value">{{handleFixed2(item.price)}}</span>
             </div>
         </div>
     </script>
@@ -99,32 +100,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td width="50%">广州天河棠下综合市场</td>
-                    <td><span class="hd__price-value">3.26元／斤</span></td>
+                <tr v-for="item,index in nearMarketList" key="index" @click="eventClickTr(item)">
+                    <td width="50%">{{item.market_name}}</td>
+                    <td><span class="hd__price-value">{{item.price}}元／斤</span></td>
                     <td>
-                        <price-range value="5" prev-value="4"></price-range>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="50%">广州天河棠下综合市场</td>
-                    <td><span class="hd__price-value">3.26元／斤</span></td>
-                    <td>
-                        <price-range value="5" prev-value="4"></price-range>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="50%">广州天河棠下综合市场</td>
-                    <td><span class="hd__price-value">3.26元／斤</span></td>
-                    <td>
-                        <price-range value="5" prev-value="4"></price-range>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="50%">广州天河棠下综合市场</td>
-                    <td><span class="hd__price-value">3.26元／斤</span></td>
-                    <td>
-                        <price-range value="5" prev-value="4"></price-range>
+                        <price-range :value="item.price" :prev-value="item.previous_price"></price-range>
                     </td>
                 </tr>
             </tbody>
@@ -138,8 +118,8 @@
             <span  class="hd__price-range" :style="{color:backColor}">{{backRange}}</span>
         </span>
     </script>
-
     <script src="//cdn.bootcss.com/vue/2.3.3/vue.min.js"></script>
+    <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
     <script src="//cdn.bootcss.com/echarts/3.6.1/echarts.min.js"></script>
     <script src="./js/index.js"></script>
 </body>
