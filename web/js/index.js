@@ -306,9 +306,9 @@ axios.defaults.baseURL = '/api'
             backRange: function() {
                 var num = this.value - this.prevValue;
                 if (isNaN(num)) {
-                    return 0
+                    return '0.00'
                 }
-                return num
+                return num.toFixed(2)
             },
             backColor: function() {
                 if (this.backRange > 0) {
@@ -321,7 +321,7 @@ axios.defaults.baseURL = '/api'
                     return './img/range_up.png'
                 }
                 return './img/range_down.png'
-            }
+            },
         }
     })
 })();
@@ -390,8 +390,8 @@ axios.defaults.baseURL = '/api'
                     url: '/ae/app/price_quotation/price_trend/',
                     method: 'get',
                     params: {
-                        'crop': data[0],
-                        'market_name': data[1],
+                        'crop': decodeURIComponent(data[0]),
+                        'market_name': decodeURIComponent(data[1]),
                         'access_token': this.token
                     },
                 }).then(function(res) {
