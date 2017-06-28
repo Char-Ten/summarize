@@ -1,0 +1,127 @@
+<!doctype html>
+<!--<html><head><meta name=xxx content=xxx></head> <body>123465123456</body></html>-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>价格趋势</title>
+    <link rel="stylesheet" href="./css/index.css" />
+</head>
+
+<body>
+    <div id="app">
+        <header class="hd">
+            <h1 class="hd__title" v-text="pageData.crop">--</h1>
+            <div class="hd__loc cell">
+                <div class="hd__loc-market" v-text="pageData.market_name">--</div>
+                <span class="hd__loc-pos aside__font-sm" v-text="pageData.city_name+pageData.county_name">--</span>
+            </div>
+            <div class="cell hd__price">
+                <span class="hd__price-value" v-text="(pageData.price||0)+'元／斤'">--</span>
+                <price-range :value="pageData.price" :prev-value="pageData.previous_price"></price-range>
+                <div class="hd__price-time aside__font-sm" v-text="createTime">--月--日</div>
+            </div>
+        </header>
+        <section class="bd">
+            <header class="cell bd__tab">
+                <div :class="backClass4TabItem(0)" @click="eventClickTabItem(0)" class="bd__tab-item">
+                    价格趋势
+                </div>
+                <div :class="backClass4TabItem(1)" @click="eventClickTabItem(1)" class="bd__tab-item">
+                    附近市场
+                </div>
+            </header>
+            <div class="ct">
+                <component :page-data="pageData" :local-prices="localPrices" :nation-prices="nationPrices" :mean-prices="meanPricesList" :near-market="nearMarkeList" :is="tabPage[tabIndex]">
+                </component>
+            </div>
+        </section>
+        <footer>
+
+        </footer>
+    </div>
+
+    <script id="tooltipTpl" type="text/x-template">
+        <div class="tooltip">
+            <p class="tooltip__0">{0}</p>
+            <p class="tooltip__1">{1}</p>
+        </div>
+    </script>
+
+    <!--e-charts-->
+    <script id="chartTpl" type="text/x-template">
+        <div id="chart"></div>
+    </script>
+
+    <!--page-price-->
+    <script id="priceChartPageTpl" type="text/x-template">
+        <div class="ct__lt">
+            <e-charts></e-charts>
+            <price-list :list="_meanPricesList"></price-list>
+        </div>
+    </script>
+
+    <!--price-list-->
+    <script id="priceListTpl" type="text/x-template">
+        <div class="price-list">
+            <div class="price-mean">
+                <header :style="backPanleLeft" class="price-mean__panel">
+                    全国平均价：{{handleFixed2(backMean)}}
+                </header>
+                <div class="price-mean__line" :style="backLineLeft">
+                    <header class="price-mean__line-arrow"></header>
+                    <section class="price-mean__line-body"></section>
+                    <footer class="price-mean__line-footer"></footer>
+                </div>
+            </div>
+            <div class="price-list__item cell " :class="index===0&&'price-active'" v-for="item,index in backSortList">
+                <span class="price-item__name">{{item.province_name}}</span>
+                <div class="price-list__bar">
+                    <div class="price-bar__value cell" :style="backBarWidth(item.price)">
+                        <div class="price-bar__out-value" :style="backOutMeanWidth(item.price)"></div>
+                    </div>
+                </div>
+                <span class="price-item__value">{{handleFixed2(item.price)}}</span>
+            </div>
+        </div>
+    </script>
+
+    <!--page-market-->
+    <script id="marketPageTpl" type="text/x-template">
+        <table>
+            <thead>
+                <tr>
+                    <th v-for="item,index in th">
+                        <div class="table__th" :class="'table__th-'+index">{{item}}</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item,index in nearMarketList" key="index" @click="eventClickTr(item)">
+                    <td width="50%">{{item.market_name}}</td>
+                    <td><span class="hd__price-value">{{item.price}}元／斤</span></td>
+                    <td>
+                        <price-range :value="item.price" :prev-value="item.previous_price"></price-range>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </script>
+
+    <!--price-range-->
+    <script id="priceRangeTpl" type="text/x-template">
+        <span class="hd__price-range cell">
+            <img class="hd__price-range__img" :src="backImage"/>
+            <span  class="hd__price-range" :style="{color:backColor}">{{backRange}}</span>
+        </span>
+    </script>
+    <script src="//cdn.bootcss.com/vue/2.3.3/vue.min.js"></script>
+    <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
+    <script src="//cdn.bootcss.com/echarts/3.6.1/echarts.min.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>
