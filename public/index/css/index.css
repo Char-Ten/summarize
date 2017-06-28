@@ -1,0 +1,132 @@
+html,
+body,
+#app {
+    width: 100%;
+    height: 100%
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+}
+
+.app-header {
+    justify-content: space-between;
+    align-items: center;
+    height: 75px;
+    border-bottom: 1px solid #dbdbdb
+}
+
+.app-header__lt {
+    align-items: center;
+    margin-left: 22px;
+}
+
+.app-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, .5)
+}
+
+.app-title {
+    margin: 0;
+    margin-left: 12px;
+    font-size: 22px;
+    font-weight: 100;
+    color: #505050
+}
+
+.app-header__rt {
+    margin-right: 77px;
+    text-align: right;
+}
+
+.app-user {
+    font-size: 15px;
+}
+
+.app-user__link {
+    margin-left: 30px;
+}
+
+.app-content {
+    flex: 1;
+}
+
+.app-aside {
+    flex: 1;
+    height: 100%;
+    background: #444c61;
+}
+
+.aside-header {
+    flex-wrap: wrap;
+}
+
+.aside-header__item {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    color: #cccfd4;
+    transition: all .5s;
+}
+
+.aside-header__item-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    margin: 15px;
+    margin-left: 22px;
+    margin-top: 0;
+}
+
+.aside-header__item--atv {
+    background: #22c4ff;
+    color: #fff;
+}
+
+.aside-header__item:hover {
+    background: rgba(0, 0, 0, .1)
+}
+
+.aside-header__item--atv:hover {
+    background: #22c4ff
+}
+
+.app-main {
+    flex: 5;
+    height: 100%;
+    background: #f5f5f5;
+    overflow: auto;
+}
+
+.device-list {
+    flex-wrap: wrap;
+    padding: 0 15px;
+}
+
+.device-item {
+    width: 100%;
+    margin: 15px 0;
+    background: #fff;
+}
+
+.device-name {
+    padding: 10px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    background: #fff;
+    color: #505050;
+}
+
+.device-btngroup {
+    padding: 10px;
+    padding-top: 0
+}
+
+.device-table {
+    padding: 0 10px
+}
