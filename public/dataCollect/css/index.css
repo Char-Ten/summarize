@@ -1,0 +1,32 @@
+body {
+    background: #f5f5f5;
+}
+
+.device-list {
+    flex-wrap: wrap;
+    padding: 0 15px;
+}
+
+.device-item {
+    width: 100%;
+    margin: 15px 0;
+    background: #fff;
+}
+
+.device-name {
+    padding: 10px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    background: #fff;
+    color: #505050;
+}
+
+.device-btngroup {
+    padding: 10px;
+    padding-top: 0
+}
+
+.device-table {
+    padding: 0 10px
+}
