@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+    <link href="../commo.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="setting">
+        <el-tabs type="border-card">
+            <el-tab-pane v-for="item,index in navList" :label="item" :name="index">
+                <section class="dm-ct">
+                    <component is="corresponded"></component>
+                </section>
+            </el-tab-pane>
+        </el-tabs>
+        <el-row>
+    </div>
+
+    <!--通讯方式-->
+    <script id="correspondedTpl" type="text/x-template">
+        <el-table :data="tableData" style="width: 100%">
+            <el-table-column prop="userName" label="用户名"></el-table-column>
+            <el-table-column prop="person" label="联系人"></el-table-column>
+            <el-table-column prop="telphone" label="手机号码"></el-table-column>
+            <el-table-column prop="email" label="email"></el-table-column>
+        </el-table>
+    </script>
+
+    <!--连接方式-->
+    <script id="connectTpl" type="text/x-template">
+        <div></div>
+    </script>
+
+    <!--修改密码-->
+    <script id="changepswTpl" type="text/x-template">
+        <el-form></el-form>
+    </script>
+    <!--单传感器查询-->
+    <script id="233" type="text/x-template"></script>
+
+    <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
+    <script src="//unpkg.com/element-ui/lib/index.js"></script>
+    <script src='./js/index.js'></script>
+</body>
+
+</html>
