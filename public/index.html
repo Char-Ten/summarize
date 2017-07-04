@@ -51,11 +51,15 @@
                 </header>
             </aside>
             <div class="app-main">
-                <iframe :src="iframeSrcList[iframeIndex]"></iframe>
+                <iframe :src="iframeSrcList[0]" v-show="0===iframeIndex"></iframe>
+                <iframe :src="iframeSrcList[1]" v-show="1===iframeIndex"></iframe>
+                <iframe :src="iframeSrcList[2]" v-show="2===iframeIndex"></iframe>
+                <iframe :src="iframeSrcList[3]" v-show="3===iframeIndex"></iframe>
             </div>
         </div>
         <footer></footer>
     </div>
+    <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
     <script src='./index/js/index.js'></script>
 </body>
