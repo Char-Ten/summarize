@@ -4,7 +4,7 @@
         el: '#app',
         data: {
             iframeIndex: 0,
-            iframeSrcList: ['./dataCollect', './dataManage', './dataManage', './dataCollect']
+            iframeSrcList: ['./dataCollect', './dataManage', './deviceSetting', './setting']
         },
         methods: {
             eventAsideItemClick: function(i) {
