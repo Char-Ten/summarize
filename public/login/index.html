@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="//unpkg.com/element-ui/lib/theme-default/index.css">
+    <link href="../commo.css" rel="stylesheet">
+    <style>
+        html,
+        body,
+        #app {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden
+        }
+        
+        h1 {
+            padding: 36px 0;
+            margin: 0;
+            margin-bottom: 15px;
+            background: #444c61;
+            color: #fff;
+            font-weight: 100
+        }
+        
+        .title {
+            width: 80px;
+            text-align: right;
+        }
+        
+        #app {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f5f5f5;
+        }
+        
+        .panel {
+            width: 30%;
+            background: #fff;
+            box-shadow: 0 0 150px rgba(0, 0, 0, .2)
+        }
+        
+        .form-list {
+            padding: 15px;
+        }
+        
+        .panel-info {
+            display: flex;
+            justify-content: space-between
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="panel">
+            <h1>
+                <div class="title">登录</div>
+            </h1>
+            <el-form ref="form" label-width="60px" :model="form" class="form-list">
+                <el-form-item label="用户名">
+                    <el-input v-model="form.email" />
+                </el-form-item>
+                <el-form-item label="密码">
+                    <el-input type="password" v-model="form.password" />
+                </el-form-item>
+                <el-form-item>
+                    <div class="panel-info">
+                        <el-checkbox v-model="form.rememberme">记住我</el-checkbox>
+                        <el-button type="text">忘记密码？</el-button>
+                    </div>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="eventLogin">登录</el-button>
+                    <el-button>注册</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </div>
+    <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
+    <script src="//unpkg.com/element-ui/lib/index.js"></script>
+    <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                form: {
+                    email: 'wei520810',
+                    password: '123456',
+                    rememberme: 0
+                }
+
+            },
+            computed: {
+                formData: function() {
+                    var a = [];
+                    for (var attr in this.form) {
+                        if (this.form[attr] || this.form[attr] === 0) {
+                            a.push(attr + '=' + this.form[attr])
+                        }
+                    }
+                    return a.join('&')
+                }
+            },
+            methods: {
+                eventLogin: function() {
+
+                    axios({
+                        method: 'post',
+                        url: '/api/login',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                            'Accept': '*/*'
+                        },
+                        data: this.formData
+                    }).then(
+                        this._EventLoadSuccsee,
+                        this._EventLoadFail
+                    ).catch(this._EventLoadFail)
+                },
+                _EventLoadSuccsee: function(res) {
+                    if (res.data.code === 1) {
+                        this.$message({
+                            message: '登录成功，即将跳转',
+                            type: 'success',
+                            onClose: function() {
+                                window.location.href = "/"
+                            }
+                        })
+                    } else {
+                        throw res
+                    }
+                },
+                _EventLoadFail: function(res) {
+                    this.$message({
+                        message: '登录失败，请检查帐号密码',
+                        type: 'error',
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
