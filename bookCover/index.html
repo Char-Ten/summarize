@@ -16,13 +16,13 @@
         <div>
             <el-form ref="form" :model="info" label-width="80px">
                 <el-form-item label="标题">
-                    <el-input v-model="info.title" placeholder="请输入标题"></el-input>
+                    <el-input v-model="info.title" placeholder="请输入标题" @change="render"></el-input>
                 </el-form-item>
                 <el-form-item label="顶部文字">
-                    <el-input v-model="info.topTxt" placeholder="请输入顶部文字"></el-input>
+                    <el-input v-model="info.topTxt" placeholder="请输入顶部文字" @change="render"></el-input>
                 </el-form-item>
                 <el-form-item label="作者">
-                    <el-input v-model="info.author" placeholder="请输入作者"></el-input>
+                    <el-input v-model="info.author" placeholder="请输入作者" @change="render"></el-input>
                 </el-form-item>
                 <el-form-item label="书本颜色">
                     <el-color-picker v-model="info.color" show-alpha @change="render"></el-color-picker>
