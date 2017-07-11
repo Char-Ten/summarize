@@ -27,6 +27,9 @@
             },
         },
         methods: {
+            eventSelectAnimal:function(){
+                
+            },
             render: function() {
                 this.ctx.clearRect(0, 0, 600, 840);
                 this.ctx.fillStyle = '#fff';
