@@ -1,10 +1,56 @@
-;
+var ajax = axios.create({
+    baseURL: '/api/site'
+});
 (function() {
     Vue.component('addDevice', {
         template: '#addDeviceTpl',
         data: function() {
-            return {}
+            return {
+                form: {
+                    en: '',
+                    site: '',
+                }
+            }
         },
+        methods: {
+            reqAddDevice: function() {
+                var self = this;
+                if (!this.form.en) {
+                    this.$message({
+                        type: 'warning',
+                        message: '请填写主机名'
+                    })
+                    return
+                }
+                if (!this.form.en) {
+                    this.$message({
+                        type: 'warning',
+                        message: '请填写工地名'
+                    })
+                    return
+                }
+
+                ajax({
+                    url: '/instrumentConfig/addHost',
+                    params: {
+                        en: this.form.en,
+                        site: this.form.site,
+                        currentUser: window.parent.userData.username,
+                        accessToken: window.parent.userData.accessToken
+                    }
+                }).then(function(res) {
+                    if (res.data.msg == 'ok') {
+                        self.$message({
+                            type: 'success',
+                            message: '添加成功!'
+                        });
+                        window.parent.Eet.$emit('reloadDeviceList')
+                    }
+                }).then(function() {
+
+                })
+            }
+        }
     })
 })();
 

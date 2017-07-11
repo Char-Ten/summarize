@@ -3,85 +3,60 @@
 
 <head>
     <meta charset='utf-8' />
+    <link rel="stylesheet" href="//unpkg.com/element-ui/lib/theme-default/index.css">
     <link href="../commo.css" rel="stylesheet">
     <link href="./css/index.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="cell device-list">
+    <div id="deviceList" class="cell device-list">
+        <el-alert v-if="deviceList.length===0" title="主机列表为空" description="可能资源不存在或网络出现了问题" type="warning" show-icon :closable="false"></el-alert>
+        <device-item v-for="item,index in deviceList" :key="index" :en="item.en" :site="item.site" />
+    </div>
+
+    <!--设备列表-->
+    <script id="deviceItemTpl" type="text/x-template">
         <section class="device-item">
-            <h2 class="device-name">233354658484name</h2>
-            <div class="device-btngroup">
-                <a class="btn btn-default">连接状态</a>
-                <a class="btn btn-default">实时数据</a>
-                <a class="btn btn-default">最新数据</a>
-            </div>
-            <div class="device-table">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>工地名</th>
-                            <th>主机名</th>
-                            <th>子机名</th>
-                            <th>连接状态</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <header class="cell item-hd">
+                <div>
+                    <h2 class="device-name" v-text="'主机:'+en"></h2>
+                    <div class="device-btngroup">
+                        <el-button type="primary" size="small" icon="search" @click="eventSearchLinkStatus">连接状态</el-button>
+                        <el-button type="primary" size="small" icon="search" :disabled="true">实时数据</el-button>
+                        <el-button type="primary" size="small" icon="search" :disabled="true">最新数据</el-button>
+                    </div>
+                </div>
+                <aside>
+                    <transition name="el-fade-in-linear">
+                        <el-button type="text" icon="caret-top" v-show="isShowTable" @click="isShowTable=false">收起</el-button>
+                    </transition>
+                </aside>
+            </header>
+            <transition name="el-fade-in-linear">
+                <div class="table" v-if="isShowTable">
+                    <component is="device-table-1" :linkStatusData="linkStausList"></component>
+                </div>
+            </transition>
 
         </section>
-        <section class="device-item">
-            <h2 class="device-name">233354658484name</h2>
-            <div class="device-btngroup">
-                <a class="btn btn-default">连接状态</a>
-                <a class="btn btn-default">实时数据</a>
-                <a class="btn btn-default">最新数据</a>
-            </div>
-        </section>
-        <section class="device-item">
-            <h2 class="device-name">233354658484name</h2>
-            <div class="device-btngroup">
-                <a class="btn btn-default">连接状态</a>
-                <a class="btn btn-default">实时数据</a>
-                <a class="btn btn-default">最新数据</a>
-            </div>
-        </section>
-        <section class="device-item">
-            <h2 class="device-name">233354658484name</h2>
-            <div class="device-btngroup">
-                <a class="btn btn-default">连接状态</a>
-                <a class="btn btn-default">实时数据</a>
-                <a class="btn btn-default">最新数据</a>
-            </div>
-        </section>
-        <section class="device-item">
-            <h2 class="device-name">233354658484name</h2>
-            <div class="device-btngroup">
-                <a class="btn btn-default">连接状态</a>
-                <a class="btn btn-default">实时数据</a>
-                <a class="btn btn-default">最新数据</a>
-            </div>
-        </section>
-        <section class="device-item">
-            <h2 class="device-name">233354658484name</h2>
-            <div class="device-btngroup">
-                <a class="btn btn-default">连接状态</a>
-                <a class="btn btn-default">实时数据</a>
-                <a class="btn btn-default">最新数据</a>
-            </div>
-        </section>
-    </div>
-    <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
+    </script>
+
+    <script id="deviceTable1Tpl" type="text/x-template">
+        <el-table :data="linkStatusData" border>
+            <el-table-column prop="ch" label="#" width="60"></el-table-column>
+            <el-table-column prop="en" label="主机名"></el-table-column>
+            <el-table-column prop="status" label="状态" width="120">
+                <template scope="scope">
+                    <span v-text="scope.row.status?'连接':'未连接'"></span>
+                </template>
+            </el-table-column>
+        </el-table>
+    </script>
+
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
-    <script src='./index/js/index.js'></script>
+    <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
+    <script src="//unpkg.com/element-ui/lib/index.js"></script>
+    <script src='./js/index.js'></script>
 </body>
 
 </html>

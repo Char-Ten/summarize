@@ -25,13 +25,13 @@
         <section>
             <el-form ref="form" label-width="80px">
                 <el-form-item label="工地名">
-                    <el-input/>
+                    <el-input v-model="form.site" />
                 </el-form-item>
                 <el-form-item label="主机名">
-                    <el-input/>
+                    <el-input v-model="form.en" />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">添加</el-button>
+                    <el-button type="primary" @click="reqAddDevice">添加</el-button>
                 </el-form-item>
             </el-form>
         </section>
@@ -86,6 +86,7 @@
         </el-form>
     </script>
 
+    <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
     <script src="//unpkg.com/element-ui/lib/index.js"></script>
     <script src='./js/index.js'></script>

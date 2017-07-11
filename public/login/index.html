@@ -63,7 +63,7 @@
             </h1>
             <el-form ref="form" label-width="60px" :model="form" class="form-list">
                 <el-form-item label="用户名">
-                    <el-input v-model="form.email" />
+                    <el-input v-model="form.username" />
                 </el-form-item>
                 <el-form-item label="密码">
                     <el-input type="password" v-model="form.password" />
@@ -85,11 +85,14 @@
     <script src="//unpkg.com/element-ui/lib/index.js"></script>
     <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
     <script>
+        var ajax = axios.create({
+            baseURL: '/api/site'
+        })
         var app = new Vue({
             el: '#app',
             data: {
                 form: {
-                    email: 'wei520810',
+                    username: 'wei520810',
                     password: '123456',
                     rememberme: 0
                 }
@@ -99,19 +102,16 @@
                 formData: function() {
                     var a = [];
                     for (var attr in this.form) {
-                        if (this.form[attr] || this.form[attr] === 0) {
-                            a.push(attr + '=' + this.form[attr])
-                        }
+                        a.push(attr + '=' + this.form[attr])
                     }
                     return a.join('&')
                 }
             },
             methods: {
                 eventLogin: function() {
-
-                    axios({
+                    ajax({
                         method: 'post',
-                        url: '/api/login',
+                        url: '/index/login',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                             'Accept': '*/*'
@@ -123,12 +123,16 @@
                     ).catch(this._EventLoadFail)
                 },
                 _EventLoadSuccsee: function(res) {
-                    if (res.data.code === 1) {
+                    if (res.data.msg === 'ok') {
+                        localStorage.clear();
+                        localStorage.setItem('accessToken', res.data.data.accessToken);
+                        localStorage.setItem('username', res.data.data.username);
                         this.$message({
                             message: '登录成功，即将跳转',
                             type: 'success',
                             onClose: function() {
-                                window.location.href = "/"
+                                window.location.href = "/";
+
                             }
                         })
                     } else {

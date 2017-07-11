@@ -4,13 +4,12 @@ body {
 
 .device-list {
     flex-wrap: wrap;
-    padding: 0 15px;
 }
 
 .device-item {
     width: 100%;
-    margin: 15px 0;
     background: #fff;
+    margin-bottom: 15px;
 }
 
 .device-name {
@@ -43,4 +42,15 @@ body {
 .slide-fade-leave-active {
     transform: translateX(10px);
     opacity: 0;
+}
+
+.item-hd {
+    padding: 15px;
+    justify-content: space-between;
+    align-items: flex-end
+}
+
+.table {
+    padding: 15px;
+    padding-top: 0
 }
