@@ -61,6 +61,10 @@ var ajax = axios.create({
         },
         mounted: function() {
             this.deviceList = window.parent.app.deviceList;
+            var self = this;
+            window.parent.Eet.$on('loadDeviceListEnd', function() {
+                self.deviceList = window.parent.app.deviceList;
+            })
         }
     })
 })();

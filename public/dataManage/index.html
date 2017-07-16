@@ -13,7 +13,7 @@
         <el-tabs type="border-card">
             <el-tab-pane v-for="item,index in navList" :label="item" :name="index">
                 <section class="dm-ct">
-                    <component :is="navCtList[index]"></component>
+                    <component :is="navCtList[index]" :divece-name-list="diveceNameList"></component>
                 </section>
             </el-tab-pane>
         </el-tabs>
@@ -24,41 +24,40 @@
         <section id="searh-table" class="search-panel">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="主机名">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="工地名">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="时间段">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
+                    <el-select v-model="form.en" clearable placeholder="请选择">
+                        <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="子机号">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select v-model="form.ch" clearable placeholder="请选择">
+                        <el-option v-for="item,index in 32" :key="item" :label="item" :value="item">
                         </el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="开始时间">
-                    <el-date-picker v-model="form.beginTime" type="datetime" placeholder="选择日期时间">
+                    <el-date-picker format="yyyy-MM-dd HH:mm:ss" @change="eventSelectStartTime" v-model="startTime" type="datetime" placeholder="选择日期时间">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="结束时间">
-                    <el-date-picker v-model="form.beginTime" type="datetime" placeholder="选择日期时间">
+                    <el-date-picker format="yyyy-MM-dd HH:mm:ss" @change="eventSelectEndTime" v-model="endTime" type="datetime" placeholder="选择日期时间">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">查询</el-button>
+                    <el-button type="primary" @click="eventSearch">查询</el-button>
                 </el-form-item>
             </el-form>
+
+            <div v-if="tableData.length">
+                <el-table :data="tableData">
+                    <el-table-column prop="en" label="主机号"></el-table-column>
+                    <el-table-column prop="ch" label="子机号"></el-table-column>
+                    <el-table-column prop="alltime" label="时间"></el-table-column>
+                    <el-table-column prop="value" label="工程值"></el-table-column>
+                </el-table>
+                <div style="margin:10px auto;">
+                    <el-pagination layout="prev, pager, next" :page-count="totalPage" @current-change="eventChangePage"></el-pagination>
+                </div>
+            </div>
         </section>
     </script>
 
@@ -67,41 +66,31 @@
         <section id="search-single-device" class="search-panel">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="主机名">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="工地名">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="时间段">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
+                    <el-select v-model="form.en" clearable placeholder="请选择">
+                        <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="子机号">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select v-model="form.ch" clearable placeholder="请选择">
+                        <el-option v-for="item,index in 32" :key="item" :label="item" :value="item">
                         </el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="开始时间">
-                    <el-date-picker v-model="form.beginTime" type="datetime" placeholder="选择日期时间">
+                    <el-date-picker format="yyyy-MM-dd HH:mm:ss" @change="eventSelectStartTime" v-model="startTime" type="datetime" placeholder="选择日期时间">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="结束时间">
-                    <el-date-picker v-model="form.beginTime" type="datetime" placeholder="选择日期时间">
+                    <el-date-picker format="yyyy-MM-dd HH:mm:ss" @change="eventSelectEndTime" v-model="endTime" type="datetime" placeholder="选择日期时间">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">查询</el-button>
+                    <el-button type="primary" @click="eventSearch">查询</el-button>
                 </el-form-item>
             </el-form>
+            <div v-if="tableData.length">
+                <div class="echart" id="echart" ref="echarts"></div>
+            </div>
         </section>
     </script>
 
@@ -110,39 +99,26 @@
         <section id="search-many-device" class="search-panel">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="主机名">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="工地名">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="时间段">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
+                    <el-select v-model="form.en" clearable placeholder="请选择">
+                        <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="子机号">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                    <el-select v-model="form.chs" multiple clearable placeholder="请选择">
+                        <el-option v-for="item,index in 32" :key="item" :label="item" :value="item">
                         </el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="开始时间">
-                    <el-date-picker v-model="form.beginTime" type="datetime" placeholder="选择日期时间">
+                    <el-date-picker format="yyyy-MM-dd HH:mm:ss" @change="eventSelectStartTime" v-model="startTime" type="datetime" placeholder="选择日期时间">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="结束时间">
-                    <el-date-picker v-model="form.beginTime" type="datetime" placeholder="选择日期时间">
+                    <el-date-picker format="yyyy-MM-dd HH:mm:ss" @change="eventSelectEndTime" v-model="endTime" type="datetime" placeholder="选择日期时间">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">查询</el-button>
+                    <el-button type="primary" @click="eventSearch">查询</el-button>
                 </el-form-item>
             </el-form>
         </section>
@@ -172,7 +148,7 @@
                 </el-form-item>
                 <el-form-item label="子机号">
                     <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                        <el-option v-for="item,index in 32" :key="item" :label="item" :value="item">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -229,8 +205,11 @@
     </script>
 
     <!--单传感器查询-->
-    <script id="233" type="text/x-template"></script>
+    <script id="chartTpl" type="text/x-template">
 
+    </script>
+    <script src="//cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
+    <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
     <script src="//unpkg.com/element-ui/lib/index.js"></script>
     <script src='./js/index.js'></script>

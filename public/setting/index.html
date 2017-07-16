@@ -13,7 +13,7 @@
         <el-tabs type="border-card">
             <el-tab-pane v-for="item,index in navList" :label="item" :name="index">
                 <section class="dm-ct">
-                    <component is="corresponded"></component>
+                    <component :is="cpmtList[index]"></component>
                 </section>
             </el-tab-pane>
         </el-tabs>
@@ -37,11 +37,24 @@
 
     <!--修改密码-->
     <script id="changepswTpl" type="text/x-template">
-        <el-form></el-form>
+        <el-form ref="form" label-width="100px" :model="form" class="form-list">
+            <el-form-item label="旧密码">
+                <el-input type="password" v-model="form.prePasswd" />
+            </el-form-item>
+            <el-form-item label="新密码">
+                <el-input type="password" v-model="form.newPasswd" />
+            </el-form-item>
+            <el-form-item label="确认密码">
+                <el-input type="password" v-model="checkPasswd" />
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="eventChange">修改</el-button>
+            </el-form-item>
+        </el-form>
     </script>
     <!--单传感器查询-->
     <script id="233" type="text/x-template"></script>
-
+    <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
     <script src="//unpkg.com/element-ui/lib/index.js"></script>
     <script src='./js/index.js'></script>

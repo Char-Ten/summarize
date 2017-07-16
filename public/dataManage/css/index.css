@@ -18,3 +18,8 @@ body {
 .search-panel {
     padding: 15px
 }
+
+.echart {
+    width: 100%;
+    height: 400px;
+}

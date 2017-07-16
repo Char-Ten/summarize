@@ -46,8 +46,6 @@ var ajax = axios.create({
                         });
                         window.parent.Eet.$emit('reloadDeviceList')
                     }
-                }).then(function() {
-
                 })
             }
         }
@@ -57,7 +55,26 @@ var ajax = axios.create({
 ;
 (function() {
     Vue.component('settingPreView', {
-        template: '#settingPreViewTpl'
+        template: '#settingPreViewTpl',
+        props: ['namelist'],
+        data: function() {
+            return {
+                en: ''
+            }
+        },
+        methods: {
+            reqSearchSetting: function() {
+                ajax({
+                    url: '/instrumentConfig/parameterPreview',
+                    params: {
+                        en: this.en,
+                        accessToken: window.parent.userData.accessToken
+                    }
+                }).then(function(res) {
+                    console.log(res.data)
+                })
+            }
+        }
     })
 })();
 
@@ -81,7 +98,16 @@ var ajax = axios.create({
         el: '#deviceSetting',
         data: {
             navList: ['添加主机', '传感器配置预览', '传感器参数批量导出', '传感器参数批量导入'],
-            navCtList: ['addDevice', 'settingPreView', 'outputDeviceSetting', 'inputDeviceSetting']
+            navCtList: ['addDevice', 'settingPreView', 'outputDeviceSetting', 'inputDeviceSetting'],
+            diveceNameList: []
+        },
+        methods: {
+            setDiveceNameList: function() {
+                this.diveceNameList = window.parent.app.deviceNameList
+            }
+        },
+        mounted: function() {
+            window.parent.Eet.$on('loadDeviceListEnd', this.setDiveceNameList.bind(this));
         }
     })
 })();
