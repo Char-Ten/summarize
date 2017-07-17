@@ -11,7 +11,7 @@
 <body>
     <div id="dataMange">
         <el-tabs type="border-card">
-            <el-tab-pane v-for="item,index in navList" :label="item" :name="index">
+            <el-tab-pane v-for="item,index in navList" :key="index" :label="item">
                 <section class="dm-ct">
                     <component :is="navCtList[index]" :divece-name-list="diveceNameList"></component>
                 </section>
@@ -89,7 +89,7 @@
                 </el-form-item>
             </el-form>
             <div v-show="tableData.length">
-                <div class="echart" id="echart" ref="echarts"></div>
+                <div class="echart" ref="echarts"></div>
             </div>
         </section>
     </script>
@@ -104,7 +104,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="子机号">
-                    <el-select v-model="form.chs" multiple clearable placeholder="请选择">
+                    <el-select v-model="form.chs" multiple :multiple-limit="6" clearable placeholder="请选择">
                         <el-option v-for="item,index in 32" :key="item" :label="item" :value="item">
                         </el-option>
                     </el-select>
@@ -121,6 +121,9 @@
                     <el-button type="primary" @click="eventSearch">查询</el-button>
                 </el-form-item>
             </el-form>
+            <div v-show="!Array.isArray(tableData)">
+                <div class="echart" ref="echarts"></div>
+            </div>
         </section>
     </script>
 
@@ -130,24 +133,11 @@
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="主机名">
                     <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="工地名">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="时间段">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
+                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="子机号">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
+                    <el-select v-model="form.chs" multiple :multiple-limit="6" clearable placeholder="请选择">
                         <el-option v-for="item,index in 32" :key="item" :label="item" :value="item">
                         </el-option>
                     </el-select>
@@ -206,11 +196,11 @@
 
     <!--单传感器查询-->
     <script id="chartTpl" type="text/x-template">
-
+        <div class="echart"></div>
     </script>
     <script src="//cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
     <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
-    <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
+    <script src="//cdn.bootcss.com/vue/2.3.4/vue.js"></script>
     <script src="//unpkg.com/element-ui/lib/index.js"></script>
     <script src='./js/index.js'></script>
 </body>

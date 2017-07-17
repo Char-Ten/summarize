@@ -113,19 +113,25 @@ var ajax = axios.create({
 
 ;
 (function() {
+    var charts
     Vue.component('search-many-device', {
         template: '#searchManyDeviceTpl',
+        props: {
+            diveceNameList: Array
+        },
         data: function() {
             return {
                 form: {
                     en: '',
-                    ch: '',
+                    chs: [],
                     startTime: '',
                     endTime: '',
                     accessToken: window.parent.userData.accessToken
                 },
                 startTime: '',
-                endTime: ''
+                endTime: '',
+                tableData: [],
+                charts: null
             }
         },
         methods: {
@@ -135,13 +141,36 @@ var ajax = axios.create({
             eventSelectEndTime: function(date) {
                 this.form.endTime = date
             },
-            /**单传感器查询 */
+            /**多传感器查询 */
             eventSearch: function() {
+                var self = this;
+                var params = [];
+                this.tableData = [];
+                for (var attr in this.form) {
+                    if (Array.isArray(this.form[attr])) {
+                        for (var i = 0; i < this.form[attr].length; i++) {
+                            params.push(attr + '=' + this.form[attr][i])
+                        }
+                    } else {
+                        params.push(attr + '=' + this.form[attr])
+                    }
+                }
                 return ajax({
-                    url: '/dataManage/singleSensorQuery',
-                    params: this.form
+                    url: '/dataManage/multiSensorQuery?' + params.join('&'),
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        self.tableData = res.data;
+                        setCharts(self.charts, res.data)
+                    } else {
+                        throw new Error(res.msg)
+                    }
                 })
             },
+        },
+        mounted: function() {
+            this.charts = echarts.init(this.$refs['echarts']);
         }
     });
 })();
@@ -153,8 +182,8 @@ var ajax = axios.create({
         data: function() {
             return {
                 form: {
-                    serviceName: '',
-                    beginTime: ''
+                    en: '',
+
                 },
                 options: [{
                     value: '选项1',
@@ -173,7 +202,9 @@ var ajax = axios.create({
                     label: '北京烤鸭'
                 }],
             }
-        }
+        },
+        methods: {},
+        mounted: function() {}
     });
 })();
 
@@ -294,7 +325,28 @@ function setCharts(ec, data) {
         }
         opts.series = series;
     } else if (typeof data === 'object' && data) {
+        if (data.serviceData) {
+            opts.series = [];
+            var bool = true;
+            for (var attr in data.serviceData) {
+                opts.legend.data.push(attr);
+                var series = {
+                    name: attr,
+                    type: 'line',
+                    smooth: true,
+                    data: []
+                }
+                for (var i = 0; i < data.serviceData[attr].length; i++) {
+                    if (bool) {
+                        opts.xAxis.data.push(data.serviceData[attr][i].alltime)
+                    }
+                    series.data.push(data.serviceData[attr][i].value);
+                }
+                bool = false
+                opts.series.push(series)
+            }
 
+        }
     }
     ec.setOption(opts)
 }

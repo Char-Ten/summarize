@@ -12,7 +12,7 @@
 <body>
     <div id="deviceSetting">
         <el-tabs type="border-card">
-            <el-tab-pane v-for="item,index in navList" :label="item" :name="index">
+            <el-tab-pane v-for="item,index in navList" :label="item">
                 <section class="dm-ct">
                     <component :is="navCtList[index]" :namelist="diveceNameList"></component>
                 </section>
