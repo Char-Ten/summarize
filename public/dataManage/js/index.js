@@ -31,7 +31,6 @@ var ajax = axios.create({
                 this.form.endTime = date
             },
             eventChangePage: function(currentPage) {
-                console.log(currentPage)
                 this.form.currentPage = currentPage;
                 this.eventSearch();
             },
@@ -52,9 +51,7 @@ var ajax = axios.create({
                         throw res.msg;
                         return res.msg
                     }
-                }).catch(function(res) {
-                    console.log(res)
-                })
+                }).catch(function(res) {})
 
             },
         }
@@ -63,6 +60,7 @@ var ajax = axios.create({
 
 ;
 (function() {
+    var charts;
     Vue.component('search-single-device', {
         template: '#searchSingleDeviceTpl',
         props: {
@@ -92,6 +90,7 @@ var ajax = axios.create({
             /**单传感器查询 */
             eventSearch: function() {
                 var self = this;
+                this.tableData = [];
                 return ajax({
                     url: '/dataManage/singleSensorQuery',
                     params: this.form
@@ -99,10 +98,15 @@ var ajax = axios.create({
                     return res.data
                 }).then(function(res) {
                     if (res.msg === 'ok') {
-                        self.tableData = res.data
+                        self.tableData = res.data;
+                        setCharts(charts, res.data)
                     }
                 })
             },
+            setEcharts: setCharts
+        },
+        mounted: function() {
+            charts = echarts.init(this.$refs['echarts']);
         }
     });
 })();
@@ -204,138 +208,6 @@ var ajax = axios.create({
     });
 })();
 
-// ;
-// (function() {
-//     var charts;
-//     Vue.component('charts', {
-//         template: '#chartTpl',
-//         props: ['chartData'],
-//         computed: {
-//             setOption: function() {
-//                 var options = {};
-//                 var options = {
-//                     title: {
-//                         text: '主机过程线'
-//                     },
-//                     legend: {
-//                         data: []
-//                     },
-//                     xAxis: {
-//                         data: []
-//                     },
-//                     dataZoom: {
-//                         type: 'slider',
-//                         realtime: true,
-//                         start: 0,
-//                         end: 50
-//                     },
-//                     yAxis: [{
-//                         type: 'value',
-//                         splitNumber: 2,
-//                         scale: true,
-//                         splitLine: {
-//                             show: false
-//                         },
-//                         axisLine: {
-//                             show: false,
-//                             lineStyle: {
-//                                 color: '#dbdbdb'
-//                             }
-//                         },
-//                         axisTick: {
-//                             show: false
-//                         }
-//                     }],
-//                     series: [{
-//                         name: '',
-//                         type: 'line',
-//                         data: []
-//                     }]
-//                 };
-//                 if (Array.isArray(this.chartData)) {
-//                     console.log(this.chartData)
-//                     options.legend.data = [this.chartData[0].ch];
-//                     var series = {
-//                         name: this.chartData[0].ch,
-//                         type: 'line',
-//                         data: []
-//                     }
-//                     for (var i = 0; i < this.chartData.length; i++) {
-//                         series.data.push(this.chartData[i].value);
-//                         options.xAxis.data.push(this.chartData[i].alltime)
-//                     }
-//                 } else if (typeof this.chartData === 'object' && this.chartData) {
-
-//                 }
-//                 console.log(options)
-
-//                 charts.setOption(options);
-//                 return 0
-//             }
-//         },
-//         mounted: function() {
-//             charts = echarts.init(this.$refs['echarts']);
-//             var options = {
-//                 title: {
-//                     text: '主机过程线'
-//                 },
-//                 legend: {
-//                     data: []
-//                 },
-//                 xAxis: {
-//                     data: []
-//                 },
-//                 dataZoom: {
-//                     type: 'slider',
-//                     realtime: true,
-//                     start: 0,
-//                     end: 50
-//                 },
-//                 yAxis: [{
-//                     type: 'value',
-//                     splitNumber: 2,
-//                     scale: true,
-//                     splitLine: {
-//                         show: false
-//                     },
-//                     axisLine: {
-//                         show: false,
-//                         lineStyle: {
-//                             color: '#dbdbdb'
-//                         }
-//                     },
-//                     axisTick: {
-//                         show: false
-//                     }
-//                 }],
-//                 series: [{
-//                     name: '',
-//                     type: 'line',
-//                     data: []
-//                 }]
-//             };
-//             if (Array.isArray(this.chartData)) {
-//                 console.log(this.chartData)
-//                 options.legend.data = [this.chartData[0].ch];
-//                 var series = {
-//                     name: this.chartData[0].ch,
-//                     type: 'line',
-//                     data: []
-//                 }
-//                 for (var i = 0; i < this.chartData.length; i++) {
-//                     series.data.push(this.chartData[i].value);
-//                     options.xAxis.data.push(this.chartData[i].alltime)
-//                 }
-//             } else if (typeof this.chartData === 'object' && this.chartData) {
-
-//             }
-//             console.log(options)
-
-//             charts.setOption(options)
-//         }
-//     })
-// })();
-
 ;
 (function() {
     window.app = new Vue({
@@ -361,3 +233,68 @@ var ajax = axios.create({
         }
     })
 })();
+
+function setCharts(ec, data) {
+    var opts = {
+        title: {
+            text: '主机过程线'
+        },
+        legend: {
+            data: []
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: []
+        },
+        dataZoom: {
+            type: 'slider',
+            realtime: true,
+            start: 0,
+            end: 50
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        yAxis: [{
+            type: 'value',
+            splitNumber: 2,
+            scale: true,
+            splitLine: {
+                show: true
+            },
+            axisLine: {
+                show: false,
+                lineStyle: {
+                    color: '#dbdbdb'
+                }
+            },
+            axisTick: {
+                show: false
+            }
+        }],
+        series: [{
+            name: '',
+            type: 'line',
+            data: [],
+            smooth: true
+        }]
+    };
+    if (Array.isArray(data)) {
+        opts.legend.data = [data[0].ch];
+        var series = {
+            name: data[0].ch,
+            type: 'line',
+            data: [],
+            smooth: true
+        }
+        for (var i = 0; i < data.length; i++) {
+            series.data.push(data[i].value);
+            opts.xAxis.data.push(data[i].alltime)
+        }
+        opts.series = series;
+    } else if (typeof data === 'object' && data) {
+
+    }
+    ec.setOption(opts)
+}
