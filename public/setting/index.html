@@ -30,12 +30,18 @@
 
     <!--通讯方式-->
     <script id="correspondedTpl" type="text/x-template">
-        <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="username" label="用户名"></el-table-column>
-            <el-table-column prop="phone" label="手机号码"></el-table-column>
-            <el-table-column prop="email" label="email"></el-table-column>
-            <el-table-column prop="company" label="email"></el-table-column>
-        </el-table>
+        <div>
+            <el-table :data="tableData" style="width: 100%">
+                <el-table-column prop="username" label="用户名"></el-table-column>
+                <el-table-column prop="phone" label="手机号码"></el-table-column>
+                <el-table-column prop="email" label="email"></el-table-column>
+                <el-table-column prop="company" label="email"></el-table-column>
+            </el-table>
+            <div style="margin:10px auto;">
+                <el-pagination layout="prev, pager, next" :page-count="totalPage" @current-change="eventChangePage"></el-pagination>
+            </div>
+        </div>
+
     </script>
 
     <!--已注册用户-->

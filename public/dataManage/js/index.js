@@ -17,10 +17,12 @@ var ajax = axios.create({
                     endTime: '',
                     accessToken: window.parent.userData.accessToken
                 },
+                site: [],
                 startTime: '',
                 endTime: '',
                 tableData: [],
-                totalPage: 0
+                totalPage: 0,
+                sb: ''
             }
         },
         methods: {
@@ -33,6 +35,22 @@ var ajax = axios.create({
             eventChangePage: function(currentPage) {
                 this.form.currentPage = currentPage;
                 this.eventSearch();
+            },
+            eventEnChange: function(data) {
+                var self = this;
+                ajax({
+                    url: '/dataManage/getSiteList',
+                    params: {
+                        en: this.form.en,
+                        accessToken: this.form.accessToken
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        self.site = res.data
+                    }
+                })
             },
             /**表格查询 */
             eventSearch: function() {
@@ -75,9 +93,11 @@ var ajax = axios.create({
                     endTime: '',
                     accessToken: window.parent.userData.accessToken
                 },
+                site: [],
                 startTime: '',
                 endTime: '',
-                tableData: []
+                tableData: [],
+                sb: ''
             }
         },
         methods: {
@@ -86,6 +106,22 @@ var ajax = axios.create({
             },
             eventSelectEndTime: function(date) {
                 this.form.endTime = date
+            },
+            eventEnChange: function(data) {
+                var self = this;
+                ajax({
+                    url: '/dataManage/getSiteList',
+                    params: {
+                        en: this.form.en,
+                        accessToken: this.form.accessToken
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        self.site = res.data
+                    }
+                })
             },
             /**单传感器查询 */
             eventSearch: function() {
@@ -128,10 +164,12 @@ var ajax = axios.create({
                     endTime: '',
                     accessToken: window.parent.userData.accessToken
                 },
+                site: [],
                 startTime: '',
                 endTime: '',
                 tableData: [],
-                charts: null
+                charts: null,
+                sb: ''
             }
         },
         methods: {
@@ -140,6 +178,22 @@ var ajax = axios.create({
             },
             eventSelectEndTime: function(date) {
                 this.form.endTime = date
+            },
+            eventEnChange: function(data) {
+                var self = this;
+                ajax({
+                    url: '/dataManage/getSiteList',
+                    params: {
+                        en: this.form.en,
+                        accessToken: this.form.accessToken
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        self.site = res.data
+                    }
+                })
             },
             /**多传感器查询 */
             eventSearch: function() {
@@ -192,10 +246,12 @@ var ajax = axios.create({
                     accessToken: window.parent.userData.accessToken,
                     timePont: ''
                 },
+                site: [],
                 startTime: '',
                 endTime: '',
                 timeList: [],
                 tableData: [],
+                sb: ''
             }
         },
         methods: {
@@ -206,6 +262,22 @@ var ajax = axios.create({
             eventSelectEndTime: function(date) {
                 this.form.endTime = date;
                 this.reqGetTimeList();
+            },
+            eventEnChange: function(data) {
+                var self = this;
+                ajax({
+                    url: '/dataManage/getSiteList',
+                    params: {
+                        en: this.form.en,
+                        accessToken: this.form.accessToken
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        self.site = res.data
+                    }
+                })
             },
             eventSearch: function() {
                 var self = this;

@@ -24,8 +24,13 @@
         <section id="searh-table" class="search-panel">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="主机名">
-                    <el-select v-model="form.en" clearable placeholder="请选择">
+                    <el-select v-model="form.en" clearable placeholder="请选择" @change="eventEnChange">
                         <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="工地">
+                    <el-select v-model="sb" clearable placeholder="请选择">
+                        <el-option v-for="item in site" :key="item" :label="item" :value="item"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="子机号">
@@ -65,8 +70,13 @@
         <section id="search-single-device" class="search-panel">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="主机名">
-                    <el-select v-model="form.en" clearable placeholder="请选择">
+                    <el-select v-model="form.en" clearable placeholder="请选择" @change="eventEnChange">
                         <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="工地">
+                    <el-select v-model="sb" clearable placeholder="请选择">
+                        <el-option v-for="item in site" :key="item" :label="item" :value="item"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="子机号">
@@ -98,8 +108,13 @@
         <section id="search-many-device" class="search-panel">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="主机名">
-                    <el-select v-model="form.en" clearable placeholder="请选择">
+                    <el-select v-model="form.en" clearable placeholder="请选择" @change="eventEnChange">
                         <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="工地">
+                    <el-select v-model="sb" clearable placeholder="请选择">
+                        <el-option v-for="item in site" :key="item" :label="item" :value="item"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="子机号">
@@ -131,8 +146,13 @@
         <section id="searchSingleDevice" class="search-panel">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="主机名">
-                    <el-select v-model="form.en" clearable placeholder="请选择">
+                    <el-select v-model="form.en" clearable placeholder="请选择" @change="eventEnChange">
                         <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="工地">
+                    <el-select v-model="sb" clearable placeholder="请选择">
+                        <el-option v-for="item in site" :key="item" :label="item" :value="item"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="子机号">
@@ -174,7 +194,7 @@
         <section id="searchSingleDevice" class="search-panel">
             <el-form ref="form" :model="form" label-width="80px">
                 <el-form-item label="主机名">
-                    <el-select v-model="form.serviceName" clearable placeholder="请选择">
+                    <el-select v-model="form.serviceName" clearable placeholder="请选择" @change="eventEnChange">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                     </el-select>

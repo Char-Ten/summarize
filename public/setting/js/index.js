@@ -6,25 +6,37 @@ var ajax = axios.create({
         template: '#correspondedTpl',
         data: function() {
             return {
-                tableData: []
-            }
-        },
-        mounted: function() {
-            var self = this;
-            ajax({
-                url: '/sysConf/getUserInfo',
-                params: {
+                tableData: [],
+                form: {
                     currentPage: 1,
                     pageSize: 10,
                     accessToken: window.parent.userData.accessToken
-                }
-            }).then(function(res) {
-                return res.data
-            }).then(function(res) {
-                if (res.msg === 'ok') {
-                    self.tableData = res.data.userlist
-                }
-            })
+                },
+                totalPage: 1
+            }
+        },
+        methods: {
+            eventChangePage: function(value) {
+                this.form.currentPage = value;
+                this.reqAjax();
+            },
+            reqAjax: function() {
+                var self = this;
+                ajax({
+                    url: '/sysConf/getUserInfo',
+                    params: this.form
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        self.tableData = res.data.userlist
+                        self.totalPage = res.data.totalPage
+                    }
+                })
+            }
+        },
+        mounted: function() {
+            this.reqAjax()
         }
     })
 })();
@@ -122,6 +134,7 @@ var ajax = axios.create({
             cpmtList: ['corresponded', 'changepsw'],
             superList: ['管理员管理'],
             superCpmt: [],
+            isShowM: window.parent.userData.manage
         }
     })
 })();
