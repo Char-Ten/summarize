@@ -12,12 +12,21 @@
 <body>
     <div id="deviceSetting">
         <el-tabs type="border-card">
-            <el-tab-pane v-for="item,index in navList" :label="item">
+            <el-tab-pane v-for="item,index in navList" :key="index" :label="item">
                 <section class="dm-ct">
                     <component :is="navCtList[index]" :namelist="diveceNameList"></component>
                 </section>
             </el-tab-pane>
         </el-tabs>
+        <div v-if="isShowM" style="margin-top:20px">
+            <el-tabs type="border-card">
+                <el-tab-pane v-for="item,index in mList" :key="index" :label="item">
+                    <section class="dm-ct">
+                        <component :is="mCtList[index]" :namelist="diveceNameList"></component>
+                    </section>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
     </div>
 
     <!--添加主机-->

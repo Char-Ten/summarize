@@ -11,44 +11,56 @@
 <body>
     <div id="setting">
         <el-tabs type="border-card">
-            <el-tab-pane v-for="item,index in navList" :label="item" :name="index">
+            <el-tab-pane v-for="item,index in navList" :label="item" :key="index">
                 <section class="dm-ct">
                     <component :is="cpmtList[index]"></component>
                 </section>
             </el-tab-pane>
         </el-tabs>
-        <el-row>
+        <div style="margin-top:20px">
+            <el-tabs type="border-card">
+                <el-tab-pane v-for="item,index in superList" :key="index" :label="item">
+                    <section class="dm-ct">
+                        <!-- <component :is="mCtList[index]" :namelist="diveceNameList"></component> -->
+                    </section>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
     </div>
 
     <!--通讯方式-->
     <script id="correspondedTpl" type="text/x-template">
         <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="userName" label="用户名"></el-table-column>
-            <el-table-column prop="person" label="联系人"></el-table-column>
-            <el-table-column prop="telphone" label="手机号码"></el-table-column>
+            <el-table-column prop="username" label="用户名"></el-table-column>
+            <el-table-column prop="phone" label="手机号码"></el-table-column>
             <el-table-column prop="email" label="email"></el-table-column>
+            <el-table-column prop="company" label="email"></el-table-column>
         </el-table>
     </script>
 
-    <!--连接方式-->
-    <script id="connectTpl" type="text/x-template">
-        <div></div>
+    <!--已注册用户-->
+    <script id="userTpl" type="text/x-template">
+        <el-table :data="tableData" style="width: 100%">
+            <el-table-column prop="username" label="用户名"></el-table-column>
+            <el-table-column prop="company" label="email"></el-table-column>
+
+        </el-table>
     </script>
 
     <!--修改密码-->
     <script id="changepswTpl" type="text/x-template">
         <el-form ref="form" label-width="100px" :model="form" class="form-list">
-            <el-form-item label="旧密码">
-                <el-input type="password" v-model="form.prePasswd" />
+            <el-form-item label="旧密码" required>
+                <el-input type="password" v-model="form.prePasswd" @blur="eventBlurPrePasswd" />
             </el-form-item>
-            <el-form-item label="新密码">
-                <el-input type="password" v-model="form.newPasswd" />
+            <el-form-item label="新密码" required>
+                <el-input type="password" v-model="form.newPasswd" @blur="eventBlurNewPasswd" />
             </el-form-item>
-            <el-form-item label="确认密码">
-                <el-input type="password" v-model="checkPasswd" />
+            <el-form-item label="确认密码" required>
+                <el-input type="password" v-model="form.checkPasswd" @blur="eventCheckPsw" />
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="eventChange">修改</el-button>
+                <el-button type="primary" :disabled="isSub" @click="eventChange">修改</el-button>
             </el-form-item>
         </el-form>
     </script>

@@ -54,3 +54,14 @@ body {
     padding: 15px;
     padding-top: 0
 }
+
+.echart-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.echart {
+    width: 600px;
+    height: 300px;
+}

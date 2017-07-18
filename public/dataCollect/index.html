@@ -21,14 +21,17 @@
                 <div>
                     <h2 class="device-name" v-text="'主机:'+en"></h2>
                     <div class="device-btngroup">
-                        <el-button type="primary" size="small" icon="search" @click="eventSearchLinkStatus">连接状态</el-button>
-                        <el-button type="primary" size="small" icon="search" :disabled="true">实时数据</el-button>
-                        <el-button type="primary" size="small" icon="search" :disabled="true">最新数据</el-button>
+                        <el-button type="primary" size="small" icon="share" @click="eventSearchLinkStatus">连接状态</el-button>
+                        <el-button type="primary" size="small" icon="time" :disabled="true">实时数据</el-button>
+                        <el-button type="primary" size="small" icon="search" @click="eventSearchNowData">最新数据</el-button>
                     </div>
                 </div>
                 <aside>
                     <transition name="el-fade-in-linear">
-                        <el-button type="text" icon="caret-top" v-show="isShowTable" @click="isShowTable=false">收起</el-button>
+                        <el-button type="text" icon="caret-top" v-show="isShowTable" @click="isShowTable=false">收起连接状态</el-button>
+                    </transition>
+                    <transition name="el-fade-in-linear">
+                        <el-button type="text" icon="caret-top" v-show="!Array.isArray(nowDataList)" @click="nowDataList=[]">收起最新数据</el-button>
                     </transition>
                 </aside>
             </header>
@@ -37,7 +40,11 @@
                     <component is="device-table-1" :linkStatusData="linkStausList"></component>
                 </div>
             </transition>
-
+            <transition name="el-fade-in-linear">
+                <div class="echart-box" v-show="!Array.isArray(nowDataList)">
+                    <div class="echart" ref="echarts"></div>
+                </div>
+            </transition>
         </section>
     </script>
 
@@ -53,6 +60,7 @@
         </el-table>
     </script>
 
+    <script src="//cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
     <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
     <script src="//unpkg.com/element-ui/lib/index.js"></script>

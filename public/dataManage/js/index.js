@@ -179,31 +179,87 @@ var ajax = axios.create({
 (function() {
     Vue.component('search-point', {
         template: '#searchPointTpl',
+        props: {
+            diveceNameList: Array
+        },
         data: function() {
             return {
                 form: {
                     en: '',
-
+                    chs: [],
+                    startTime: '',
+                    endTime: '',
+                    accessToken: window.parent.userData.accessToken,
+                    timePont: ''
                 },
-                options: [{
-                    value: '选项1',
-                    label: '黄金糕'
-                }, {
-                    value: '选项2',
-                    label: '双皮奶'
-                }, {
-                    value: '选项3',
-                    label: '蚵仔煎'
-                }, {
-                    value: '选项4',
-                    label: '龙须面'
-                }, {
-                    value: '选项5',
-                    label: '北京烤鸭'
-                }],
+                startTime: '',
+                endTime: '',
+                timeList: [],
+                tableData: [],
             }
         },
-        methods: {},
+        methods: {
+            eventSelectStartTime: function(date) {
+                this.form.startTime = date;
+                this.reqGetTimeList();
+            },
+            eventSelectEndTime: function(date) {
+                this.form.endTime = date;
+                this.reqGetTimeList();
+            },
+            eventSearch: function() {
+                var self = this;
+                var params = [];
+                for (var attr in this.form) {
+                    if (Array.isArray(this.form[attr])) {
+                        for (var i = 0; i < this.form[attr].length; i++) {
+                            params.push(attr + '=' + this.form[attr][i])
+                        }
+                    } else {
+                        params.push(attr + '=' + this.form[attr])
+                    }
+                }
+                ajax({
+                    url: '/dataManage/pointQuery?' + params.join('&')
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        var a = [];
+                        for (var attr in res.data) {
+                            a.push(res.data[attr])
+                        }
+                        self.tableData = a;
+                        a = null
+                    }
+                })
+            },
+            reqGetTimeList: function() {
+                var self = this;
+                if (!this.form.en) {
+                    return
+                }
+                if (!this.form.startTime) {
+                    return
+                }
+                ajax({
+                    url: '/dataManage/getAlltimePoint',
+                    params: {
+                        en: this.form.en,
+                        startTime: this.form.startTime,
+                        endTime: this.form.endTime || '',
+                        accessToken: this.form.accessToken,
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        self.timeList = res.data
+                    }
+                })
+            },
+
+        },
         mounted: function() {}
     });
 })();
@@ -244,9 +300,9 @@ var ajax = axios.create({
     window.app = new Vue({
         el: '#dataMange',
         data: {
-            navList: ['表格查询', '单传感器查询', '多传感器查询', '定点查询', '速率变化查询'],
+            navList: ['表格查询', '单传感器查询', '多传感器查询', '定点查询' /*, '速率变化查询'*/ ],
             navAtv: 0,
-            navCtList: ['search-table', 'search-single-device', 'search-many-device', 'search-point', 'search-speed'],
+            navCtList: ['search-table', 'search-single-device', 'search-many-device', 'search-point' /*, 'search-speed'*/ ],
             diveceNameList: [],
             diveceChildrenNameList: []
         },
@@ -308,7 +364,7 @@ function setCharts(ec, data) {
             name: '',
             type: 'line',
             data: [],
-            smooth: true
+            smooth: false
         }]
     };
     if (Array.isArray(data)) {
@@ -317,7 +373,7 @@ function setCharts(ec, data) {
             name: data[0].ch,
             type: 'line',
             data: [],
-            smooth: true
+            smooth: false
         }
         for (var i = 0; i < data.length; i++) {
             series.data.push(data[i].value);
@@ -333,7 +389,7 @@ function setCharts(ec, data) {
                 var series = {
                     name: attr,
                     type: 'line',
-                    smooth: true,
+                    smooth: false,
                     data: []
                 }
                 for (var i = 0; i < data.serviceData[attr].length; i++) {

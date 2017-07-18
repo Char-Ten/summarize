@@ -6,31 +6,24 @@ var ajax = axios.create({
         template: '#correspondedTpl',
         data: function() {
             return {
-                tableData: [{
-                    userName: 'afdsa',
-                    person: 'fdsf',
-                    telphone: 18888888888,
-                    email: '18888888888@233.com'
-                }, {
-                    userName: 'afdsa',
-                    person: 'fdsf',
-                    telphone: 18888888888,
-                    email: '18888888888@233.com'
-                }]
+                tableData: []
             }
         },
         mounted: function() {
+            var self = this;
             ajax({
-                url: '/sysConf/getAdminInfo',
+                url: '/sysConf/getUserInfo',
                 params: {
-                    currentPage: 0,
+                    currentPage: 1,
                     pageSize: 10,
                     accessToken: window.parent.userData.accessToken
                 }
             }).then(function(res) {
                 return res.data
             }).then(function(res) {
-                console.log(res)
+                if (res.msg === 'ok') {
+                    self.tableData = res.data.userlist
+                }
             })
         }
     })
@@ -46,14 +39,75 @@ var ajax = axios.create({
                     prePasswd: '',
                     newPasswd: '',
                     username: window.parent.userData.username,
-                    accessToken: window.parent.userData.accessToken
+                    accessToken: window.parent.userData.accessToken,
+                    checkPasswd: ''
                 },
-                checkPasswd: ''
+            }
+        },
+        computed: {
+            isSub: function() {
+                if (this.form.prePasswd === '') {
+                    return true
+                }
+                if (this.form.checkPasswd === '') {
+                    return true
+                }
+                return false
             }
         },
         methods: {
+            eventBlurPrePasswd: function() {
+                if (this.form.prePasswd === '') {
+                    this.$message.error('请填写密码')
+                }
+            },
+            eventBlurNewPasswd: function() {
+                if (this.form.newPasswd === '') {
+                    this.$message.error('请填写密码')
+                }
+            },
+            eventCheckPsw: function() {
+                if (this.form.checkPasswd !== this.form.newPasswd) {
+                    this.form.checkPasswd = '';
+                    this.$message.error('密码不一致！')
+                }
+            },
             eventChange: function() {
-
+                var self = this;
+                ajax({
+                    url: '/sysConf/modifyPasswd',
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded ;charset=UTF-8' },
+                    transformRequest: [function(data) {
+                        var a = []
+                        for (var attr in data) {
+                            a.push(attr + '=' + data[attr])
+                        }
+                        return a.join('&')
+                    }],
+                    data: {
+                        username: window.parent.userData.username,
+                        prePasswd: this.form.prePasswd,
+                        newPasswd: this.form.prePasswd,
+                        accessToken: window.parent.userData.accessToken
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        self.$message({
+                            message: '修改成功，即将跳转回登录页面重新登录',
+                            type: 'success',
+                            onClose: function() {
+                                ajax({ url: '/index/logout' })
+                                window.localStorage.clear();
+                                window.location.href = "/login";
+                            }
+                        })
+                    } else {
+                        self.$message.error(res.msg)
+                    }
+                })
             }
         }
     })
@@ -64,8 +118,10 @@ var ajax = axios.create({
     window.app = new Vue({
         el: '#setting',
         data: {
-            navList: ['通讯方式', '连接方式', '修改密码'],
-            cpmtList: ['corresponded', '', 'changepsw']
+            navList: ['通讯方式', '修改密码'],
+            cpmtList: ['corresponded', 'changepsw'],
+            superList: ['管理员管理'],
+            superCpmt: [],
         }
     })
 })();

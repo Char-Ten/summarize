@@ -64,6 +64,7 @@ var ajax = axios.create({
         },
         methods: {
             reqSearchSetting: function() {
+                var self = this;
                 ajax({
                     url: '/instrumentConfig/parameterPreview',
                     params: {
@@ -71,7 +72,16 @@ var ajax = axios.create({
                         accessToken: window.parent.userData.accessToken
                     }
                 }).then(function(res) {
-                    console.log(res.data)
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+
+                    } else {
+                        self.$message({
+                            type: 'error',
+                            message: res.msg
+                        })
+                    }
                 })
             }
         }
@@ -97,9 +107,12 @@ var ajax = axios.create({
     window.deviceSetting = new Vue({
         el: '#deviceSetting',
         data: {
-            navList: ['添加主机', '传感器配置预览', '传感器参数批量导出', '传感器参数批量导入'],
-            navCtList: ['addDevice', 'settingPreView', 'outputDeviceSetting', 'inputDeviceSetting'],
-            diveceNameList: []
+            navList: ['传感器配置预览', '传感器参数批量导出', '传感器参数批量导入'],
+            navCtList: ['settingPreView', 'outputDeviceSetting', 'inputDeviceSetting'],
+            mList: ['添加主机', '服务管理', '设置采集时间'],
+            mCtList: ['addDevice', ''],
+            diveceNameList: [],
+            isShowM: window.parent.userData.manager > 0
         },
         methods: {
             setDiveceNameList: function() {
@@ -107,7 +120,8 @@ var ajax = axios.create({
             }
         },
         mounted: function() {
-            window.parent.Eet.$on('loadDeviceListEnd', this.setDiveceNameList.bind(this));
+            this.setDiveceNameList();
+            window.parent.Eet.$on('reqDeviceNameListEnd', this.setDiveceNameList);
         }
     })
 })();
