@@ -52,6 +52,18 @@
             display: flex;
             justify-content: space-between
         }
+        
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 30px;
+            text-align: center;
+        }
+        
+        .link {
+            font-size: 12px;
+        }
     </style>
 </head>
 
@@ -68,18 +80,20 @@
                 <el-form-item label="密码">
                     <el-input type="password" v-model="form.password" />
                 </el-form-item>
-                <el-form-item>
+                <!-- <el-form-item>
                     <div class="panel-info">
-                        <el-checkbox v-model="form.rememberme">记住我</el-checkbox>
                         <el-button type="text">忘记密码？</el-button>
                     </div>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item>
                     <el-button type="primary" @click="eventLogin">登录</el-button>
-                    <el-button>注册</el-button>
+                    <el-button @click="eventSignup">注册</el-button>
                 </el-form-item>
             </el-form>
         </div>
+        <footer>
+            <a class="link" href="/" alt="后台登录">后台登录</a>
+        </footer>
     </div>
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
     <script src="//unpkg.com/element-ui/lib/index.js"></script>
@@ -92,9 +106,8 @@
             el: '#app',
             data: {
                 form: {
-                    username: 'wei520810',
-                    password: '123456',
-                    rememberme: 0
+                    username: localStorage.getItem('username') || '',
+                    password: localStorage.getItem('password') || '',
                 }
 
             },
@@ -122,17 +135,20 @@
                         this._EventLoadFail
                     ).catch(this._EventLoadFail)
                 },
+                eventSignup: function() {
+                    window.location.href = '/signup'
+                },
                 _EventLoadSuccsee: function(res) {
                     if (res.data.msg === 'ok') {
                         localStorage.clear();
                         localStorage.setItem('accessToken', res.data.data.accessToken);
                         localStorage.setItem('username', res.data.data.username);
+                        localStorage.setItem('password', this.form.password);
                         this.$message({
                             message: '登录成功，即将跳转',
                             type: 'success',
                             onClose: function() {
                                 window.location.href = "/";
-
                             }
                         })
                     } else {

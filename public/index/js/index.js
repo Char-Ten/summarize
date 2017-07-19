@@ -21,7 +21,7 @@ var Eet = new Vue();
                 this.iframeIndex = i
             },
             eventLogout: function() {
-                localStorage.clear();
+                localStorage.removeItem('accessToken');
                 window.location.href = '/login'
             },
             /**获取设备列表 */

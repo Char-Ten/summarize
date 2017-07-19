@@ -112,7 +112,7 @@ var ajax = axios.create({
                             type: 'success',
                             onClose: function() {
                                 ajax({ url: '/index/logout' })
-                                window.localStorage.clear();
+                                window.localStorage.removeItem('password');
                                 window.location.href = "/login";
                             }
                         })
@@ -132,7 +132,7 @@ var ajax = axios.create({
         data: {
             navList: ['通讯方式', '修改密码'],
             cpmtList: ['corresponded', 'changepsw'],
-            superList: ['管理员管理'],
+            superList: ['已注册用户', '管理员列表'],
             superCpmt: [],
             isShowM: window.parent.userData.manage
         }
