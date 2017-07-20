@@ -22,7 +22,8 @@ var ajax = axios.create({
                 charts: null,
                 isShowTable: false,
                 linkStausList: [],
-                nowDataList: []
+                nowDataList: [],
+                timer: null,
             }
         },
         methods: {
@@ -36,6 +37,12 @@ var ajax = axios.create({
             eventSearchNowData: function() {
                 this.nowDataList = [];
                 this.reqSearchNowData()
+            },
+            eventSearchRealTimeData: function() {
+                this.reqSearchRealTimeBefore()
+            },
+            eventSearchRealTimeDataEnd: function() {
+                this.reqSearchRealTimeAfter();
             },
             reqSearchLinkStatus: function() {
                 var self = this;
@@ -85,10 +92,23 @@ var ajax = axios.create({
                 }, function(res) {
                     self.$message.error('网络出现问题，请稍候重试')
                 })
+            },
+            reqSearchRealTimeBefore: function() {
+
+            },
+            reqSearchRealTime: function() {
+
+            },
+            reqSearchRealTimeAfter: function() {
+
             }
         },
         mounted: function() {
             this.charts = echarts.init(this.$refs['echarts']);
+            var self = this;
+            window.parent.addEventListener('unload', function() {
+                self.reqSearchRealTimeAfter();
+            });
         }
     })
 })();
