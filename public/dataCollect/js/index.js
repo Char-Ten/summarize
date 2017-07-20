@@ -14,7 +14,6 @@ var ajax = axios.create({
 
 ;
 (function() {
-    var char
     Vue.component('device-item', {
         template: '#deviceItemTpl',
         props: ['en', 'site'],
@@ -39,6 +38,7 @@ var ajax = axios.create({
                 this.reqSearchNowData()
             },
             reqSearchLinkStatus: function() {
+                var self = this;
                 return ajax({
                     url: '/dataCollection/getEnStatus',
                     method: 'get',
@@ -50,12 +50,15 @@ var ajax = axios.create({
                     if (res.data.msg === 'ok') {
                         return res.data.data
                     } else {
-                        throw new Error(res.data.msg)
+                        self.$message.error(res.data.msg)
                     }
+                }, function(res) {
+                    self.$message.error('网络出现问题，请稍候重试')
                 })
             },
             reqSearchNowData: function() {
                 var self = this;
+                self.nowDataList = [];
                 return ajax({
                     url: '/dataCollection/getLatestData',
                     params: {
@@ -67,9 +70,20 @@ var ajax = axios.create({
                     return res.data
                 }).then(function(res) {
                     if (res.msg === 'ok') {
-                        self.nowDataList = res.data;
-                        setCharts(self.charts, res.data)
+                        return res.data;
+                        //setCharts(self.charts, res.data)
+                    } else {
+                        self.$message.error(res.msg)
                     }
+                }).then(function(res) {
+                    if (res.chs && res.chs.length) {
+                        self.nowDataList = res.data;
+                        setCharts(self.charts, res)
+                    } else {
+                        self.$message.error('暂无数据')
+                    }
+                }, function(res) {
+                    self.$message.error('网络出现问题，请稍候重试')
                 })
             }
         },

@@ -55,6 +55,7 @@ var ajax = axios.create({
             /**表格查询 */
             eventSearch: function() {
                 var self = this;
+                self.tableData = [];
                 return ajax({
                     url: '/dataManage/tableQuery',
                     params: this.form
@@ -66,10 +67,12 @@ var ajax = axios.create({
                         self.totalPage = res.data.totalPage
                         return res.data
                     } else {
-                        throw res.msg;
+                        self.$message.error('主机' + self.form.en + '在当前时间段无数据')
                         return res.msg
                     }
-                }).catch(function(res) {})
+                }).catch(function(res) {
+                    self.$message.error('服务区故障')
+                })
 
             },
         }

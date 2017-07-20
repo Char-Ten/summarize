@@ -16,7 +16,14 @@ body {
 }
 
 .search-panel {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     padding: 15px
+}
+
+.table-content {
+    flex: 1;
 }
 
 .echart {

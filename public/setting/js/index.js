@@ -100,7 +100,7 @@ var ajax = axios.create({
                     data: {
                         username: window.parent.userData.username,
                         prePasswd: this.form.prePasswd,
-                        newPasswd: this.form.prePasswd,
+                        newPasswd: this.form.newPasswd,
                         accessToken: window.parent.userData.accessToken
                     }
                 }).then(function(res) {
@@ -113,7 +113,7 @@ var ajax = axios.create({
                             onClose: function() {
                                 ajax({ url: '/index/logout' })
                                 window.localStorage.removeItem('password');
-                                window.location.href = "/login";
+                                window.parent.location.href = "/login";
                             }
                         })
                     } else {

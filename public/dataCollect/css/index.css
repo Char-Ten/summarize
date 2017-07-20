@@ -9,16 +9,28 @@ body {
 .device-item {
     width: 100%;
     background: #fff;
-    margin-bottom: 15px;
+    border: 1px solid #d1dbe5;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
+}
+
+.device-item:hover .device-name {
+    border-color: #eef1f6;
+    color: #22c4ff;
+    background: #fff;
+    font-weight: 100;
+    font-size: 18px;
 }
 
 .device-name {
     padding: 10px;
+    border-bottom: 1px solid transparent;
     margin: 0;
     font-size: 16px;
     font-weight: 700;
-    background: #fff;
-    color: #505050;
+    color: #8391a5;
+    background: #eef1f6;
+    transition: all .5s
 }
 
 .device-btngroup {

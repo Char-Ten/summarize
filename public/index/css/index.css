@@ -22,7 +22,9 @@ iframe {
     justify-content: space-between;
     align-items: center;
     height: 75px;
-    border-bottom: 1px solid #dbdbdb
+    border-bottom: 1px solid #dbdbdb;
+    background: #d1dbe5;
+    background: linear-gradient(135deg, #fff, #eef1f6)
 }
 
 .app-header__lt {
@@ -92,15 +94,16 @@ iframe {
 
 .aside-header__item--atv {
     background: #22c4ff;
+    background: linear-gradient(45deg, #22c4ff, #444c61);
     color: #fff;
 }
 
 .aside-header__item:hover {
-    background: rgba(0, 0, 0, .1)
+    background: rgba(255, 255, 255, .1);
 }
 
 .aside-header__item--atv:hover {
-    background: #22c4ff
+    background: linear-gradient(45deg, #22c4ff, #444c61);
 }
 
 .app-main {
