@@ -11,7 +11,7 @@ var Eet = new Vue();
         el: '#app',
         data: {
             iframeIndex: 0,
-            iframeSrcList: ['./dataCollect', './dataManage', './deviceSetting', './setting'],
+            iframeSrcList: ['./dataCollect', './dataManage', './deviceSetting', './setting', '/admin'],
             userData: userData,
             deviceList: [],
             deviceNameList: []

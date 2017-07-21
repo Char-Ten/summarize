@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="//unpkg.com/element-ui/lib/theme-default/index.css">
+    <link href="../commo.css" rel="stylesheet">
+    <link href="./css/index.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <section class="app-item">
+            <el-tabs type="border-card">
+                <el-tab-pane v-for="item,index in superManage" :key="index" :label="item">
+                    <section class="dm-ct">
+                        <component :is="superContent[index]"></component>
+                    </section>
+                </el-tab-pane>
+            </el-tabs>
+        </section>
+        <section class="app-item">
+            <el-tabs type="border-card">
+                <el-tab-pane v-for="item,index in normalManage" :key="index" :label="item">
+                    <section class="dm-ct">
+                        <component :is="normalContent[index]" :divece-name-list="diveceNameList"></component>
+                    </section>
+                </el-tab-pane>
+            </el-tabs>
+        </section>
+
+    </div>
+
+
+    <!-- 成员列表 -->
+    <script id="userListTpl" type="text/x-template">
+        <section>
+            <el-table :data="tableData" style="width: 100%">
+                <el-table-column prop="username" label="用户名"></el-table-column>
+                <el-table-column label="权限">
+                    <template scope="scope">
+                        <span v-text="manage[scope.row.manager]"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作">
+                    <template scope="scope">
+                        <el-button v-if="isDeleteUser(scope.row)" type="danger" icon="delete" @click="reqRemoveUser(scope.row.username)" size="small">删除用户</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div style="margin:10px auto;">
+                <el-pagination layout="prev, pager, next" :page-count="totalPage" @current-change="eventChangePage"></el-pagination>
+            </div>
+            <div class="tpl-node">
+                <h3>添加成员</h3>
+                <el-form ref="form" label-width="100px" :model="addUserForm" class="form-list" class="inp-form">
+                    <el-form-item label="用户名" required>
+                        <el-tooltip class="item" effect="dark" content="用户名仅能由 汉字／数字／字母 组成" placement="right">
+                            <el-input v-model="addUserForm.username" @blur="eventBlurUsername" />
+                        </el-tooltip>
+                    </el-form-item>
+                    <el-form-item label="用户密码" required>
+                        <el-tooltip class="item" effect="dark" content="密码需要6位以上" placement="right">
+                            <el-input type="password" v-model="addUserForm.password" @blur="eventBlurPasswd" />
+                        </el-tooltip>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" :disabled="isSub" @click="eventChange">添加</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </section>
+    </script>
+
+    <!-- 主机管理 -->
+    <script id="hostManageTpl" type="text/x-template">
+        <section>
+            <div>
+                <h3>开启服务</h3>
+                <el-form>
+                    <el-form-item label="选择主机">
+                        <el-select v-model="form.en" clearable placeholder="请选择" @change="eventEnChange">
+                            <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="选择工地">
+                        <el-select v-model="form.en" clearable placeholder="请选择" @change="eventEnChange">
+                            <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <el-tooltip class="item" effect="dark" content="最小采集间隔300秒" placement="bottom">
+                        <el-form inline>
+                            <el-form-item label="数据采集间隔">
+                                <el-input type="number" v-model="time.d" @blur="eventBlurTime" />
+                            </el-form-item>
+                            <el-form-item label="日／">
+                                <el-input type="number" v-model="time.h" @blur="eventBlurTime" />
+                            </el-form-item>
+                            <el-form-item label="时／">
+                                <el-input type="number" v-model="time.m" @blur="eventBlurTime" />
+                            </el-form-item>
+                            <el-form-item label="分／">
+                                <el-input type="number" v-model="time.s" @blur="eventBlurTime" />
+                            </el-form-item>
+                            <el-form-item label="秒"></el-form-item>
+                        </el-form>
+                    </el-tooltip>
+
+                    <el-form-item>
+                        <el-button type="primary" :disabled="isSub" @click="eventSubmit">开启</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <div class="tpl-node">
+                <h3>关闭服务</h3>
+                <el-form>
+                    <el-form-item>
+                        <el-select v-model="form.en" clearable placeholder="请选择" @change="eventEnChange">
+                            <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" :disabled="isSub" @click="eventSubmit">关闭</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </section>
+    </script>
+
+    <!-- 所有用户 -->
+    <script id="allUserTpl" type="text/x-template">
+        <section>
+            <div>
+                <h3>所有用户</h3>
+                <el-table :data="allUsersData" style="width: 100%">
+                    <el-table-column prop="username" label="用户名"></el-table-column>
+                    <el-table-column prop="company" label="公司名"></el-table-column>
+                </el-table>
+                <div style="margin:10px auto;">
+                    <el-pagination layout="prev, pager, next" :page-count="allUserTotalPage" @current-change="eventChangeAllUserPage"></el-pagination>
+                </div>
+            </div>
+            <div class="tpl-node">
+                <h3>管理员列表</h3>
+                <el-table :data="managersData" style="width: 100%">
+                    <el-table-column prop="username" label="用户名"></el-table-column>
+                    <el-table-column prop="company" label="公司名"></el-table-column>
+                </el-table>
+                <div style="margin:10px auto;">
+                    <el-pagination layout="prev, pager, next" :page-count="ManagerTotalPage" @current-change="eventChangeManagersPage"></el-pagination>
+                </div>
+            </div>
+            <div class="tpl-node">
+                <h3>添加管理员</h3>
+                <el-form ref="form" label-width="100px" :model="form" class="form-list" class="inp-form">
+                    <el-form-item label="用户名" required>
+                        <el-tooltip class="item" effect="dark" content="请输入想要成为管理员的用户名" placement="right">
+                            <el-input v-model="form.username" @blur="eventBlurUsername" />
+                        </el-tooltip>
+                    </el-form-item>
+                    <el-form-item label="确认用户名" required>
+                        <el-tooltip class="item" effect="dark" content="一旦成为管理员将不可删除，请再次确认管理员的用户名" placement="right">
+                            <el-input v-model="confirmUsername" @blur="eventBlurConfirmUsername" />
+                        </el-tooltip>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" :disabled="isSub" @click="eventAddManager">添加</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </section>
+    </script>
+
+    <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
+    <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
+    <script src="//unpkg.com/element-ui/lib/index.js"></script>
+    <script src='./js/index.js'></script>
+</body>
+
+</html>

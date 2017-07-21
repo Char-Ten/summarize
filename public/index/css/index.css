@@ -33,10 +33,11 @@ iframe {
 }
 
 .app-logo {
-    width: 48px;
-    height: 48px;
+    width: 60px;
+    height: 60px;
+    padding: 8px;
     border-radius: 10px;
-    background: rgba(0, 0, 0, .5)
+    background: linear-gradient(-45deg, rgba(68, 76, 97, 1), rgba(0, 160, 255, 0))
 }
 
 .app-title {
