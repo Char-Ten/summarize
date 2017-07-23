@@ -77,3 +77,12 @@ body {
     width: 600px;
     height: 300px;
 }
+
+.progress {
+    padding-left: 30px;
+    align-items: center
+}
+
+.progress-rt {
+    margin-left: 15px;
+}

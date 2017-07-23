@@ -13,7 +13,7 @@
 
 <body>
     <div id="app">
-        <section class="app-item">
+        <!-- <section class="app-item">
             <el-tabs type="border-card">
                 <el-tab-pane v-for="item,index in superManage" :key="index" :label="item">
                     <section class="dm-ct">
@@ -21,7 +21,7 @@
                     </section>
                 </el-tab-pane>
             </el-tabs>
-        </section>
+        </section> -->
         <section class="app-item">
             <el-tabs type="border-card">
                 <el-tab-pane v-for="item,index in normalManage" :key="index" :label="item">
@@ -87,44 +87,60 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="选择工地">
-                        <el-select v-model="form.en" clearable placeholder="请选择" @change="eventEnChange">
-                            <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
+                        <el-select v-model="form.site" clearable placeholder="请选择">
+                            <el-option v-for="item in siteList" :key="item" :label="item" :value="item"></el-option>
                         </el-select>
                     </el-form-item>
-
-                    <el-tooltip class="item" effect="dark" content="最小采集间隔300秒" placement="bottom">
-                        <el-form inline>
-                            <el-form-item label="数据采集间隔">
-                                <el-input type="number" v-model="time.d" @blur="eventBlurTime" />
-                            </el-form-item>
-                            <el-form-item label="日／">
-                                <el-input type="number" v-model="time.h" @blur="eventBlurTime" />
-                            </el-form-item>
-                            <el-form-item label="时／">
-                                <el-input type="number" v-model="time.m" @blur="eventBlurTime" />
-                            </el-form-item>
-                            <el-form-item label="分／">
-                                <el-input type="number" v-model="time.s" @blur="eventBlurTime" />
-                            </el-form-item>
-                            <el-form-item label="秒"></el-form-item>
-                        </el-form>
-                    </el-tooltip>
-
-                    <el-form-item>
-                        <el-button type="primary" :disabled="isSub" @click="eventSubmit">开启</el-button>
+                    <el-form-item key="1" v-show="!isReadData">
+                        <el-button type="primary" :disabled="isSub" @click="eventGetRealData">开始获取数据</el-button>
                     </el-form-item>
+                    <div key="2" v-show="isReadData">
+                        <div class="cell progress">
+                            <el-progress type="circle" :percentage="((120-finalTime)*100/120).toFixed(2)"></el-progress>
+                            <div class="progress-rt">
+                                <p>{{dataStatus}}，已经采集了{{count}}次。</p>
+                                <p>取得连续空数据{{noDataCount}}次</p>
+                                <p>若连续取得5次空数据，我们将自动关闭服务，请您检查硬件后重新开启服务</p>
+                            </div>
+                        </div>
+                        <div class="e-chart" ref="echarts"></div>
+                        <el-form-item>
+                            <el-button type="primary" :disabled="isSub" @click="eventDingbiao">定标</el-button>
+                        </el-form-item>
+                    </div>
+                    <el-dialog :title="'数据采集间隔：'+fomatTime" :visible.sync="isShowDialog" @close="eventCloseDialog">
+                        <el-tooltip class="item" effect="dark" content="最小采集间隔300秒" placement="right">
+                            <el-form inline>
+                                <el-form-item label="日：">
+                                    <el-input type="number" v-model="time.d" @blur="eventBlurTime" />
+                                </el-form-item>
+                                <el-form-item label="时：">
+                                    <el-input type="number" v-model="time.h" @blur="eventBlurTime" />
+                                </el-form-item>
+                                <el-form-item label="分：">
+                                    <el-input type="number" v-model="time.m" @blur="eventBlurTime" />
+                                </el-form-item>
+                                <el-form-item label="秒：">
+                                    <el-input type="number" v-model="time.s" @blur="eventBlurTime" />
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="primary" :disabled="isSub" @click="eventSaveTime">开启服务</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </el-tooltip>
+                    </el-dialog>
                 </el-form>
             </div>
             <div class="tpl-node">
                 <h3>关闭服务</h3>
                 <el-form>
                     <el-form-item>
-                        <el-select v-model="form.en" clearable placeholder="请选择" @change="eventEnChange">
+                        <el-select v-model="closeEn" clearable placeholder="请选择">
                             <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" :disabled="isSub" @click="eventSubmit">关闭</el-button>
+                        <el-button type="primary" :disabled="!closeEn" @click="eventCloseHost">关闭</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -175,9 +191,11 @@
         </section>
     </script>
 
+    <script src="//cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
     <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
     <script src="//unpkg.com/element-ui/lib/index.js"></script>
+    <script src='./commo.js'></script>
     <script src='./js/index.js'></script>
 </body>
 

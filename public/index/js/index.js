@@ -14,7 +14,8 @@ var Eet = new Vue();
             iframeSrcList: ['./dataCollect', './dataManage', './deviceSetting', './setting', '/admin'],
             userData: userData,
             deviceList: [],
-            deviceNameList: []
+            deviceNameList: [],
+            isManager: false
         },
         methods: {
             eventAsideItemClick: function(i) {
@@ -74,6 +75,9 @@ var Eet = new Vue();
                     if (res.msg === 'ok') {
                         for (var attr in res.data) {
                             userData[attr] = res.data[attr];
+                        }
+                        if (userData.manager > 0) {
+                            app.isManager = true
                         }
                     } else {
                         throw 'error to get user msg'

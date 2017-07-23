@@ -48,7 +48,7 @@
                         <i class="iconfont icon-unie600 aside-header__item-icon"></i>
                         <div class="aside-header__item-txt">系统设置</div>
                     </div>
-                    <div class="cell aside-header__item" :class="iframeIndex===4&&'aside-header__item--atv'" @click="eventAsideItemClick(4)">
+                    <div class="cell aside-header__item" :class="iframeIndex===4&&'aside-header__item--atv'" v-if="isManager" @click="eventAsideItemClick(4)">
                         <i class="iconfont icon-houtaiguanli aside-header__item-icon"></i>
                         <div class="aside-header__item-txt">后台管理</div>
                     </div>

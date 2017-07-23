@@ -23,7 +23,12 @@ var ajax = axios.create({
                 isShowTable: false,
                 linkStausList: [],
                 nowDataList: [],
+
                 timer: null,
+                finalTimes: 120,
+                realTimeList: [],
+                charts2: null,
+                isFirst: true
             }
         },
         methods: {
@@ -39,11 +44,12 @@ var ajax = axios.create({
                 this.reqSearchNowData()
             },
             eventSearchRealTimeData: function() {
-                this.reqSearchRealTimeBefore()
+                this.timer = new EventSource('/api/site/dataCollection/getRealTimeData?en=' + this.en + '&accessToken=' + window.parent.userData.accessToken + '&isFirst=true');
+                this.timer.onmessage = function(res) {
+                    console.log(res)
+                }
             },
-            eventSearchRealTimeDataEnd: function() {
-                this.reqSearchRealTimeAfter();
-            },
+            eventSearchRealTimeDataEnd: function() {},
             reqSearchLinkStatus: function() {
                 var self = this;
                 return ajax({
@@ -93,11 +99,33 @@ var ajax = axios.create({
                     self.$message.error('网络出现问题，请稍候重试')
                 })
             },
-            reqSearchRealTimeBefore: function() {
-
-            },
             reqSearchRealTime: function() {
-
+                // var self = this;
+                // ajax({
+                //     url: '/dataCollection/getRealTimeData',
+                //     params: {
+                //         en: this.en,
+                //         accessToken: window.parent.userData.accessToken,
+                //         isFirst: this.isFirst
+                //     }
+                // }).then(function(res) {
+                //     return res.data
+                // }).then(function(res) {
+                //     if (res.msg === 'ok') {
+                //         this.isFirst = false
+                //         return res.data
+                //     } else {
+                //         res.$message.error(res.msg)
+                //         throw new Error('fuck data')
+                //     }
+                // }).then(function(res) {
+                //     if (res.chs && res.chs.length) {
+                //         self.realTimeList = res.data;
+                //         setCharts(self.charts2, res);
+                //     } else {
+                //         self.$message('暂无数据')
+                //     }
+                // })
             },
             reqSearchRealTimeAfter: function() {
 
@@ -105,6 +133,7 @@ var ajax = axios.create({
         },
         mounted: function() {
             this.charts = echarts.init(this.$refs['echarts']);
+            this.charts2 = echarts.init(this.$refs['echarts2']);
             var self = this;
             window.parent.addEventListener('unload', function() {
                 self.reqSearchRealTimeAfter();

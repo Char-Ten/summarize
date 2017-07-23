@@ -10,3 +10,16 @@
 .inp-form {
     width: 500px;
 }
+
+.e-chart {
+    width: 500px;
+    height: 300px;
+}
+
+.progress {
+    align-items: center
+}
+
+.progress-rt {
+    margin-left: 15px;
+}
