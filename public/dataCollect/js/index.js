@@ -44,10 +44,34 @@ var ajax = axios.create({
                 this.reqSearchNowData()
             },
             eventSearchRealTimeData: function() {
-                this.timer = new EventSource('/api/site/dataCollection/getRealTimeData?en=' + this.en + '&accessToken=' + window.parent.userData.accessToken + '&isFirst=true');
-                this.timer.onmessage = function(res) {
-                    console.log(res)
-                }
+                // this.timer = new EventSource('/api/site/dataCollection/getRealTimeData?en=' + this.en + '&accessToken=' + window.parent.userData.accessToken + '&isFirst=true');
+                // this.timer.onmessage = function(res) {
+                //     console.log(res)
+                // }
+                var a1 = new Date().getTime();
+                var self = this
+                ajax({
+                    url: '/dataCollection/getRealTimeData',
+                    method: 'get',
+                    params: {
+                        en: this.en,
+                        accessToken: window.parent.userData.accessToken,
+                        isFirst: true
+                    }
+                }).then(function(res) {
+                    var a2 = new Date().getTime();
+                    console.log(a2 - a1)
+                    return res.data
+                }).then(function() {
+                    var timer = new EventSource('/api/site/dataCollection/getRealTimeData?en=' + self.en + '&accessToken=' + window.parent.userData.accessToken + '&isFirst=true');
+                    timer.onmessage = function(res) {
+                        console.log(res)
+                    }
+                    timer.onerror = function(res) {
+                        console.log(res)
+                    }
+                })
+
             },
             eventSearchRealTimeDataEnd: function() {},
             reqSearchLinkStatus: function() {
@@ -143,6 +167,7 @@ var ajax = axios.create({
 })();
 
 
+
 ;
 (function() {
     window.app = new Vue({
@@ -159,6 +184,8 @@ var ajax = axios.create({
         }
     })
 })();
+
+
 
 function setCharts(ec, data) {
     var opts = {

@@ -22,7 +22,7 @@
                 <div>
                     <div class="device-btngroup">
                         <el-button type="primary" size="small" icon="share" @click="eventSearchLinkStatus">连接状态</el-button>
-                        <el-button type="primary" size="small" icon="time" :disabled="true" @click="eventSearchRealTimeData">实时数据</el-button>
+                        <el-button type="primary" size="small" icon="time" :disabled="false" @click="eventSearchRealTimeData">实时数据</el-button>
                         <el-button type="primary" size="small" icon="search" @click="eventSearchNowData">最新数据</el-button>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <div class="echart" ref="echarts"></div>
                 </div>
             </transition>
-            <!-- <transition name="el-fade-in-linear">
+            <transition name="el-fade-in-linear">
                 <div v-show="true">
                     <div class="cell progress">
                         <el-progress type="circle" :percentage="50"></el-progress>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="echart" ref="echarts2"></div>
                 </div>
-            </transition> -->
+            </transition>
         </section>
     </script>
 

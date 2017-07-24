@@ -214,11 +214,13 @@ var ajax = axios.create({
             },
             eventSubmit: function() {},
             eventEnChange: function() {
+                this.timer && this.handleCloseHost();
                 this.siteList = [];
                 this.form.site = ''
                 this.reqGetSite();
             },
             eventSiteChange: function() {
+                this.timer && this.handleCloseHost();
                 this.reqOpenHost();
             },
             eventGetRealData: function() {
@@ -234,14 +236,17 @@ var ajax = axios.create({
             },
             eventCloseDialog: function() {
                 if (this.isSubmitClick) { return }
-                this.reqCloseHost(this.form.en).then(function(res) {
-                    cpt.handleClearAddData();
-                });
+                this.handleCloseHost()
             },
             eventSaveTime: function() {
                 this.isSubmitClick = true;
                 this.reqSaveTime();
                 this.isShowDialog = false
+            },
+            handleCloseHost: function() {
+                this.reqCloseHost(this.form.en).then(function(res) {
+                    cpt.handleClearAddData();
+                });
             },
             handleClearAddData: function() {
                 this.count = 0;
@@ -324,11 +329,11 @@ var ajax = axios.create({
                         ) {
                             cpt.noDataCount++;
                             if (cpt.count === 1) {
-                                setCharts(cpt.charts, res);
+                                setCharts(cpt.charts, res.data);
                             }
                         } else {
                             cpt.noDataCount = 0;
-                            setCharts(cpt.charts, res);
+                            setCharts(cpt.charts, res.data);
                         }
                     }
                 })
@@ -457,11 +462,105 @@ var ajax = axios.create({
 
 ;
 (function() {
+    var cpt = null;
+    Vue.component('chsManage', {
+        template: '#chsManageTpl',
+        props: {
+            diveceNameList: Array
+        },
+        data: function() {
+            return {
+                form: {
+                    en: '',
+                    accessToken: window.parent.userData.accessToken
+                },
+                tableData: [],
+                chsForm: {
+                    en: '',
+                    ch: 0,
+                    k: 0,
+                    b: 0,
+                    Bp: 0,
+                    w: 0,
+                    accessToken: window.parent.userData.accessToken
+                },
+                isShowDialog: false
+            }
+        },
+        methods: {
+            eventEnChange: function() {
+                this.reqGetChsList()
+            },
+            eventEditChs: function(data) {
+                this.chsForm = data;
+                this.chsForm.en = this.form.en;
+                this.chsForm.accessToken = this.form.accessToken;
+                this.isShowDialog = true
+            },
+            eventUpdateCh: function() {
+                this.reqUpdateCh();
+                this.isShowDialog = false;
+            },
+            reqGetChsList: function() {
+                return ajax({
+                    url: '/backstage/listEqManagedet',
+                    params: this.form
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        cpt.tableData = res.data
+                    } else {
+                        cpt.$message.error(res.msg)
+                    }
+                }, function() {
+                    cpt.$message.error('网络故障')
+                })
+            },
+            reqUpdateCh: function() {
+                return ajax({
+                    url: '/backstage/alterEnEqitmentPa',
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'Accept': '*/*'
+                    },
+                    transformRequest: [function(data) {
+                        var a = []
+                        for (var attr in data) {
+                            a.push(attr + '=' + data[attr])
+                        }
+                        return a.join('&')
+                    }],
+                    data: this.chsForm
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        cpt.$message.success('修改成功')
+                    } else {
+                        cpt.$message.error(res.msg)
+                    }
+                }, function(res) {
+                    cpt.$message.error('网络故障')
+                }).then(function() {
+                    cpt.reqGetChsList()
+                })
+            }
+        },
+        mounted: function() {
+            cpt = this;
+        }
+    })
+})();
+
+;
+(function() {
     var app = new Vue({
         el: '#app',
         data: {
-            normalManage: ['成员列表', '主机管理'],
-            normalContent: ['userList', 'hostManage'],
+            normalManage: ['成员列表', '主机管理', '子机管理'],
+            normalContent: ['userList', 'hostManage', 'chsManage'],
             superManage: ['超级管理员', '收起面板'],
             superContent: ['allUser'],
             diveceNameList: []
@@ -529,6 +628,7 @@ function setCharts(ec, data) {
             data: [],
             smooth: false
         }
+        opts.xAxis.data = [];
         for (var i = 0; i < data.length; i++) {
             series.data.push(data[i].value);
             opts.xAxis.data.push(data[i].alltime)
@@ -538,6 +638,7 @@ function setCharts(ec, data) {
         if (data.serviceData) {
             opts.series = [];
             var bool = true;
+            opts.xAxis.data = [];
             for (var attr in data.serviceData) {
                 opts.legend.data.push(attr);
                 var series = {
@@ -558,6 +659,7 @@ function setCharts(ec, data) {
 
         }
     }
+    console.log(opts)
     ec.setOption(opts)
 }
 

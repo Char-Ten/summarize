@@ -87,7 +87,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="选择工地">
-                        <el-select v-model="form.site" clearable placeholder="请选择">
+                        <el-select v-model="form.site" clearable placeholder="请选择" @change="eventSiteChange">
                             <el-option v-for="item in siteList" :key="item" :label="item" :value="item"></el-option>
                         </el-select>
                     </el-form-item>
@@ -187,6 +187,57 @@
                         <el-button type="primary" :disabled="isSub" @click="eventAddManager">添加</el-button>
                     </el-form-item>
                 </el-form>
+            </div>
+        </section>
+    </script>
+
+    <!-- 子机管理 -->
+    <script id="chsManageTpl" type="text/x-template">
+        <section>
+            <div>
+                <el-form>
+                    <el-form-item label="选择主机">
+                        <el-select v-model="form.en" clearable placeholder="请选择" @change="eventEnChange">
+                            <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-form>
+                <el-table :data="tableData" style="width: 100%">
+                    <el-table-column prop="ch" label="子机名"></el-table-column>
+                    <el-table-column prop="en" label="主机"></el-table-column>
+                    <el-table-column prop="Bp" label="Bp"></el-table-column>
+                    <el-table-column prop="b" label="b"></el-table-column>
+                    <el-table-column prop="k" label="k"></el-table-column>
+                    <el-table-column prop="site" label="工地名"></el-table-column>
+                    <el-table-column prop="w" label="w"></el-table-column>
+                    <el-table-column label="操作">
+                        <template scope="scope">
+                            <el-button icon="edit" @click="eventEditChs(scope.row)" size="small">编辑</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <el-dialog title="子机编辑" :visible.sync="isShowDialog">
+                    <el-form>
+                        <el-form-item label="子机编号">
+                            <el-input readonly v-model="chsForm.ch" />
+                        </el-form-item>
+                        <el-form-item label="k">
+                            <el-input v-model="chsForm.k" />
+                        </el-form-item>
+                        <el-form-item label="Bp">
+                            <el-input v-model="chsForm.Bp" />
+                        </el-form-item>
+                        <el-form-item label="b">
+                            <el-input v-model="chsForm.b" />
+                        </el-form-item>
+                        <el-form-item label="w">
+                            <el-input v-model="chsForm.w" />
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="eventUpdateCh">修改</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-dialog>
             </div>
         </section>
     </script>
