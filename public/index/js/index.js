@@ -19,7 +19,8 @@ var Eet = new Vue();
         },
         methods: {
             eventAsideItemClick: function(i) {
-                this.iframeIndex = i
+                this.iframeIndex = i;
+                window.parent.Eet.$emit('endRealTime')
             },
             eventLogout: function() {
                 localStorage.removeItem('accessToken');

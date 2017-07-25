@@ -33,6 +33,9 @@
                     <transition name="el-fade-in-linear">
                         <el-button type="text" icon="caret-top" v-show="!Array.isArray(nowDataList)" @click="nowDataList=[]">收起最新数据</el-button>
                     </transition>
+                    <transition name="el-fade-in-linear">
+                        <el-button type="text" icon="caret-top" v-show="isShowCharts2" @click="eventSearchRealTimeDataEnd">收起实时数据</el-button>
+                    </transition>
                 </aside>
             </header>
             <transition name="el-fade-in-linear">
@@ -46,11 +49,11 @@
                 </div>
             </transition>
             <transition name="el-fade-in-linear">
-                <div v-show="true">
+                <div v-show="isShowCharts2">
                     <div class="cell progress">
-                        <el-progress type="circle" :percentage="50"></el-progress>
+                        <el-progress type="circle" :percentage="((120-finalTimes)*100/120).toFixed(2)"></el-progress>
                         <div class="progress-rt">
-                            <p>数据采集中，已经采集了{{1}}次。</p>
+                            <p>数据采集中，已经采集了{{count}}次。</p>
                         </div>
                     </div>
                     <div class="echart" ref="echarts2"></div>

@@ -12,6 +12,17 @@ var ajax = axios.create({
                 }
             }
         },
+        computed: {
+            isDis: function() {
+                if (window.parent.userData.manager < 1) {
+                    return true
+                }
+                if (!(this.form.en && this.form.site)) {
+                    return true
+                }
+                return false
+            }
+        },
         methods: {
             reqAddDevice: function() {
                 var self = this;
@@ -107,8 +118,8 @@ var ajax = axios.create({
     window.deviceSetting = new Vue({
         el: '#deviceSetting',
         data: {
-            navList: ['传感器配置预览', '传感器参数批量导出', '传感器参数批量导入'],
-            navCtList: ['settingPreView', 'outputDeviceSetting', 'inputDeviceSetting'],
+            navList: ['添加主机', '传感器配置预览', '传感器参数批量导出', '传感器参数批量导入'],
+            navCtList: ['addDevice', 'settingPreView', 'outputDeviceSetting', 'inputDeviceSetting'],
             mList: ['添加主机', '服务管理', '设置采集时间'],
             mCtList: ['addDevice', ''],
             diveceNameList: [],

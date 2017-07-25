@@ -18,6 +18,7 @@
                 </section>
             </el-tab-pane>
         </el-tabs>
+
     </div>
 
     <!--添加主机-->
@@ -30,9 +31,10 @@
                 <el-form-item label="主机名">
                     <el-input v-model="form.en" />
                 </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="reqAddDevice">添加</el-button>
+                <el-form-item label="">
+                    <el-button type="primary" :disabled="isDis" @click="reqAddDevice">添加</el-button>
                 </el-form-item>
+                <small>只有管理员才有权添加主机</small>
             </el-form>
         </section>
     </script>

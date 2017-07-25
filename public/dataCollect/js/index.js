@@ -28,7 +28,11 @@ var ajax = axios.create({
                 finalTimes: 120,
                 realTimeList: [],
                 charts2: null,
-                isFirst: true
+                isFirst: true,
+                isLoop: false,
+                count: 0,
+                sec: 0,
+                isShowCharts2: false
             }
         },
         methods: {
@@ -44,36 +48,19 @@ var ajax = axios.create({
                 this.reqSearchNowData()
             },
             eventSearchRealTimeData: function() {
-                // this.timer = new EventSource('/api/site/dataCollection/getRealTimeData?en=' + this.en + '&accessToken=' + window.parent.userData.accessToken + '&isFirst=true');
-                // this.timer.onmessage = function(res) {
-                //     console.log(res)
-                // }
-                var a1 = new Date().getTime();
-                var self = this
-                ajax({
-                    url: '/dataCollection/getRealTimeData',
-                    method: 'get',
-                    params: {
-                        en: this.en,
-                        accessToken: window.parent.userData.accessToken,
-                        isFirst: true
-                    }
-                }).then(function(res) {
-                    var a2 = new Date().getTime();
-                    console.log(a2 - a1)
-                    return res.data
-                }).then(function() {
-                    var timer = new EventSource('/api/site/dataCollection/getRealTimeData?en=' + self.en + '&accessToken=' + window.parent.userData.accessToken + '&isFirst=true');
-                    timer.onmessage = function(res) {
-                        console.log(res)
-                    }
-                    timer.onerror = function(res) {
-                        console.log(res)
-                    }
-                })
+                window.parent.Eet.$emit('endRealTime')
+                var self = this;
+                this.isShowCharts2 = true;
+                this.reqSearchRealTimeBefore();
 
             },
-            eventSearchRealTimeDataEnd: function() {},
+            eventSearchRealTimeDataEnd: function() {
+                this.isLoop && this.reqSearchRealTimeAfter();
+                this.isLoop = false;
+                this.count = 0;
+                this.sec = 0;
+                this.isShowCharts2 = false;
+            },
             reqSearchLinkStatus: function() {
                 var self = this;
                 return ajax({
@@ -123,36 +110,70 @@ var ajax = axios.create({
                     self.$message.error('网络出现问题，请稍候重试')
                 })
             },
+            reqSearchRealTimeBefore: function() {
+                var self = this;
+                ajax({
+                    url: '/dataCollection/getRealTimeDataBefore',
+                    method: 'post',
+                    params: {
+                        en: this.en,
+                        accessToken: window.parent.userData.accessToken,
+                        isFirst: this.isFirst
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        self.isLoop = true;
+                        self.sec = 0;
+                        self.count = 0;
+                        return res.data
+                    } else {
+                        res.$message.error(res.msg)
+                        throw new Error('fuck data')
+                    }
+                }).then(this.reqSearchRealTime);
+            },
             reqSearchRealTime: function() {
-                // var self = this;
-                // ajax({
-                //     url: '/dataCollection/getRealTimeData',
-                //     params: {
-                //         en: this.en,
-                //         accessToken: window.parent.userData.accessToken,
-                //         isFirst: this.isFirst
-                //     }
-                // }).then(function(res) {
-                //     return res.data
-                // }).then(function(res) {
-                //     if (res.msg === 'ok') {
-                //         this.isFirst = false
-                //         return res.data
-                //     } else {
-                //         res.$message.error(res.msg)
-                //         throw new Error('fuck data')
-                //     }
-                // }).then(function(res) {
-                //     if (res.chs && res.chs.length) {
-                //         self.realTimeList = res.data;
-                //         setCharts(self.charts2, res);
-                //     } else {
-                //         self.$message('暂无数据')
-                //     }
-                // })
+                var self = this;
+                return ajax({
+                    url: '/dataCollection/getRealTimeData',
+                    params: {
+                        en: this.en,
+                        accessToken: window.parent.userData.accessToken
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        self.count++;
+                        clearInterval(self.timer)
+                        self.timer = setInterval(function() {
+                            if (!self.isLoop) {
+                                clearInterval(self.timer)
+                            }
+                            self.sec++;
+                            if (self.sec % 120 === 0) {
+                                self.reqSearchRealTime();
+                            }
+                            self.finalTimes = 120 - self.sec % 120
+                        }, 1000);
+                        setCharts(self.charts2, res.data)
+                    } else {
+                        self.isFirst = false
+                        self.reqSearchRealTimeBefore();
+                    }
+                })
             },
             reqSearchRealTimeAfter: function() {
-
+                ajax({
+                    url: '/dataCollection/getRealTimeDataAfter',
+                    method: 'post',
+                    params: {
+                        en: this.en,
+                        accessToken: window.parent.userData.accessToken
+                    }
+                })
             }
         },
         mounted: function() {
@@ -160,8 +181,9 @@ var ajax = axios.create({
             this.charts2 = echarts.init(this.$refs['echarts2']);
             var self = this;
             window.parent.addEventListener('unload', function() {
-                self.reqSearchRealTimeAfter();
+                window.parent.Eet.$emit('endRealTime')
             });
+            window.parent.Eet.$on('endRealTime', this.eventSearchRealTimeDataEnd)
         }
     })
 })();
