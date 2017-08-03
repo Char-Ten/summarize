@@ -58,7 +58,7 @@
         doubleClickZoom: false,
         scrollWheelZoom: true
     });
-    var osm = L.tileLayer('http://app.airag.cn/gmaps/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+    var osm = L.tileLayer('https://app.airag.cn/gmaps/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         attribution: '&copy;AIRAG'
     });
