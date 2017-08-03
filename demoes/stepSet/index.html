@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>无人机航线规划</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./js/leaflet/leaflet.css">
+</head>
+
+<body>
+    <div id="app"></div>
+    <aside id="aside">
+        <header>
+            <h1>无人机航线规划</h1>
+        </header>
+        <hr/>
+
+        <section>
+            <label>RTK半径（m）:</label>
+            <input type="number" value="50" id="rtkRadius" />
+        </section>
+
+        <section>
+            <label>飞行间隔（m）:</label>
+            <input type="number" value="5" id="flySpace" />
+        </section>
+
+        <footer>
+            <div class="btn-box">
+                <input type="button" value="生成航线" id="crtStep" />
+            </div>
+            <div class="btn-box">
+                <input type="button" value="清除航线" id="rmStep" />
+            </div>
+        </footer>
+    </aside>
+    <script src="./js/leaflet/leaflet.js"></script>
+    <script src="./js/index.js"></script>
+    <script>
+        var rtkRadius = document.getElementById('rtkRadius');
+        var flySpace = document.getElementById('flySpace');
+        var crtStep = document.getElementById('crtStep');
+
+        crtStep.addEventListener('click', function() {
+            var rtkRadiusValue = rtkRadius.value;
+            var flySpaceValue = flySpace.value;
+            if (!rtkRadiusValue || !flySpaceValue) {
+                return false
+            }
+            Eet.$emit('setDataAndRender', null, [
+                flySpaceValue,
+                rtkRadiusValue,
+                ''
+            ])
+        })
+    </script>
+</body>
+
+</html>
