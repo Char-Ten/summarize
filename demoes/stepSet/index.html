@@ -11,6 +11,11 @@
 </head>
 
 <body>
+    <script>
+        window.onerror = function(e) {
+            alert(e);
+        }
+    </script>
     <div id="app"></div>
     <aside id="aside">
         <header>
@@ -36,7 +41,16 @@
                 <input type="button" value="清除航线" id="rmStep" />
             </div>
         </footer>
+
+        <div class="qrcode">
+            <img class="qrcode-img" src="https://char-ten.github.io/summarize/demoes/stepSet/images/qrcode.png" />
+        </div>
     </aside>
+    <div style="display:none">
+        <img src="./images/location.png" />
+        <img src="./images/resize.png" />
+        <img src="./images/rotate.png" />
+    </div>
     <script src="./js/leaflet/leaflet.js"></script>
     <script src="./js/index.js"></script>
     <script>
@@ -50,11 +64,17 @@
             if (!rtkRadiusValue || !flySpaceValue) {
                 return false
             }
-            Eet.$emit('setDataAndRender', null, [
-                flySpaceValue,
-                rtkRadiusValue,
-                ''
-            ])
+            try {
+                Eet.$emit('setDataAndRender', null, [
+                    flySpaceValue,
+                    rtkRadiusValue,
+                    ''
+                ]);
+            } catch (e) {
+                alert(e)
+                console.log(e)
+            }
+
         })
     </script>
 </body>

@@ -78,6 +78,16 @@ body,
     padding: 2px 0;
 }
 
+.qrcode {
+    padding: 15px;
+    text-align: center;
+}
+
+.qrcode-img {
+    width: 80%;
+    box-shadow: 0 0 5px #505050;
+}
+
 @media screen and (max-width: 980px) {
     #aside {
         position: fixed;
@@ -95,5 +105,8 @@ body,
     }
     .btn-box {
         display: inline-block;
+    }
+    .qrcode {
+        display: none;
     }
 }
