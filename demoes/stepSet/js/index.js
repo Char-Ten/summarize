@@ -60,7 +60,7 @@
     });
     var osm = L.tileLayer('https://app.airag.cn/gmaps/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
         maxZoom: 20,
-        attribution: '&copy;AIRAG'
+        attribution: ''
     });
     osm.addTo(map);
 
@@ -196,6 +196,7 @@
         state.hasRectAndCtrlRender = true;
         renderRect();
         renderCenterCircle();
+        console.log(state.isRenderCtrl)
         if (!state.isRenderCtrl) {
             renderResizeCtrl();
             renderRotateCtrl();
@@ -250,9 +251,13 @@
     /**@method 清除所有 */
     Eet.$on('clear', function() {
         state.hasRectAndCtrlRender = false;
+        state.isRenderCtrl = false;
         ctrl.group.clearLayers();
         rect.group.clearLayers();
         center.group.clearLayers();
+        ctrl.resize = [];
+        ctrl.rotate = [];
+        ctrl.center = {};
     });
 
     /**像素与米的比例关系，1px=?m */
@@ -590,6 +595,7 @@
 
     /**渲染无线电范围 */
     function renderCenterCircle() {
+        center.group.clearLayers();
         var centerCircle = L.circle(center.latlng, center.radius, {
             color: '#66ccff',
             weight: 3,

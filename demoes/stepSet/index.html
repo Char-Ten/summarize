@@ -57,6 +57,7 @@
         var rtkRadius = document.getElementById('rtkRadius');
         var flySpace = document.getElementById('flySpace');
         var crtStep = document.getElementById('crtStep');
+        var rmStep = document.getElementById('rmStep');
 
         crtStep.addEventListener('click', function() {
             var rtkRadiusValue = rtkRadius.value;
@@ -74,7 +75,9 @@
                 alert(e)
                 console.log(e)
             }
-
+        });
+        rmStep.addEventListener('click', function() {
+            Eet.$emit('clear')
         })
     </script>
 </body>
