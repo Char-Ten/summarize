@@ -129,20 +129,89 @@ var ajax = axios.create({
             }
         },
         computed: {
-            isSub: function() {}
+            isSub: function() {
+                if (!this.form.username) {
+                    return true
+                }
+                if (this.form.username !== this.confirmUsername) {
+                    return true
+                }
+                return false
+            }
         },
         methods: {
             eventChangeAllUserPage: function() {},
             eventChangeManagersPage: function() {},
             eventBlurConfirmUsername: function() {},
             eventBlurUsername: function() {},
-            eventAddManager: function() {},
+            eventAddManager: function() {
+                this.reqAddManager()
+            },
 
-            reqGetManagerList: function() {},
-            reqAddManagerList: function() {}
+            reqGetManagerList: function() {
+                return ajax({
+                    url: '/admin/listAdmin',
+                    param: {
+                        adminname: window.parent.userData.username,
+                        accessToken: window.parent.userData.accessToken
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok' && res.data) {
+                        cpt.managersData = res.data
+                    }
+                })
+            },
+            reqAddManager: function() {
+                return ajax({
+                    method: 'post',
+                    url: '/admin/addAamin',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'Accept': '*/*'
+                    },
+                    transformRequest: [function(data) {
+                        var a = []
+                        for (var attr in data) {
+                            a.push(attr + '=' + data[attr])
+                        }
+                        return a.join('&')
+                    }],
+                    data: {
+                        adminname: window.parent.userData.username,
+                        accessToken: window.parent.userData.accessToken,
+                        username: this.form.username
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        cpt.$message.success('添加成功')
+                    } else {
+                        cpt.$message.error(res.msg)
+                    }
+                })
+            },
+            reqGetAllUserList: function() {
+                return ajax({
+                    url: '/admin/listCustomer',
+                    param: {
+                        accessToken: window.parent.userData.accessToken
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.msg === 'ok') {
+                        cpt.allUsersData = res.data
+                    }
+                })
+            },
         },
         mounted: function() {
             cpt = this;
+            this.reqGetManagerList();
+            this.reqGetAllUserList();
         }
     })
 })();
@@ -659,7 +728,6 @@ function setCharts(ec, data) {
 
         }
     }
-    console.log(opts)
     ec.setOption(opts)
 }
 
