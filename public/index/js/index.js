@@ -1,6 +1,9 @@
 var ajax = axios.create({
     baseURL: '/api/site'
 });
+if (!localStorage.getItem('accessToken')) {
+    window.location.href = "/login"
+}
 var userData = {
     username: localStorage.getItem('username'),
     accessToken: localStorage.getItem('accessToken')
@@ -42,7 +45,7 @@ var Eet = new Vue();
                     }
                 }).then(function() {
                     Eet.$emit('loadDeviceListEnd');
-                })
+                }).catch(Eet.$emit('networkFail'))
             },
             /**获取设备名字列表 */
             reqGetDeviceNameList: function() {
@@ -60,7 +63,7 @@ var Eet = new Vue();
                         app.deviceNameList = res.data;
                         Eet.$emit('reqDeviceNameListEnd')
                     }
-                })
+                }).catch(Eet.$emit('networkFail'))
             },
             /**获取用户信息 */
             reqGetUserData: function() {
@@ -83,7 +86,7 @@ var Eet = new Vue();
                     } else {
                         throw 'error to get user msg'
                     }
-                })
+                }).catch(Eet.$emit('networkFail'))
             },
         },
         mounted: function() {
@@ -92,7 +95,9 @@ var Eet = new Vue();
             this.reqGetDeviceList();
             this.reqGetDeviceNameList();
             Eet.$on('reloadDeviceList', this.reqGetDeviceList.bind(this))
-
+            Eet.$on('networkFail', function() {
+                window.href = "/login"
+            })
         }
     })
 })();
