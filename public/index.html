@@ -64,6 +64,26 @@
         </div>
         <footer></footer>
     </div>
+    <div class="preload" id="preload">
+        <div class="preload-dialog">
+            <div class="preload-amnt__box">
+                <div class="preload-amnt__water"></div>
+            </div>
+            <p id="preloadTxt" class="preload-amnt__word">连接服务器中...</p>
+        </div>
+    </div>
+    <script>
+        var preload = document.getElementById('preload');
+        var preloadTxt = document.getElementById('preloadTxt');
+        window.addEventListener('load', function() {
+            preloadTxt.innerText = "加载完成";
+            preload.childNodes[1].className += ' end-preload-dialog'
+            preload.className += ' end-preload';
+        });
+        preload.addEventListener('transitionend', function() {
+            preload.parentNode.removeChild(preload)
+        });
+    </script>
     <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
     <script src='./index/js/index.js'></script>

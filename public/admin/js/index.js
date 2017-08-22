@@ -253,7 +253,7 @@ var ajax = axios.create({
         },
         computed: {
             isSub: function() {
-                return !(this.form.en && this.form.site)
+                return !(this.form.en)
             },
             fomatTime: function() {
                 var str = [];

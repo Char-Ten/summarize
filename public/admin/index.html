@@ -86,11 +86,6 @@
                             <el-option v-for="item in diveceNameList" :key="item" :label="item" :value="item"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="选择工地">
-                        <el-select v-model="form.site" clearable placeholder="请选择" @change="eventSiteChange">
-                            <el-option v-for="item in siteList" :key="item" :label="item" :value="item"></el-option>
-                        </el-select>
-                    </el-form-item>
                     <el-form-item key="1" v-show="!isReadData">
                         <el-button type="primary" :disabled="isSub" @click="eventGetRealData">开始获取数据</el-button>
                     </el-form-item>
@@ -245,7 +240,7 @@
     <script src="//cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
     <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
-    <script src="//unpkg.com/element-ui/lib/index.js"></script>
+    <script src="//cdn.bootcss.com/element-ui/1.4.2/index.js"></script>
     <script src='./commo.js'></script>
     <script src='./js/index.js'></script>
 </body>

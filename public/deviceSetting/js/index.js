@@ -43,6 +43,7 @@ var ajax = axios.create({
 
                 ajax({
                     url: '/instrumentConfig/addHost',
+                    method: 'post',
                     params: {
                         en: this.form.en,
                         site: this.form.site,
@@ -70,7 +71,8 @@ var ajax = axios.create({
         props: ['namelist'],
         data: function() {
             return {
-                en: ''
+                en: '',
+                tableData: []
             }
         },
         methods: {
@@ -86,7 +88,7 @@ var ajax = axios.create({
                     return res.data
                 }).then(function(res) {
                     if (res.msg === 'ok') {
-
+                        self.tableData = res.data;
                     } else {
                         self.$message({
                             type: 'error',
@@ -118,7 +120,7 @@ var ajax = axios.create({
     window.deviceSetting = new Vue({
         el: '#deviceSetting',
         data: {
-            navList: ['添加主机', '传感器配置预览', '传感器参数批量导出', '传感器参数批量导入'],
+            navList: ['添加主机', '传感器配置预览' /*, '传感器参数批量导出', '传感器参数批量导入'*/ ],
             navCtList: ['addDevice', 'settingPreView', 'outputDeviceSetting', 'inputDeviceSetting'],
             mList: ['添加主机', '服务管理', '设置采集时间'],
             mCtList: ['addDevice', ''],

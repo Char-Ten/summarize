@@ -9,7 +9,7 @@ var ajax = axios.create({
         props: {
             linkStatusData: Object
         },
-    })
+    });
 })();
 
 ;
@@ -39,7 +39,10 @@ var ajax = axios.create({
             eventSearchLinkStatus: function() {
                 var self = this;
                 this.reqSearchLinkStatus().then(function(res) {
-                    self.linkStausList = res;
+                    self.linkStausList = [{
+                        en: self.en,
+                        status: res
+                    }];
                     self.isShowTable = true;
                 })
             },
