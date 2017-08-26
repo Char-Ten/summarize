@@ -75,14 +75,27 @@
     <script>
         var preload = document.getElementById('preload');
         var preloadTxt = document.getElementById('preloadTxt');
+        var isErr = false;
+        !(navigator.onLine) && loadindeFaile();
         window.addEventListener('load', function() {
+            if (isErr) {
+                preload.childNodes[1].removeChild(preload.childNodes[1].childNodes[1])
+                preloadTxt.innerText = "加载失败，请检查网络后重试";
+                preloadTxt.style.color = "#f00"
+                return
+            }
             preloadTxt.innerText = "加载完成";
             preload.childNodes[1].className += ' end-preload-dialog'
             preload.className += ' end-preload';
         });
+        window.addEventListener('error', loadindeFaile);
         preload.addEventListener('transitionend', function() {
-            preload.parentNode.removeChild(preload)
+            preload && preload.parentNode && preload.parentNode.removeChild(preload)
         });
+
+        function loadindeFaile() {
+            isErr = true;
+        }
     </script>
     <script src="//cdn.bootcss.com/axios/0.16.2/axios.min.js"></script>
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>

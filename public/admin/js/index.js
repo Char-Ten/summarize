@@ -67,7 +67,18 @@ var ajax = axios.create({
                 ajax({
                     url: '/backstage/addMember',
                     method: 'post',
-                    data: this.addUserForm
+                    data: this.addUserForm,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'Accept': '*/*'
+                    },
+                    transformRequest: [function(data) {
+                        var a = []
+                        for (var attr in data) {
+                            a.push(attr + '=' + data[attr])
+                        }
+                        return a.join('&')
+                    }]
                 }).then(function(res) {
                     return res.data
                 }).then(function(res) {
@@ -88,7 +99,18 @@ var ajax = axios.create({
                         username: name,
                         accessToken: window.parent.userData.accessToken,
                         customerName: window.parent.userData.username,
-                    }
+                    },
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'Accept': '*/*'
+                    },
+                    transformRequest: [function(data) {
+                        var a = []
+                        for (var attr in data) {
+                            a.push(attr + '=' + data[attr])
+                        }
+                        return a.join('&')
+                    }]
                 }).then(function(res) {
                     return res.data
                 }).then(function(res) {
@@ -249,6 +271,18 @@ var ajax = axios.create({
                 isSubmitClick: false,
 
                 closeEn: '',
+
+                isShowHostEdit: false,
+                isShowHostDel: false,
+                hostDelerTitle: '',
+                hostEditer: {
+                    title: '',
+                    name: '',
+                    day: 0,
+                    hour: 0,
+                    min: 0,
+                    sec: 0
+                },
             }
         },
         computed: {
@@ -311,6 +345,25 @@ var ajax = axios.create({
                 this.isSubmitClick = true;
                 this.reqSaveTime();
                 this.isShowDialog = false
+            },
+            eventOpenHostEditer: function(name) {
+                this.isShowHostEdit = true;
+                this.hostEditer.title = name
+            },
+            eventEditHostTime: function() {
+                var type = ['day', 'hour', 'min', 'sec'];
+                var sec = [86400, 3600, 60, 1]
+                var time = 0,
+                    i = 3;
+                while (i >= 0) {
+                    time += this.hostEditer[type[i]] * sec[i];
+                    i--;
+                }
+                this.reqChangeCollectTime(time)
+            },
+            eventOpenHostDelConf: function(name) {
+                this.isShowHostDel = true;
+                this.hostDelerTitle = name
             },
             handleCloseHost: function() {
                 this.reqCloseHost(this.form.en).then(function(res) {
@@ -519,6 +572,104 @@ var ajax = axios.create({
                     cpt.handleClearAddData()
                     cpt.reqCloseHost(cpt.form.en);
                 })
+            },
+            reqEditSiteName: function() {
+                return ajax({
+                    url: 'backstage/alterHost',
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'Accept': '*/*'
+                    },
+                    transformRequest: [function(data) {
+                        var a = []
+                        for (var attr in data) {
+                            a.push(attr + '=' + data[attr])
+                        }
+                        return a.join('&')
+                    }],
+                    data: {
+                        en: this.hostEditer.title,
+                        site: this.hostEditer.name,
+                        username: window.parent.userData.username,
+                        accessToken: window.parent.userData.accessToken,
+                    }
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.code === 'ok') {
+                        return cpt.$message.success('修改成功')
+                    } else {
+                        cpt.$message.error('修改失败，稍后重试')
+                    }
+                }).catch(function() {
+                    cpt.$message.error('修改失败，稍后重试')
+                })
+            },
+            reqChangeCollectTime: function(time) {
+                ajax({
+                    url: '/backstage/altEnCleCinterval',
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'Accept': '*/*'
+                    },
+                    transformRequest: [function(data) {
+                        var a = []
+                        for (var attr in data) {
+                            a.push(attr + '=' + data[attr])
+                        }
+                        return a.join('&')
+                    }],
+                    data: {
+                        en: this.hostEditer.title,
+                        cinterval: time,
+                        accessToken: window.parent.userData.accessToken,
+                    }
+                }).then(function(res) {
+                    return res.data;
+                }).then(function(res) {
+                    if (res.code === 'ok') {
+                        return cpt.$message.success('修改成功')
+                    } else {
+                        cpt.$message.error('修改失败，稍后重试')
+                    }
+                }).catch(function() {
+                    cpt.$message.error('修改失败，稍后重试')
+                })
+            },
+            reqDelHost: function() {
+                return ajax({
+                    url: '/backstage/delHost',
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'Accept': '*/*'
+                    },
+                    transformRequest: [function(data) {
+                        var a = []
+                        for (var attr in data) {
+                            a.push(attr + '=' + data[attr])
+                        }
+                        return a.join('&')
+                    }],
+                    data: {
+                        en: this.hostDelerTitle,
+                        username: window.parent.userData.username,
+                        accessToken: window.parent.userData.accessToken,
+                    },
+                }).then(function(res) {
+                    return res.data
+                }).then(function(res) {
+                    if (res.code === 'ok') {
+                        cpt.isShowHostDel = false;
+                        return cpt.$message.success('删除成功')
+                    } else {
+                        cpt.$message.error('删除失败，稍后重试')
+                    }
+                }).catch(function(res) {
+                    cpt.$message.error('删除失败，稍后重试')
+                })
             }
 
         },
@@ -637,6 +788,7 @@ var ajax = axios.create({
         methods: {
             setDiveceNameList: function() {
                 this.diveceNameList = window.parent.app.deviceNameList
+                console.log(this.diveceNameList)
             }
         },
         mounted: function() {

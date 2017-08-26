@@ -1,6 +1,10 @@
-var ajax = axios.create({
-    baseURL: '/api/site'
-});
+try {
+    var ajax = axios.create({
+        baseURL: '/api/site'
+    })
+} catch (e) {
+    loadindeFaile();
+}
 
 ;
 (function() {
